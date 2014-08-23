@@ -1,4 +1,11 @@
-<h2>Preface</h2><b>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Programming a Problem-Oriented-Language</title>
+</head>
+<body>
+<h2>Preface</h2>
 This is an unpublished book I wrote long ago. Just after I'd written the first versions of Forth. Perhaps it explains the motivation behind Forth. There is some interest in it, and publishing is no longer relevant since I can post it on my website.
 
 <p>I have a typescript that I recovered from Forth, Inc long ago. I had typed it on my Smith-Corona portable, complete with overstrikes and annotations. It is illegible enough to discourage a casual reader, so I'm re-keying it in HTML.
@@ -10,13 +17,13 @@ This is an unpublished book I wrote long ago. Just after I'd written the first v
 <p>Chuck Moore 2011
 
 
-<h3 align=right>COMPUTER DIVISION
+<h3 style="text-align: right">COMPUTER DIVISION
 <br>File Copy</h3>
-<h1 align=center>PROGRAMMING A PROBLEM-ORIENTED-LANGUAGE
-<br>Charles H. Moore</h1><h3 align=center>
+<h1 style="text-align: center">PROGRAMMING A PROBLEM-ORIENTED-LANGUAGE
+<br>Charles H. Moore</h1><h3 style="text-align: center">
 written ~ June 1970</h3>
 
-<h2 align=center>Contents</h2><h2><ol>
+<h2><em>Contents</em></h2><ol>
 <li>Introduction<ol>
    <li>Basic Principle
    <li>Preview</ol>
@@ -78,9 +85,9 @@ written ~ June 1970</h3>
    <li>Level definitions
    <li>Infinite dictionary
    <li>Infinite memory</ol></ol>
-Dates</h2>
+Dates
 
-<h2>1. <em>Introduction</em></h2><b>
+<h2>1. <em>Introduction</em></h2>
 I'm not sure why you're reading this book. It's taken me a while to discover why I'm writing it. Let's examine the title: <em>Programming a Problem-Oriented-Language</em>. The key word is programming. I've written many programs over the years. I've tried to write <em>good</em> programs, and I've observed the manner in which I write them rather critically. My goal has been to decrease the effort required and increase the quality produced.
 
 <p>In the course of these observations, I've found myself making the same mistakes repeatedly. Mistakes that are obvious in retrospect, but difficult to recognise in context. I thought that if I wrote a prescription for programming, I could at least remind myself of problems. And if the result is of value to me, it should be of value to others; if what I say is new to you, you may learn something of value; if I cover familiar ground, you at least get a new point of view.
@@ -374,7 +381,7 @@ I've described the control loop that will run our program. The first thing it do
 <p>You may want to set an upper limit on word length. Such a limit should include the largest number you will be using. Then the question arises as to what to do with a longer word. You might simply discard the excess characters, providing you don't plan to dissect the word (Chapter 8). Better, perhaps, that you force a space into the word at the limit. That is, break the word into 2 words. Presumably something's wrong and you will eventually discover it in attempting to process the fragments. However this limit should be large enough - 10 to 20 characters - so that it does not constitute a real restriction on your input. It should also be 1 character less than a multiple of your computer-word length, so that you can always include the terminal space in the aligned word.
 
 <p>Words are bounded by spaces. You can probably find objections to such a simple definition. For instance, arithmetic expressions often do not have spaces between words. We shall discuss this in Chapter 9. Let me just say that we need to embed periods, dashes, and other characters in words in order not to unreasonably restrict our potential vocabulary. We'd like these to be words:<ul>
-   <li>1,000 1.E-6 I.B.M. B&O 4'3" $4.95</ul>
+   <li>1,000 1.E-6 I.B.M. B&amp;O 4'3" $4.95</ul>
 
 <h2>3.3.1 <em>Message I/O</em></h2>
 The WORD subroutine presumably examines input characters. Where does it get these characters?
@@ -666,7 +673,7 @@ So far we've only discussed defining nouns. Actually you'll be using more verbs 
    <li>REMEMBER HERE</ul>
 is a defining entry. When you type HERE, it is forgotten; it both marks a place in the dictionary and executes the deleting code. HERE doesn't need a parameter field, unless you use fixed-length entries, whereupon it must save the current value of the parameter pointer. This is our first example of a verb-defining entry.
 
-<h2>4.3 <em>Operations</em></h2><b>
+<h2>4.3 <em>Operations</em></h2>
 Recall that the stack is where arguments are found. There are some words you may want to define to provide arithmetic capabilities. They are of little value to a control language, but essential to add power to it. I'll use logical constructs TRUE (1) and FALSE (0). And remember the definition of top and lower from 3.6.
 
 <p>Unary operators: change the number on top of the stack.<ul>
@@ -695,10 +702,10 @@ This notation permits arithmetic calculation in the same manner a desk calculato
 
 <p>Other binary operations are the arithmetic relations: these leave a truth value on the stack:<ul>
    <li>= are they equal?
-   <li>< is top greater than lower?
+   <li>&lt; is top greater than lower?
    <li>> is top less than lower?
    <li>>= is top not greater than lower?
-   <li><= is top not less than lower?</ul>
+   <li>&lt;= is top not less than lower?</ul>
 
 The logical operations include a unary and several binary:<ul>
    <li>NOT if top is FALSE, replace with TRUE; otherwise replace with FALSE.
@@ -1328,7 +1335,7 @@ Let me emphasize the importance of the return-stack, and the necessity of saving
 <p>Now you should be able to implement level-entries, definitions among them. What can you do with them?<ul>
    <li>You can define the customary arithmetic operations: + - * / MOD **.
    <li>You can define the customary logical operations: OR AND NOT IMPL.
-   <li>You can define infix relations: = < > <= >= /=.
+   <li>You can define infix relations: = &lt; > &gt;= >= /=.
    <li>You can define an infix replacement: = := (one that works in either direction).
    <li>You can define all the above.</ul>
 It depends on your application.<ul>
@@ -1473,6 +1480,8 @@ We've reached the position of having a source language, and we need to be able t
 
 <p>Be careful SAVEing your program. Keep a back-up of your old version before SAVEing a new one, just in case.
 
-<img src=Fig123.jpg>
-<img src=Fig62.jpg>
-<img src=Fig4.jpg>
+<img src="Fig123.jpg" alt="">
+<img src="Fig62.jpg" alt="">
+<img src="Fig4.jpg" alt="">
+</body>
+</html>
