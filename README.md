@@ -161,7 +161,7 @@ The next step is a problem-oriented-language. By permitting the program to dynam
 
 In a sense, our program has evolved into a meta-language, which describes a language we apply to the application. But having mentioned meta-language, I want to explain why I won't use the term again. You see things get pretty complicated, particularly on a philosophic level. To precisely describe our situation requires not 2 levels of language - language and meta-language - but a least 4 levels. To distinguish between these levels requires subtle arguments that promote not clarity but confusion. Moreover, the various levels can often be interchanged in practice, which reduces the philosophic arguments to hair-splitting.
 
-A problem-oriented-language can express any problem I've encountered. And remember, we're not concerned with the language, but with the program that makes the language work. By modifying the language we can apply the same program to many applications. However there are a class of extensions to the language that constitute another qualitative change. They don't increase the capacity of the program, but the increase the capability of the language. That is, they make the language more expressive. We will consider some such extensions in Chapter 8. I gathered them together chiefly because they share the common property that I don't quite comprehend their potential. For example, I think the language applies the concepts of English.
+A problem-oriented-language can express any problem I've encountered. And remember, we're not concerned with the language, but with the program that makes the language work. By modifying the language we can apply the same program to many applications. However there are a class of extensions to the language that constitute another qualitative change. They don't increase the capacity of the program, but the increase the capability of the language. That is, they make the language more expressive. We will consider some such extensions in [Chapter 8](#8-programs-that-think). I gathered them together chiefly because they share the common property that I don't quite comprehend their potential. For example, I think the language applies the concepts of English.
 
 Finally, I want to describe a process whereby you can implement this program in machine language. That is, a bootstrap technique whereby a basic program can modify and expand itself.
 
@@ -248,7 +248,7 @@ Instead of running applications in serial on a small computer, you can run them 
 
 Now I'm goiong to tell you how to write a program. Independent of language or computer. Things you ought to be doing already, but probably aren't because on one ever told you to. Little things. But if you don't do them you won't have a good program; and we're going to write a good program.
 
-Remember the Basic Principle! If you didn't read the Introduction, do it now.
+Remember the Basic Principle! If you didn't read the [Introduction](#1-introduction), do it now.
 
 Declare all variables. Even in FORTRAN when you don't have to. Everyone likes to know what parameters you are using, presumably need to use; likes to count them, to see if they could use fewer; is annoyed if you slip one in without mentioning it.
 
@@ -455,9 +455,9 @@ Very well, let's write the WORD subroutine. It uses the input pointer to point a
 
 Fetch input characters and discard them so long as they're spaces. Thereafter deposit them until you find another space. Deposit this space and as many others as needed to fill out the last computer-word. If you have a character-oriented machine you may be amused at my insistance on word-alignment. Mainly I'm anticipating the search subroutine when we'll want to compare as large a piece of the word as possible. If a word holds 6 characters (or even 2) it's much more efficient to compare them in parallel than serially, even if you have the hardware.
 
-You may want to set an upper limit on word length. Such a limit should include the largest number you will be using. Then the question arises as to what to do with a longer word. You might simply discard the excess characters, providing you don't plan to dissect the word (Chapter 8). Better, perhaps, that you force a space into the word at the limit. That is, break the word into 2 words. Presumably something's wrong and you will eventually discover it in attempting to process the fragments. However this limit should be large enough - 10 to 20 characters - so that it does not constitute a real restriction on your input. It should also be 1 character less than a multiple of your computer-word length, so that you can always include the terminal space in the aligned word.
+You may want to set an upper limit on word length. Such a limit should include the largest number you will be using. Then the question arises as to what to do with a longer word. You might simply discard the excess characters, providing you don't plan to dissect the word ([Chapter 8](#8-programs-that-think)). Better, perhaps, that you force a space into the word at the limit. That is, break the word into 2 words. Presumably something's wrong and you will eventually discover it in attempting to process the fragments. However this limit should be large enough - 10 to 20 characters - so that it does not constitute a real restriction on your input. It should also be 1 character less than a multiple of your computer-word length, so that you can always include the terminal space in the aligned word.
 
-Words are bounded by spaces. You can probably find objections to such a simple definition. For instance, arithmetic expressions often do not have spaces between words. We shall discuss this in Chapter 9. Let me just say that we need to embed periods, dashes, and other characters in words in order not to unreasonably restrict our potential vocabulary. We'd like these to be words:
+Words are bounded by spaces. You can probably find objections to such a simple definition. For instance, arithmetic expressions often do not have spaces between words. We shall discuss this in [Chapter 9](#9-programs-that-bootstrap). Let me just say that we need to embed periods, dashes, and other characters in words in order not to unreasonably restrict our potential vocabulary. We'd like these to be words:
 
 -   1,000 1.E-6 I.B.M. B&O 4'3" $4.95
 
@@ -589,7 +589,7 @@ In NATURAL the number-so-far is multipled by 10. Don't use a litereal 10, but ra
 
 -   An origin must usually be subtracted from a digit to get its binary value. If BASE is 16, a different origin is subtracted from A-F.
 
-NUMBER should be efficient, at least in recognising words that are not numbers. Not so much because you will use so many numbers, but because you will examine many words that aren't numbers. We will discuss this further in Chapter 8. It is also important that you examine the aligned copy of a word. There are several reasons: to avoid trouble with the input pointer, to guarantee a terminal space. However this creates a problem: the largest number you will use must fit in the aligned word; this may require a longer word than you would otherwise use. A number longer than word-size will have its right-most digits discarded. This will probably not destroy its numeric appearance so that no error will be detected; but the conversion will be incorrect. This problem is not serious, just be aware of it.
+NUMBER should be efficient, at least in recognising words that are not numbers. Not so much because you will use so many numbers, but because you will examine many words that aren't numbers. We will discuss this further in [Chapter 8](#8-programs-that-think). It is also important that you examine the aligned copy of a word. There are several reasons: to avoid trouble with the input pointer, to guarantee a terminal space. However this creates a problem: the largest number you will use must fit in the aligned word; this may require a longer word than you would otherwise use. A number longer than word-size will have its right-most digits discarded. This will probably not destroy its numeric appearance so that no error will be detected; but the conversion will be incorrect. This problem is not serious, just be aware of it.
 
 
 #### 3.4.3 Output conversion
@@ -677,7 +677,7 @@ An entry has 4 fields: the word being defined, the code to be executed, a link t
 
 The format of a word must be decided in conjunction with the word input routine. It should have a fixed size which may be smaller than that defined by NEXT, but must be a multiple of hardware word size. However, more sophisticated applications use the dictionary words to construct output messages. Then it is important not to truncate words, in which case the word field must have variable length. To mark the size of this field the terminal space should be used rather than a character count. To handle a variable word field within a variable entry, the word should extend in one direction (backwards) and the parameter in the other (forwards). Fixed or variable word size requires application of the Basic Principle.
 
-The code field should contain the address of a routine rather than an index to a table or other abbreviation. Program efficiency depends strongly on how long it takes to get to the code once a entry is identified, as discussed in 3.9. However, the small size of your program may permit this address to fit in less space than the hardware address field.
+The code field should contain the address of a routine rather than an index to a table or other abbreviation. Program efficiency depends strongly on how long it takes to get to the code once a entry is identified, as discussed in [4.4](#44-definition-entries). However, the small size of your program may permit this address to fit in less space than the hardware address field.
 
 The link field may likewise be smaller than hardware-specified. It should contain the absolute location of the next entry rather than its distance from the current entry.
 
@@ -685,7 +685,7 @@ The parameter field will typically contain 4 kinds of information:
 
 -   A number, constant or variable, of variable size. The nature of the number is determined by the code it executes.
 -   Space in which numbers will be stored - an array. The size of the array may be a parameter, or may be implicit in the code executed.
--   A definition: an array of dictionary entries representing virtual-computer instructions; see 3.9.
+-   A definition: an array of dictionary entries representing virtual-computer instructions; see [4.4](#44-definition-entries).
 -   Machine instructions: code compiled by your program which is itself executed for this entry. Such data must probably be aligned on word boundary, the other need not.
 
 
@@ -756,7 +756,7 @@ Actually many other capabilities could be provided, including the ability to loc
 
 So far our dictionary has been static. It contains all the entries you need - placed there when the program was compiled. This need not be. We can define entries that will cause additional entries to be made and deleted. Let me point out why this might be desirable.
 
-You have a program that controls an application. Based upon the words you type, it will do as you direct. In Chapter 3 we provided the ability to type out results. Not the sort of results that are the inevitable result of the application, but variables that you'd maybe like to see. More a conversational sort of output, since it is controlled directly by input.
+You have a program that controls an application. Based upon the words you type, it will do as you direct. In [Chapter 3](#3-programs-with-input) we provided the ability to type out results. Not the sort of results that are the inevitable result of the application, but variables that you'd maybe like to see. More a conversational sort of output, since it is controlled directly by input.
 
 There are 2 problems with this situation. Firsts, to add an entry to your dictionary you must re-compile the program. Clearly, you won't be adding many entries - but maybe you won't have to. Second, all your entries must be present at the same time. This creates, not so much a volume problem, as a complexity problem. If your application is complex, it becomes increasingly difficult to make all aspects compatible. For instance, to find distinct names for all fields. Third, if you find an error in an entry you must recompile the program. You have no ability to correct an entry - though of course you could define entries to provide that ability.
 
@@ -836,7 +836,7 @@ is a defining entry. When you type HERE, it is forgotten; it both marks a place 
 
 ### 4.3 Operations
 
-Recall that the stack is where arguments are found. There are some words you may want to define to provide arithmetic capabilities. They are of little value to a control language, but essential to add power to it. I'll use logical constructs TRUE (1) and FALSE (0). And remember the definition of top and lower from 3.6.
+Recall that the stack is where arguments are found. There are some words you may want to define to provide arithmetic capabilities. They are of little value to a control language, but essential to add power to it. I'll use logical constructs TRUE (1) and FALSE (0). And remember the definition of top and lower from [3.5.2](#352-parameter-stack).
 
 Unary operators: change the number on top of the stack.
 
@@ -863,7 +863,7 @@ These are only samples. Clearly you are free to define whatever words you feel u
 -   1 2 + 3 \* 7 MOD 4 MAX
 -   1 2 3 + \*
 
-This notation permits arithmetic calculation in the same manner a desk calculator. It is often called parenthesis-free representation or perhaps right-handed Polish, but it is simply the way you work with arguments on a stack. Conventional algebraic notation is much harder to implement (8.2).
+This notation permits arithmetic calculation in the same manner a desk calculator. It is often called parenthesis-free representation or perhaps right-handed Polish, but it is simply the way you work with arguments on a stack. Conventional algebraic notation is much harder to implement ([8.2](#82-level-definitions)).
 
 Other binary operations are the arithmetic relations: these leave a truth value on the stack:
 
@@ -1132,7 +1132,7 @@ The Basic Principle intrudes. If you add code entries to your program, you add e
 
 I don't want to down-grade the possibility or value of such efforts, but you wrote your program in some language to start with. If you need additional code it's much easier to re-compile your program and add what you need. Only if you have an application that needs tailored code. or can profit by providing different code to different users, or different code at different times, can you satisfy the Basic Principle.
 
-On the other hand, if you start with code entries, you can construct all the other entries I've been talking about: arithmetic operators, noun entries, definitions. In Chapter 9 I'll show how you can use code entries in a really essential role; and achieve a significantly more efficient and powerful program than by any other means. But except for that I'm afraid they are marginal.
+On the other hand, if you start with code entries, you can construct all the other entries I've been talking about: arithmetic operators, noun entries, definitions. In [Chapter 9](#9-programs-that-bootstrap) I'll show how you can use code entries in a really essential role; and achieve a significantly more efficient and powerful program than by any other means. But except for that I'm afraid they are marginal.
 
 So how can you generate code? First you need a defining entry that defines a code entry. The characteristic of a code entry is that it executes code stored in its parameter field. Thus the address passed to ENTRY by its defining entry (say CODE) must be the location into which will be placed the first instruction. This is not DP, because the entry itself takes space; but is simply DP plus a constant.
 
@@ -1253,7 +1253,7 @@ You will find that with text on disk, the original characterization of 'input' a
 
 Never put anything on disk you can't modify! And we haven't discussed how you get text on disk in the first place. Do not load it from cards! You're misdirecting your effort toward card reading, and you had to punch the cards anyway. Type it. The definitions required to edit the text stored in blocks (SCREENs) is simple.
 
-You must be able to handle character strings surrounded with quotes (4.1). Given that, I shall exhibit a text editing screen. This is a simple example of the value of definitions. You may notice it is the first non-trivial exmple I've given. You should be motivated by now to give it proper attention.
+You must be able to handle character strings surrounded with quotes ([6.3](#63-character-strings)). Given that, I shall exhibit a text editing screen. This is a simple example of the value of definitions. You may notice it is the first non-trivial exmple I've given. You should be motivated by now to give it proper attention.
 
 Naturally, you're going to have to type these definitions twice. Once to put them into your dictionary; again, to use them to put them in a screen (bootstrapping). In fact you'll probably type them many times, but 2 is minimum.
 
@@ -1303,7 +1303,7 @@ Most compilers, and therefore most programmers, regard output the inverse of inp
 
 *You* conpose input: you select words and combine them into fairly complex phrases; your program spends considerable effort deciphering this input and extracting its meaning. In reply it will not go through any such elaborate procedure. You'll see that most of its output consists of the word OK. You are talking to the computer, but it is hardly talking to you; at best it's grunting.
 
-I maintain that the two processes have nothing in common, that the computer does not prepare output in a manner analogous to you preparing input. In Chapter 8 I'll describe a way your program can compose complex output messages. Although such a technique might provide a 2-way dialog, it has even less similarity to interpreting input.
+I maintain that the two processes have nothing in common, that the computer does not prepare output in a manner analogous to you preparing input. In [Chapter 8](#8-programs-that-think) I'll describe a way your program can compose complex output messages. Although such a technique might provide a 2-way dialog, it has even less similarity to interpreting input.
 
 
 ### 6.1 Output routines
@@ -1317,9 +1317,9 @@ After finding an error, you of course quit doing whatever you were doing. There 
 
 ### 6.2 Acknowledgement
 
-I mentioned in Chapter 3 that you must write subroutines to send and receive messages. Now I must expand on exactly how you should use these subroutines.
+I mentioned in [Chapter 3](#3-programs-with-input) that you must write subroutines to send and receive messages. Now I must expand on exactly how you should use these subroutines.
 
-Recall that input and output share the same message buffer. This now causes trouble. However it considerably simplifies the more powerful message routines of Chapter 7. On balance the single message buffer seems optimal.
+Recall that input and output share the same message buffer. This now causes trouble. However it considerably simplifies the more powerful message routines of [Chapter 7](#7-programs-that-share). On balance the single message buffer seems optimal.
 
 First let me call the subroutine that sends a message SEND. It sends a single line and should add a carriage return to the line, as well as any other control characters needed, and translate characters as required. The routine that receives a message is QUERY. It is a routine, and not a subroutine. QUERY calls SEND to send a message, and then awaits and processes an input message. stripping control characters and translating characters as required. It initializes the input pointer IP and jumps to NEXT<sub>W</sub>. Notice that your program can send output via SEND wherever it pleases. However it can only receive input in conjunction with output, via QUERY. You have no provision for receiving successive messages without intervening output. This is exactly the behavior you need, and actually simplifies the coding of message I/O.
 
@@ -1327,7 +1327,7 @@ Now let me describe the use of QUERY. Each input message is terminated with an e
 
 Notice that if an input message generates output it destroys itself. That is, the output is placed in the message buffer irrespective of the input already there. Thus a word that generates output should be the last word in a message, since succeeding words will not be seen. In particular, the end-of-message word won't be seen and the reply OK won't be typed. This is what you want: OK is only typed in lieu of any other output.
 
-OK should appear on the same line as the input message, separated from the last word by a least one space. QUERY should not acknowledge receipt of a message - as most time-sharing systems do - with a carriage-return. The only acknowledgement is the OK at completion of interpretation. Placing OK on the same line helps distinguish output from input and compresses the conversation, especially valuable on a limited-size scope face. A user must not type input until he receives output. It's only important to enforce this rule with multi-user programs. For this see Chapter 7.
+OK should appear on the same line as the input message, separated from the last word by a least one space. QUERY should not acknowledge receipt of a message - as most time-sharing systems do - with a carriage-return. The only acknowledgement is the OK at completion of interpretation. Placing OK on the same line helps distinguish output from input and compresses the conversation, especially valuable on a limited-size scope face. A user must not type input until he receives output. It's only important to enforce this rule with multi-user programs. For this see [Chapter 7](#7-programs-that-share).
 
 In order to determine whether there is input in the message buffer, establish a field EMPTY. QUERY should set empty false and each output generating entry should set it true. Actually output generating verbs have much in common with each other, and each should jump to a routine that does the following:
 
@@ -1359,7 +1359,7 @@ We get in trouble immediately! How do you recognize a character string? By the l
 
 -   " ABCDEF . . . XYZ"
 
-The extra space is annoying, but in Chapter 8 I will tell you how to eliminate it without the objections I just raised. So a character string is started with a quote-space and terminated by a quote.
+The extra space is annoying, but in [Chapter 8](#8-programs-that-think) I will tell you how to eliminate it without the objections I just raised. So a character string is started with a quote-space and terminated by a quote.
 
 Remember that we leave the character string alone, merely remembering where it is. We are talking about character strings in the input buffer (so far), and we had better use the string before we destroy it with output or additional input. *When* it is destroyed depends on many things, so the best rule is to use it immediately.
 
@@ -1572,7 +1572,7 @@ Let me review the cost. We do as many dictionary searches (plus numeric conversi
 
 There are several things to be careful of: As you drop characters from the aligned word, you must keep track of your current position within this word. However, you must also back-up the input pointer so that you can start the next word correctly. Incidently this requires an initial back-up over the terminal space that is not repeated.
 
-Backing the input pointer is not possible with unbuffered input. This is why I suggested that you buffer un-buffered devices back in Chapter 3. If you aren't going to dissect, apply the Basic Principle.
+Backing the input pointer is not possible with unbuffered input. This is why I suggested that you buffer un-buffered devices back in [Chapter 3](#3-programs-with-input). If you aren't going to dissect, apply the Basic Principle.
 
 You must also have a way to detect that you have dropped the last character: a counter is one solution. Another is to place a space immediately ahead of your aligned word, and to stop on the space. I prefer the second, for I find I lack a convenient counter that is preserved over dictionary search and numeric conversion. But this means that I must fetch each character before I deposit a space over it. And this means that my fetch subroutine must operate backwards, the only place I ever need to fetch backwards. It depends on your hardware.
 
@@ -1633,7 +1633,7 @@ What do we have so far? Why should you be interested in level-definitions? You'v
 
 Now back to work. You've seen some level definitions. I hope you've played with them some. How do we implement them? Well we don't. Rather we implement a generalization: level-entries. When I found an application for level-entries I also found out it was cheaper to implement level-definitions as such than the way I was doing.
 
-Every dictionary entry may be considered a virtual-computer instruction, as discussed in Chapter 5. We consider a level-entry an instruction whose execution can be delayed - after the fashion of a level definition. Why not? A definition is, after all, only a particular sort of instruction. If it may be profitably delayed, so might other instructions.
+Every dictionary entry may be considered a virtual-computer instruction, as discussed in [Chapter 4](#4-programs-that-grow). We consider a level-entry an instruction whose execution can be delayed - after the fashion of a level definition. Why not? A definition is, after all, only a particular sort of instruction. If it may be profitably delayed, so might other instructions.
 
 I'm sorry if it seems complicated. It is! It's going to get more complicated - you aren't getting something for nothing. But it's worth it. However, notice that everything we're doing now builds on everything we've done before. Notice that the concept of a special sort of entry depends on having a dictionary available; and the extension of definitions to include level numbers depends on having definitions. We are gradually building a tree and are in the higher branches. We might not depend on all the lower branches, but we have to have some.
 
@@ -1734,7 +1734,7 @@ A problem arises if you plan to dissect words. All those extra dictionary search
 
 ### 8.4 Infinite memory
 
-Of course you can't really have infinite memory. Not even unlimited memory. But you can access directly the entire random memory available to your computer. A small augmentation of the field entries introduced in Chapter 4 will do it. I postponed the discussion to here because it has no particular connection with output, and because it's impressive enough to relate to 'thinking'.
+Of course you can't really have infinite memory. Not even unlimited memory. But you can access directly the entire random memory available to your computer. A small augmentation of the field entries introduced in [Chapter 4](#4-programs-that-grow) will do it. I postponed the discussion to here because it has no particular connection with output, and because it's impressive enough to relate to 'thinking'.
 
 The problem of what to do with infinite memory, I leave up to you. You will have to organize it somehow. Examine different parts of it, move fields around, what you will. All I can do is show you how to eliminate any explicit reference to disk.
 
@@ -1746,7 +1746,7 @@ Several trade-offs are involved: You should have a generous number of core buffe
 
 Suppose you want to scan a portion of disk. All you have to do is define the fields and establish a loop: start with the first block address, store it in the base location where the fields expect it and increment it each time through the loop. All right, your advantage is marginal. All you save is a read instruction. But if that block links to another one, all you need do is store the link in the base location for other fields, and forget that a link is involved. If you access fields in the link it will automatically be read. If not, it won't be. The more complex your data, the greater the advantage.
 
-Of course, you don't have to worry about writing blocks either. Chapter 6 talked about flagging blocks that need writing, rather than writing them immediately. Pays off here! If you change a field, its block will be re-written; if you don't, it won't. Just make sure that when you say GOOD-BY your program writes all changed blocks.
+Of course, you don't have to worry about writing blocks either. [Chapter 6](#6-programs-with-output) talked about flagging blocks that need writing, rather than writing them immediately. Pays off here! If you change a field, its block will be re-written; if you don't, it won't. Just make sure that when you say GOOD-BY your program writes all changed blocks.
 
 You can make these field entries identical with those accessing core, by making the pointer to the base address 0. If you don't point to a disk address, you must mean core.
 
@@ -1775,7 +1775,7 @@ It's sometimes hard to appreciate how it all gets started. We have been tacitly 
 
 Although this makes life somewhat easier for compiler writers, expecially when the target computer isn't built yet, it has a drawback. You can never drop you ultimate dependence on the pre-existing program. If you use a compiler that generates certain instructions, or assumes a certain disk format, you are constrained to be compatible. Consider that a simple version of our program, providing it includes compiler verbs, is perfectly capable of compiling itself. It can do this with greater freedom than the standard compiler, but more important, you can then discard the standard compiler.
 
-In Chapter 1, I discussed the sad state of software quality. Although we can prepare an excellent object program, we are obliged to maintain it as a source program for an unhappy compromise of a compiler. I must admit that this is the most expedient way to get the program started. However, I question whether it is most efficient over the long haul of re-compiling and modifying.
+In [Chapter 1](#1-introduction), I discussed the sad state of software quality. Although we can prepare an excellent object program, we are obliged to maintain it as a source program for an unhappy compromise of a compiler. I must admit that this is the most expedient way to get the program started. However, I question whether it is most efficient over the long haul of re-compiling and modifying.
 
 Let us imagine a situation in which you have access to your computer. I mean sole user sitting at the board with all the lights, for some hours at a time. This is admittedly an a-typical situation, but one that can always be arranged if you are competent, press hard, and will work odd hours. Can you and the computer write a program? Can you write a program that didn't descend from a pre-existing program? You can learn a bit and have a lot of fun trying.
 
