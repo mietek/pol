@@ -104,7 +104,7 @@
 
 ## 1. Introduction
 
-I’m not sure why you’re reading this book. It’s taken me a while to discover why I’m writing it. Let’s examine the title: *Programming a Problem-Oriented-Language*. The key word is programming. I’ve written many programs over the years. I’ve tried to write *good* programs, and I’ve observed the manner in which I write them rather critically. My goal has been to decrease the effort required and increase the quality produced.
+I’m not sure why you’re reading this book. It’s taken me a while to discover why I’m writing it. Let’s examine the title: *Programming a Problem-Oriented Language*. The key word is programming. I’ve written many programs over the years. I’ve tried to write *good* programs, and I’ve observed the manner in which I write them rather critically. My goal has been to decrease the effort required and increase the quality produced.
 
 In the course of these observations, I’ve found myself making the same mistakes repeatedly. Mistakes that are obvious in retrospect, but difficult to recognize in context. I thought that if I wrote a prescription for programming, I could at least remind myself of problems. And if the result is of value to me, it should be of value to others; if what I say is new to you, you may learn something of value; if I cover familiar ground, you at least get a new point of view.
 
@@ -112,9 +112,9 @@ I’ve also been distressed at the lack of concern from others about problems I 
 
 So I’ve written a book about programming. I have no great taste for debating over a one-way communication link and no real interest in convincing you that I’m right in what I say. So you’ll probably find that I’m being brusque. I’m quite likely to state bluntly something you may take issue with. Please do! My intention is to document an approach I’ve found useful, and perhaps to stimulate critical interest in programming. If you care enough to take issue, I’m delighted.
 
-Back to the title. What about Problem-Oriented-Language? I didn’t start out to write about that; and I’m not sure that I’m qualified to do so. But I discovered that in order to justify what I was doing and identify the appropriate circumstances for doing it, the term became essential.
+Back to the title. What about problem-oriented language? I didn’t start out to write about that; and I’m not sure that I’m qualified to do so. But I discovered that in order to justify what I was doing and identify the appropriate circumstances for doing it, the term became essential.
 
-A problem-oriented-language is a language tailored to a particular application. To avoid that uniquely clumsy term, I’ll usually substitute *application language* as synonymous. Very often such a language isn’t recognized for what it is. For instance, if your program reads a code in column 80 to identify an input card, you are implementing an application language. A very crude one, a very awkward one; mostly because you hadn’t given the matter any thought. Recognizing the problem, I’m sure you can design a better solution. This book will show you how.
+A problem-oriented language is a language tailored to a particular application. To avoid that uniquely clumsy term, I’ll usually substitute *application language* as synonymous. Very often such a language isn’t recognized for what it is. For instance, if your program reads a code in column 80 to identify an input card, you are implementing an application language. A very crude one, a very awkward one; mostly because you hadn’t given the matter any thought. Recognizing the problem, I’m sure you can design a better solution. This book will show you how.
 
 
 ### 1.1 The Basic Principle
@@ -125,7 +125,7 @@ A computer can do anything. I hope that your realize that, providing you allow m
 
 So to offer guidance when the trade-offs become obscure, I am going to define the Basic Principle:
 
--   Keep it Simple
+**Keep it Simple!**
 
 As the number of capabilities you add to a program increases, the complexity of the program increases exponentially. The problem of maintaining compatibility among these capabilities, to say nothing of some sort of internal consistency in the program, can easily get out of hand. You can avoid this if you apply the Basic Principle. You may be acquainted with an operating system that ignored the Basic Principle.
 
@@ -135,19 +135,19 @@ In order to help you apply the Basic Principle, I’m going to tell you how many
 
 The Basic Principle has a corollary:
 
--   Do Not Speculate!
+**Do Not Speculate!**
 
-Do not put code in your program that *might* be used. Do not leave hooks on which you can hang extensions. The things you might want to do are infinite; that means that each one has 0 probability of realization. If you need an extension later, you can code it later—and probably do a better job than if you did it now. And if someone else adds the extension, will they notice the hooks you left? Will you document that aspect of your program?
+Do not put code in your program that *might* be used. Do not leave hooks on which you can hang extensions. The things you might want to do are infinite; that means that each one has zero probability of realization. If you need an extension later, you can code it later—and probably do a better job than if you did it now. And if someone else adds the extension, will they notice the hooks you left? Will you document that aspect of your program?
 
 The Basic Principle has another corollary:
 
--   Do It Yourself!
+**Do It Yourself!**
 
 Now we get down the the nitty-gritty. This is our first clash with the establishment. The conventional approach, enforced to a greater or lesser extent, is that you shall use a standard subroutine. I say that you should write your own subroutines.
 
 Before you can write your own subroutine, you have to know how. This means, to be practical, that you have written it before; which makes it difficult to get started. But give it a try. After writing the same subroutine a dozen times on as many computers and languages, you’ll be pretty good at it. If you don’t plan to be programming that long, you won’t be interested in this book.
 
-What sort of subroutines do you write for yourself? I have acquired respect for SQRT subroutines. They’re tricky things; seem to attract a lot of talent. You can use the library routine to good advantage. Input subroutines now. They seem to have crawled out from under a rock. I somehow can’t agree that the last word was said 15 years ago when FORMAT statements were invented.
+What sort of subroutines do you write for yourself? I have acquired respect for `SQRT` subroutines. They’re tricky things; seem to attract a lot of talent. You can use the library routine to good advantage. Input subroutines now. They seem to have crawled out from under a rock. I somehow can’t agree that the last word was said fifteen years ago when `FORMAT` statements were invented.
 
 As I will detail later, the input routine is the most important code in your program. After all, no one sees your program; but everyone sees your input. To abdicate to a system subroutine that hasn’t the slightest interest in your particular problem is foolish. The same can be said for output subroutine and disk-access subroutine.
 
@@ -166,11 +166,11 @@ First I’ll define “input”, and mention some general rules of programming t
 
 By admitting input, a program acquires a control language by which a user can guide the program through a maze of possibilities. Naturally, this increases the flexibility of the program, it also requires a more complex application to justify it. However it is possible to achieve a considerable simplification of the program, by recognizing that it needs a control language as a tool of implementation.
 
-The next step is a problem-oriented-language. By permitting the program to dynamically modify its control language, we mark a qualitative change in capability. We also change our attention from the program to the language it implements. This is an important, and dangerous, diversion. For it’s easy to lose sight of the problem amidst the beauty of the solution.
+The next step is a problem-oriented language. By permitting the program to dynamically modify its control language, we mark a qualitative change in capability. We also change our attention from the program to the language it implements. This is an important, and dangerous, diversion. For it’s easy to lose sight of the problem amidst the beauty of the solution.
 
-In a sense, our program has evolved into a meta-language, which describes a language we apply to the application. But having mentioned meta-language, I want to explain why I won’t use the term again. You see things get pretty complicated, particularly on a philosophic level. To precisely describe our situation requires not 2 levels of language—language and meta-language—but at least 4 levels. To distinguish between these levels requires subtle arguments that promote not clarity but confusion. Moreover, the various levels can often be interchanged in practice, which reduces the philosophic arguments to hair-splitting.
+In a sense, our program has evolved into a meta-language, which describes a language we apply to the application. But having mentioned meta-language, I want to explain why I won’t use the term again. You see things get pretty complicated, particularly on a philosophic level. To precisely describe our situation requires not two levels of language—language and meta-language—but at least four levels. To distinguish between these levels requires subtle arguments that promote not clarity but confusion. Moreover, the various levels can often be interchanged in practice, which reduces the philosophic arguments to hair-splitting.
 
-A problem-oriented-language can express any problem I’ve encountered. And remember, we’re not concerned with the language, but with the program that makes the language work. By modifying the language we can apply the same program to many applications. However there are a class of extensions to the language that constitute another qualitative change. They don’t increase the capacity of the program, but the increase the capability of the language. That is, they make the language more expressive. We will consider some such extensions in [Chapter 8](#8-programs-that-think). I gathered them together chiefly because they share the common property that I don’t quite comprehend their potential. For example, I think the language applies the concepts of English.
+A problem-oriented language can express any problem I’ve encountered. And remember, we’re not concerned with the language, but with the program that makes the language work. By modifying the language we can apply the same program to many applications. However there are a class of extensions to the language that constitute another qualitative change. They don’t increase the capacity of the program, but the increase the capability of the language. That is, they make the language more expressive. We will consider some such extensions in [Chapter 8](#8-programs-that-think). I gathered them together chiefly because they share the common property that I don’t quite comprehend their potential. For example, I think the language applies the concepts of English.
 
 Finally, I want to describe a process whereby you can implement this program in machine language. That is, a bootstrap technique whereby a basic program can modify and expand itself.
 
