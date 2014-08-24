@@ -1334,11 +1334,11 @@ That's it. With 10 lines of code I can define a text-editor. It's not the most e
 
 By now I'm sure you're aware that the heart of your program is its control loop. It not only controls the operation, but also the philosophy and organization of the program. Let me review its operation: it reads a word, finds it in the dictionary and executes its code; failing that it converts it to a binary number and places it onto the stack; failing that it types an error message.
 
-So far I've ignored that error message; not because it's unimportant or trivial to implement, but because it's part of a diffcult subject - output. Logically I oughtn't have delayed discussing output this long, for even a control language needs output. But as usual in this program it is involved with other features that we've only just discussed. I'll leave it to you to implement those features of the output capabilities I'll present, that your application requires.
+So far I've ignored that error message; not because it's unimportant or trivial to implement, but because it's part of a difficult subject - output. Logically I oughtn't have delayed discussing output this long, for even a control language needs output. But as usual in this program it is involved with other features that we've only just discussed. I'll leave it to you to implement those features of the output capabilities I'll present, that your application requires.
 
 Most compilers, and therefore most programmers, regard output the inverse of input. For example, FORTRAN uses the same FORMAT statements for output as for input, thereby suggesting that the two processes are very similar. But are they?
 
-*You* conpose input: you select words and combine them into fairly complex phrases; your program spends considerable effort deciphering this input and extracting its meaning. In reply it will not go through any such elaborate procedure. You'll see that most of its output consists of the word OK. You are talking to the computer, but it is hardly talking to you; at best it's grunting.
+*You* compose input: you select words and combine them into fairly complex phrases; your program spends considerable effort deciphering this input and extracting its meaning. In reply it will not go through any such elaborate procedure. You'll see that most of its output consists of the word OK. You are talking to the computer, but it is hardly talking to you; at best it's grunting.
 
 I maintain that the two processes have nothing in common, that the computer does not prepare output in a manner analogous to you preparing input. In [Chapter 8](#8-programs-that-think) I'll describe a way your program can compose complex output messages. Although such a technique might provide a 2-way dialog, it has even less similarity to interpreting input.
 
@@ -1375,7 +1375,7 @@ In order to determine whether there is input in the message buffer, establish a 
 
 Notice that if entries are coming from a definition or from a screen, no conflict can arise with the message buffer. Only if input is currently being read from the message buffer is there a problem.
 
-However there are 2 places where source of input is changed. This is in the code for ";" and ";S". If ";" restores NEXT<sub>W</sub> to NEXT, it must guarantee that input is available. That is, jump to QUERY if EMPTY is true and SCREEN is 0. Likewise, if ";S" restores SCREEN to 0, it should jump to QUERY if EMPTY is true (NEXT is guaranted to be NEXT<sub>W</sub>.
+However there are 2 places where source of input is changed. This is in the code for ";" and ";S". If ";" restores NEXT<sub>W</sub> to NEXT, it must guarantee that input is available. That is, jump to QUERY if EMPTY is true and SCREEN is 0. Likewise, if ";S" restores SCREEN to 0, it should jump to QUERY if EMPTY is true (NEXT is guaranteed to be NEXT<sub>W</sub>.
 
 The logic required is summarized in [Figure 5](#figure-5-augmenting-control-loop) and is the price paid for duplexing the message buffer. One final complication concerns EMPTY. If true, it states that input has been destroyed; it does not indicate that output is currently in the message buffer. Output may have been placed there and already sent. If the message buffer is empty, type OK before jumping to QUERY.
 
@@ -1390,7 +1390,7 @@ The logic required is summarized in [Figure 5](#figure-5-augmenting-control-loop
 
 Everything isn't easy, and this particular feature is my nemesis. Perhaps a measure of its value is the difficulty of its implementation. A character string is an awkward entity. Mostly because there is nowhere to put it. Numeric literals go on the stack in a most natural fashion. Character strings won't fit, and that isn't what we want to do with them anyway.
 
-My solution is this. When you see a character string, leave it alone. Put on the stack a descriptor giving the address of the first charactere and the number of characters in the string. Skip over the string. That is, advance the input pointer to its end. You can't do it in quite that order, of course, because only by skipping can you discover the number of characters.
+My solution is this. When you see a character string, leave it alone. Put on the stack a descriptor giving the address of the first character and the number of characters in the string. Skip over the string. That is, advance the input pointer to its end. You can't do it in quite that order, of course, because only by skipping can you discover the number of characters.
 
 What does a character string look like? Of all the ways you might choose, one is completely natural:
 
@@ -1410,7 +1410,7 @@ What can you do with a character string? I've only found 2 uses. They are very s
 
 To type a string is easy. Define an entry that uses the descriptor on the stack to set parameters for the TYPE<sub>N</sub> subroutine.
 
-To move a string is harder, but still easy. You have 2 descriptors on the stack: on top a field descriptor; below the string descriptor. Set the input and output pointers, and do a character move of length the smaller of the 2 field sizes. Space fill the remainder of the destination field. Notice that you musn't move more characters than you have, or will fit. And of course, string descriptors will rarely have the right size. Truncating a string is not an error condition!
+To move a string is harder, but still easy. You have 2 descriptors on the stack: on top a field descriptor; below the string descriptor. Set the input and output pointers, and do a character move of length the smaller of the 2 field sizes. Space fill the remainder of the destination field. Notice that you mustn't move more characters than you have, or will fit. And of course, string descriptors will rarely have the right size. Truncating a string is not an error condition!
 
 If you can do the above, you can also move one character field to another. That is, if you make your character string and field descriptors compatible - which adds to the fun. You might want to prevent moving a field to a string, but than who cares.
 
