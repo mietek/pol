@@ -1607,11 +1607,11 @@ One of the most awkward characteristics of our program is that words must be sep
 
 It is not difficult to modify the word subroutine to recognize characters other than space as terminating characters. But it is impossible to provide satisfying generality. Inevitably, you complicate the word subroutine unduly by considering innumerable special cases. And you can waste much ingenuity trying to achieve generality. For example, there are no simple rules that permit all these to be words:
 
--   HELLO GOOD-BY 3.14 I.B.M. -.5 1.E-3
+    HELLO GOOD-BY 3.14 I.B.M. -.5 1.E-3
 
 Likewise, there are no simple rules that separate these strings into the words intended:
 
--   -ALPHA 1+ ALPHA+BETA +X\*\*-3 X,Y,Z; X.OR.Y
+    -ALPHA 1+ ALPHA+BETA +X**-3 X,Y,Z; X.OR.Y
 
 But don’t despair! There is a general solution that can handle all these cases. It is expensive in time, perhaps very expensive. But it solves the problem so thoroughly, while demonstrating that no lesser solution is possible, that I consider it well worth the price. Besides, the speed of processing text is not a critical factor. We maximize speed precisely so that we can afford extravagances such as this.
 
@@ -1619,13 +1619,17 @@ If you haven’t already guessed: We read a word terminated by a space, search t
 
 Let me review the cost. We do as many dictionary searches (plus numeric conversions) as there are letters to be dropped. This encourages fast searches and quick recognition of non-numbers. It also encourages minimizing the length of strings that must be dissected. But let’s be practical: The number of occasions when dissection is convenient are few enough that you can afford the price. With the exception of compiler source code. But I’m not writing a compiler, and if you are you can probably make your word subroutine cope.
 
-There are several things to be careful of: As you drop characters from the aligned word, you must keep track of your current position within this word. However, you must also back-up the input pointer so that you can start the next word correctly. Incidentally this requires an initial back-up over the terminal space that is not repeated.
+There are several things to be careful of:
+
+-   As you drop characters from the aligned word, you must keep track of your current position within this word.
+
+-   However, you must also back-up the input pointer so that you can start the next word correctly. Incidentally this requires an initial back-up over the terminal space that is not repeated.
 
 Backing the input pointer is not possible with unbuffered input. This is why I suggested that you buffer un-buffered devices back in [Chapter 3](#3-programs-with-input). If you aren’t going to dissect, apply the Basic Principle.
 
 You must also have a way to detect that you have dropped the last character: a counter is one solution. Another is to place a space immediately ahead of your aligned word, and to stop on the space. I prefer the second, for I find I lack a convenient counter that is preserved over dictionary search and numeric conversion. But this means that I must fetch each character before I deposit a space over it. And this means that my fetch subroutine must operate backwards, the only place I ever need to fetch backwards. It depends on your hardware.
 
-There are 2 things we can do to refine this dissection. They are incompatible and the choice depends on your application: We don’t need to drop characters one-at-a-time. If you have several letters in succession, or several digits, or perhaps a combination, you might drop the all and then perform a single search/conversion. This means that you must examine each character (which suggests the second termination above). It also means that you must be able to distinguish alphanumerics from special-characters. This requires a 64-character table of character type tailored to your particular character set and application. If your hardware permits, you may be able to use a 64-bit table—classic trade-off of time vs. space.
+There are two things we can do to refine this dissection. They are incompatible and the choice depends on your application: We don’t need to drop characters one-at-a-time. If you have several letters in succession, or several digits, or perhaps a combination, you might drop the all and then perform a single search/conversion. This means that you must examine each character (which suggests the second termination above). It also means that you must be able to distinguish alphanumerics from special-characters. This requires a 64-character table of character type tailored to your particular character set and application. If your hardware permits, you may be able to use a 64-bit table—classic trade-off of time vs. space.
 
 However, this means you cannot dissect letter strings and you might want to. Plurals, for instance, can be easily accommodated by dropping the terminal “s”. On the other hand, you can easily mis-identify words by dissecting letter strings: I once dissected the word SWAP: S was defined, W was defined and my error message was AP ? Perhaps when dropping a single letter you should replace it with a dash to indicate a word stem. Or perhaps it doesn’t matter if unidentifiable words are mis-identified.
 
@@ -1642,15 +1646,15 @@ I would like to be able to say that this ability will impress people. It will im
 
 I am embarrassed not to know the standard terminology for what I am going to discuss. I have never heard it discussed and I have never searched for it. But it must be a standard aspect of compiler writing—discussed in courses dealing with compilers. If you know the terminology, you also know most of what I’m going to say: although I hope I can get you to stretch its application.
 
-Our arithmetic operators have found their arguments already on the stack. Conventional algebraic notation uses such operators as infixes, and a left-right scan provides only 1 operand when the operator is discovered. Consequently the operation must be deferred until the other operand is available.
+Our arithmetic operators have found their arguments already on the stack. Conventional algebraic notation uses such operators as infixes, and a left-right scan provides only one operand when the operator is discovered. Consequently the operation must be deferred until the other operand is available.
 
 Moreover, we have a hierarchy of operations than control when that other operator becomes available. For example:
 
--   A+B\*C
+    A+B*C
 
 the multiply must be done before the add. Moreover, parentheses are used to modify the standard hierarchy:
 
--   A\*(B+C)
+    A*(B+C)
 
 Such a notation is completely equivalent to ours. It offers no advantages over the operands-preceeding-operator and has some limitations. But people are accustomed to it and negatively-impressed by its absence. So I will show you how to provide the capability.
 
@@ -1660,21 +1664,21 @@ Let us establish a new kind of dictionary entry. It is identical to a definition
 
 A convenient format for level-definitions is:
 
--   2 :L word … ;
+    2 :L word … ;
 
-The 2 is the level number, taken from the stack. :L declares the next word as a level-definition. `;` marks the end.
+The `2` is the level number, taken from the stack. `:L` declares the next word as a level-definition. `;` marks the end.
 
-Let’s talk about + and \*:
+Let’s talk about `+` and `*`:
 
--   0 :L , ;
--   1 :L + + ;
--   2 :L \* \* ;
+    0 :L , ;
+    1 :L + + ;
+    2 :L * * ;
 
 We have re-defined them in terms of their old definitions, but as level-definitions. We defined `,` to have some way to stop. Now we can say:
 
--   3 + 4 \* 5 ,
+    3 + 4 * 5 ,
 
-What happened? 3 goes onto the parameter stack, + goes onto the level-stack, 4 onto the parameter stack, \* onto the level-stack (since it has a higher level number than the + already there), 5 onto the parameter stack. Now `,` forces the \* to be executed (since its level number is smaller) and \* finds 5 and 4 on the parameter stack. `,` also forces + to be executed (with arguments 20 and 3) and then, because its level number is 0, is itself executed and does nothing.
+What happened? 3 goes onto the parameter stack, `+` goes onto the level-stack, 4 onto the parameter stack, `*` onto the level-stack (since it has a higher level number than the `+` already there), 5 onto the parameter stack. Now `,` forces the `*` to be executed (since its level number is smaller) and `*` finds 5 and 4 on the parameter stack. `,` also forces `+` to be executed (with arguments 20 and 3) and then, because its level number is 0, is itself executed and does nothing.
 
 Clear? I would like to assume you’re familiar with this technique, but I don’t quite dare. All I’m really contributing is a way to implement with dictionary entries a technique usually built into compilers. Perhaps the cop-out of suggesting you define the arithmetic operators and work out some examples for yourself. Remember that *equal* level operators force each other out, and that a *lower* level operator forces out a higher. It is strangely easy to reason out the relative levels of operators incorrectly.
 
@@ -1686,19 +1690,19 @@ Every dictionary entry may be considered a virtual-computer instruction, as disc
 
 I’m sorry if it seems complicated. It is! It’s going to get more complicated—you aren’t getting something for nothing. But it’s worth it. However, notice that everything we’re doing now builds on everything we’ve done before. Notice that the concept of a special sort of entry depends on having a dictionary available; and the extension of definitions to include level numbers depends on having definitions. We are gradually building a tree and are in the higher branches. We might not depend on all the lower branches, but we have to have some.
 
-How do you execute a level-entry? Exactly the same as any other. However, the first thing the level-entry does is execute the LEVEL routine, to give it a name, with its level number as parameter. LEVEL tests this level number against the level-stack. 3 cases arise:
+How do you execute a level-entry? Exactly the same as any other. However, the first thing the level-entry does is execute the LEVEL routine, to give it a name, with its level number as parameter. LEVEL tests this level number against the level-stack. Three cases arise:
 
 -   It may place the level number and entry on the level-stack (higher level entry) and RETURN.
 -   It may replace the top of the level-stack with this entry, and execute the old top.
 -   If the level-stack is empty, and the level is 0, it will execute this entry.
 
-All 3 cases are required!
+All three cases are required!
 
 Before actually executing an entry from the stack, LEVEL must set the SOURCE address to reference another routine, FORCE. You recall that your main control loop obtains its next entry either by reading a word and searching, or by fetching from a definition. Well here is a third source, the level-stack. As for a definition, the old value of SOURCE and the virtual-IC must be saved—on the return-stack.
 
-When you finally force execution of a level-entry, you must remember that it has already been executed, and immediately jump to LEVEL. This re-execution must start at a different place, 1 or 2 instructions below the routine address, perhaps. Or you might include the re-start address as a parameter, and keep it in the level-stack.
+When you finally force execution of a level-entry, you must remember that it has already been executed, and immediately jump to LEVEL. This re-execution must start at a different place, one or two instructions below the routine address, perhaps. Or you might include the re-start address as a parameter, and keep it in the level-stack.
 
-When a level-entry is done, it will RETURN and your control loop will go to FORCE. The only way you can get to FORCE is by completing a level-entry. Its function is to check the level stack and see if any other entry can be forced off by the one on top. 3 cases arise:
+When a level-entry is done, it will RETURN and your control loop will go to FORCE. The only way you can get to FORCE is by completing a level-entry. Its function is to check the level stack and see if any other entry can be forced off by the one on top. Three cases arise:
 
 -   It may leave the level-stack alone (higher level on top), and restore SOURCE and virtual-IC from return-stack, and RETURN.
 -   It may execute the lower entry, replacing it with the top—thus dropping the level-stack.
@@ -1708,30 +1712,32 @@ Let me emphasize the importance of the return-stack, and the necessity of saving
 
 Now you should be able to implement level-entries, definitions among them. What can you do with them?
 
--   You can define the customary arithmetic operations: + - \* / MOD \*\*.
--   You can define the customary logical operations: OR AND NOT IMPL.
--   You can define infix relations: = \< \> \>= \>= /=.
--   You can define an infix replacement: = := (one that works in either direction).
+-   You can define the customary arithmetic operations: `+ - * / MOD **`.
+-   You can define the customary logical operations: `OR AND NOT IMPL`.
+-   You can define infix relations: `= < > <= >= /=`.
+-   You can define an infix replacement: `= :=` (one that works in either direction).
 -   You can define all the above.
 
 It depends on your application.
 
--   You can define words like PLUS MINUS TIMES DIVIDED-BY EQUALS; an English language arithmetic.
--   You can define phrases like MOVE . . TO . . or DIVIDE . . INTO . . or ADD . . TO . . A COBOL language arithmetic.
+-   You can define words like `PLUS MINUS TIMES DIVIDED-BY EQUALS`; an English language arithmetic.
+-   You can define phrases like `MOVE … TO …` or `DIVIDE … INTO …` or `ADD … TO …`; a COBOL language arithmetic.
 
-But let me mention 2 particular uses:
+But let me mention two particular uses:
 
 -   Consider a statement with the form
-    -   IF relation THEN statement ELSE statement ;
 
-    Define IF so it will be forced out by THEN and generate a conditional branch. Define THEN so it will be forced out by ELSE and fix-up the address left dangling by IF. Define ELSE so it will first generate an unconditional branch, then force out THEN, and then await being forced out itself. Define ; to force out ELSE and fix-up the forward branch.
+    -   `IF` *relation* `THEN` *statement* `ELSE` *statement* `;`
+
+    Define `IF` so it will be forced out by `THEN` and generate a conditional branch. Define `THEN` so it will be forced out by `ELSE` and fix-up the address left dangling by `IF`. Define `ELSE` so it will first generate an unconditional branch, then force out `THEN`, and then await being forced out itself. Define `;` to force out `ELSE` and fix-up the forward branch.
 
 With a few statements you can implement any such compiler construct.
 
 -   Consider a statement like
-    -   1800. FT / SEC \*\* 2
 
-    Define a kind of entry UNIT that puts a constant on the stack immediately and acts like a multiply when it’s forced to. Define / to put a 1. on the stack immediately and divide when it’s forced to. Define \*\* as an infix, and FT and SEC as UNITs.
+        1800. FT / SEC ** 2
+
+    Define a kind of entry `UNIT` that puts a constant on the stack immediately and acts like a multiply when it’s forced to. Define `/` to put a 1. on the stack immediately and divide when it’s forced to. Define `**` as an infix, and `FT` and `SEC` as `UNITs`.
 
 This expression and any others you construct will be evaluated correctly.
 
@@ -1756,25 +1762,25 @@ For very large dictionaries, scramble the word into a block address and search t
 
 Such a disk dictionary can be really impressive—even to non-computer folk—because you have fast access to a prodigious vocabulary. Fast means you can search tens-of-thousands of entries in a single disk access.
 
-What do disk dictionary entries look like? I have found that 2 fields are sufficient: the word field, the same size as the core dictionary word field; and a parameter field, 1 word long. If you find a match on disk, you put the parameter on the stack. Remember that you can’t afford to store absolute addresses on disk, so you can’t have an address field as in core. You could provide a coded address field, but it seems adequate to treat disk entries as constants.
+What do disk dictionary entries look like? I have found that two fields are sufficient: the word field, the same size as the core dictionary word field; and a parameter field, one word long. If you find a match on disk, you put the parameter on the stack. Remember that you can’t afford to store absolute addresses on disk, so you can’t have an address field as in core. You could provide a coded address field, but it seems adequate to treat disk entries as constants.
 
-For instance you can name blocks. When you type the name of a block its address is moved from the parameter field onto the stack. That is an excellent place for it, because if you type the block number itself that’s where it would be placed. You can use block numbers and block names interchangeably. Thus when you type an account number the block associated with that account is placed onto the stack, whereupon you store it into the base word that its fields reference. An illegal account will cause an error message, in the ordinary way. Or you might name the instructions for your computer. Then typing its name will place a 1-word instruction on the stack, ready for further processing.
+For instance you can name blocks. When you type the name of a block its address is moved from the parameter field onto the stack. That is an excellent place for it, because if you type the block number itself that’s where it would be placed. You can use block numbers and block names interchangeably. Thus when you type an account number the block associated with that account is placed onto the stack, whereupon you store it into the base word that its fields reference. An illegal account will cause an error message, in the ordinary way. Or you might name the instructions for your computer. Then typing its name will place a one-word instruction on the stack, ready for further processing.
 
-Although I spoke of account numbers, notice that you can’t number blocks. That is, the name of a disk dictionary entry cannot be a number. For if you type a number it will be converted onto the stack, and never sought on disk. And you must attempt to convert *before* searching disk or you’ll search disk for every literal you type. But then “numbers” often don’t look much like the numbers defined by NUMBER. They tend to have embedded dashes, letters and such; or else you can prefix a letter or suffix a \# character.
+Although I spoke of account numbers, notice that you can’t number blocks. That is, the name of a disk dictionary entry cannot be a number. For if you type a number it will be converted onto the stack, and never sought on disk. And you must attempt to convert *before* searching disk or you’ll search disk for every literal you type. But then “numbers” often don’t look much like the numbers defined by NUMBER. They tend to have embedded dashes, letters and such; or else you can prefix a letter or suffix a `#` character.
 
 How do you put an entry on disk? A special defining entry:
 
--   0 NAME ZERO
+    0 NAME ZERO
 
 analogous to CONSTANT. Alternatively you might set a flag and let the dictionary entry subroutine decide whether to use disk or core. This latter is preferable if you have several different kinds of entries that might go either to disk or core.
 
 You will also need a way to forget disk entries:
 
--   FORGET ZERO
+    FORGET ZERO
 
 FORGET must call WORD as defining entries do, since this is a non-typical use of the word ZERO. When it finds the entry, it simple clears it without trying to pack. Your entry routine should first search disk to see if the word is already there. You don’t want multiple definitions on disk, even though there’re useful in core. Then it should search for a hole. If it finds the word already there, or if it can’t find a hole? You guessed it, an error message.
 
-Let’s talk about a refinement. With a thousand names on disk it’s easy to run out of mnemonics. Let’s re-use the field CONTEXT: after you scramble the word into a block address, add the contents of CONTEXT and search that block. If CONTEXT is 0, no difference. But if CONTEXT is non-zero, you’re searching a different block. If CONTEXT can vary from 0 to 15, you can have 16 different definitions of the same word. You’ll find the one that had the same value of CONTEXT when you defined it. If there is no entry for a word under a given CONTEXT, you won’t get a match. A block containing a definition for the same word under a different CONTEXT won’t be searched.
+Let’s talk about a refinement. With a thousand names on disk it’s easy to run out of mnemonics. Let’s re-use the field CONTEXT: after you scramble the word into a block address, add the contents of CONTEXT and search that block. If CONTEXT is 0, no difference. But if CONTEXT is non-zero, you’re searching a different block. If CONTEXT can vary from 0 to 15, you can have sixteen different definitions of the same word. You’ll find the one that had the same value of CONTEXT when you defined it. If there is no entry for a word under a given CONTEXT, you won’t get a match. A block containing a definition for the same word under a different CONTEXT won’t be searched.
 
 For example, stock numbers might look the same for different sales-lines. By setting CONTEXT you can distinguish them. You can use the same name for a report screen that you use for its instruction screen; distinguish them by CONTEXT. If you’re scrambling anyway, you may as well add in CONTEXT (modulo a power of 2); it costs nothing, and vastly extends the universe of names. In fact, you can use CONTEXT in both the ways we’ve discussed, simultaneously. For as an additive constant it tends to be small; and as a block number, large. So your search routine can decide whether to scramble or not based on its size.
 
