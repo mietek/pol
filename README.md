@@ -1346,12 +1346,12 @@ Most compilers, and therefore most programmers, regard output the inverse of inp
 
 *You* compose input: you select words and combine them into fairly complex phrases; your program spends considerable effort deciphering this input and extracting its meaning. In reply it will not go through any such elaborate procedure. You’ll see that most of its output consists of the word OK. You are talking to the computer, but it is hardly talking to you; at best it’s grunting.
 
-I maintain that the two processes have nothing in common, that the computer does not prepare output in a manner analogous to you preparing input. In [Chapter 8](#8-programs-that-think) I’ll describe a way your program can compose complex output messages. Although such a technique might provide a 2-way dialog, it has even less similarity to interpreting input.
+I maintain that the two processes have nothing in common, that the computer does not prepare output in a manner analogous to you preparing input. In [Chapter 8](#8-programs-that-think) I’ll describe a way your program can compose complex output messages. Although such a technique might provide a two-way dialog, it has even less similarity to interpreting input.
 
 
 ### 6.1 Output routines
 
-You will need 3 output subroutines; conceivably you could get by with 2. One to type a number of spaces. One to type a number of characters from a specified location (TYPE<sub>N</sub>). One to type characters until it encounters a space (TYPE<sub>B</sub>) and including the space. This last depends on your dictionary format, for it is used to type entry words. Of course, these should use the fetch and deposit subroutines you use for input.
+You will need three output subroutines; conceivably you could get by with two. One to type a number of spaces. One to type a number of characters from a specified location (TYPE<sub>N</sub>). One to type characters until it encounters a space (TYPE<sub>B</sub>) and including the space. This last depends on your dictionary format, for it is used to type entry words. Of course, these should use the fetch and deposit subroutines you use for input.
 
 Let us use the composition of an error message as an example. You have just typed an input message, the carriage is positioned at the last character. First you want a space. Then use TYPE<sub>B</sub> to type the current word. It caused the error and will tell you where it occurred. You don’t need this for an unbuffered device. Then use TYPE<sub>B</sub> again to type a word that describes the error. Avoid long error messages—you’re the one who will wait while they’re typed. You can detect a number of errors, so it’s worth your while to devise a routine to generate them.
 
@@ -1381,7 +1381,7 @@ In order to determine whether there is input in the message buffer, establish a 
 
 Notice that if entries are coming from a definition or from a screen, no conflict can arise with the message buffer. Only if input is currently being read from the message buffer is there a problem.
 
-However there are 2 places where source of input is changed. This is in the code for `;` and `;S`. If `;` restores NEXT<sub>W</sub> to NEXT, it must guarantee that input is available. That is, jump to QUERY if EMPTY is true and SCREEN is 0. Likewise, if `;S` restores SCREEN to 0, it should jump to QUERY if EMPTY is true (NEXT is guaranteed to be NEXT<sub>W</sub>.
+However there are two places where source of input is changed. This is in the code for `;` and `;S`. If `;` restores NEXT<sub>W</sub> to NEXT, it must guarantee that input is available. That is, jump to QUERY if EMPTY is true and SCREEN is 0. Likewise, if `;S` restores SCREEN to 0, it should jump to QUERY if EMPTY is true (NEXT is guaranteed to be NEXT<sub>W</sub>.
 
 The logic required is summarized in [Figure 5](#figure-5-augmenting-control-loop) and is the price paid for duplexing the message buffer. One final complication concerns EMPTY. If true, it states that input has been destroyed; it does not indicate that output is currently in the message buffer. Output may have been placed there and already sent. If the message buffer is empty, type OK before jumping to QUERY.
 
@@ -1400,23 +1400,23 @@ My solution is this. When you see a character string, leave it alone. Put on the
 
 What does a character string look like? Of all the ways you might choose, one is completely natural:
 
--   "ABCDEF … XYZ"
+    "ABCDEF … XYZ"
 
 A character string is enclosed in quotes. It can contain any character except a quote, specifically including spaces.
 
 We get in trouble immediately! How do you recognize a character string? By the leading quote, for course. But do you modify your word subroutine to recognize that quote? If you do so you may never use a leading quote for any other purpose. Much better that the quote is a word by itself, treated like any other dictionary entry, for it can then be re-defined. But words are terminated by spaces, and I still resist making quote an exception. So let’s type character strings:
 
--   " ABCDEF … XYZ"
+    " ABCDEF … XYZ"
 
 The extra space is annoying, but in [Chapter 8](#8-programs-that-think) I will tell you how to eliminate it without the objections I just raised. So a character string is started with a quote-space and terminated by a quote.
 
 Remember that we leave the character string alone, merely remembering where it is. We are talking about character strings in the input buffer (so far), and we had better use the string before we destroy it with output or additional input. *When* it is destroyed depends on many things, so the best rule is to use it immediately.
 
-What can you do with a character string? I’ve only found 2 uses. They are very similar, but part of the frustration of implementing them is to take advantage of the similarity. You can type a string, or you can move it to a character field.
+What can you do with a character string? I’ve only found two uses. They are very similar, but part of the frustration of implementing them is to take advantage of the similarity. You can type a string, or you can move it to a character field.
 
-To type a string is easy. Define an entry that uses the descriptor on the stack to set parameters for the TYPE<sub>N</sub> subroutine.
+-   To type a string is easy. Define an entry that uses the descriptor on the stack to set parameters for the TYPE<sub>N</sub> subroutine.
 
-To move a string is harder, but still easy. You have 2 descriptors on the stack: on top a field descriptor; below the string descriptor. Set the input and output pointers, and do a character move of length the smaller of the 2 field sizes. Space fill the remainder of the destination field. Notice that you mustn’t move more characters than you have, or will fit. And of course, string descriptors will rarely have the right size. Truncating a string is not an error condition!
+-   To move a string is harder, but still easy. You have two descriptors on the stack: on top a field descriptor; below the string descriptor. Set the input and output pointers, and do a character move of length the smaller of the two field sizes. Space fill the remainder of the destination field. Notice that you mustn’t move more characters than you have, or will fit. And of course, string descriptors will rarely have the right size. Truncating a string is not an error condition!
 
 If you can do the above, you can also move one character field to another. That is, if you make your character string and field descriptors compatible—which adds to the fun. You might want to prevent moving a field to a string, but than who cares.
 
@@ -1431,13 +1431,13 @@ We’ve talked about the different kinds of numbers you might want, and the diff
 
 In addition to the descriptor associated with a variable, a field entry needs additional parameters that specify the output format. It is extremely useful to be able to specify a field width for output once and for all, and then use it automatically on all reports. Also it is useful to be able to reference the name of the field—which of course is contained in the dictionary entry.
 
-So a useful convention is that a field entry puts the address of itself—that is the dictionary entry—on the stack. Recall that a variable entry places the address of the variable on the stack. If you want the name of the entry, this address tells you where it is. If you want the format, this address—offset by some constant—tells you where to find it. And if you want the address of the field, you can get that too—a process that is executed automatically for a variable.
+So a useful convention is that a field entry puts the address of itself—that is the dictionary entry—on the stack. Recall that a variable entry places the address of the variable on the stack. If you want the name of the entry, this address tells you where it is. If you want the format, this address— offset by some constant—tells you where to find it. And if you want the address of the field, you can get that too—a process that is executed automatically for a variable.
 
 These various capabilities require various entries to effect them. You might define:
 
--   ,NM—type out field name.
--   F—extract field width.
--   @F—obtain field address.
+-   `,NM`—type out field name.
+-   `F`—extract field width.
+-   `@F`—obtain field address.
 
 Depending (as usual) you might be able to make @F compatible with @. Or make @ automatically work correctly for field entries. You may want to distinguish addresses of variables from address of field entries. This would be analogous to distinguishing different kinds of numbers, and for the same reason—so that the same operations (in this case probably @ and =) will work on all.
 
