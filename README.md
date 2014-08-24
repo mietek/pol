@@ -1448,7 +1448,7 @@ Apply the Basic Principle.
 
 It is not obvious, but a program organized as we have discussed is ideally suited to handling several users simultaneously. All of the basic problems of interactive processing have been solved by interacting with one user. The organization is such that all data is, or can be, stored in the user’s dictionary. To distinguish users merely requires the program recognize the proper dictionary.
 
-Of course the value of multiple users depends upon the application. There appears to be a correlation between the complexity of an application and the number of potential users. An application that deserves a problem-oriented-langage my well be of interest to many users on a continuous basis.
+Of course the value of multiple users depends upon the application. There appears to be a correlation between the complexity of an application and the number of potential users. An application that deserves a problem-oriented language my well be of interest to many users on a continuous basis.
 
 Moreover, once the basic program is available, it is relatively simple to add other, even unrelated, applications. The ability to control your vocabulary by reading screens allows a terminal to be used by different people with absolute minimum effort: each can have a personal screen that will load his dictionary with the vocabulary he wants.
 
@@ -1505,7 +1505,7 @@ These are extremely valuable routines, for there are many facilities that can be
 
 Naturally, I have in mind a specific way to implement QUEUE and UNQUEUE. And I caution you, more strongly than usual, that plausible modifications won’t work. I’ll try to mention all the reasons.
 
-In addition to the user’s dictionary address and ready flag, each user must have a link field—not in his dictionary, but in user control. Each facility that is to be protected must have associated with it 2 fields: the owner, and the first person waiting. The best arrangement is to have a table of such queue-words, one for each facility. If a facility is free, its owner is 0; otherwise its owner is the number of the user owning it. A user’s number is his position in the table of users, starting at 1. If no one is waiting, a facility’s waiter field is 0; otherwise it is the number of the user waiting.
+In addition to the user’s dictionary address and ready flag, each user must have a link field—not in his dictionary, but in user control. Each facility that is to be protected must have associated with it two fields: the owner, and the first person waiting. The best arrangement is to have a table of such queue-words, one for each facility. If a facility is free, its owner is 0; otherwise its owner is the number of the user owning it. A user’s number is his position in the table of users, starting at 1. If no one is waiting, a facility’s waiter field is 0; otherwise it is the number of the user waiting.
 
 If I want a facility and its free:
 
@@ -1513,15 +1513,15 @@ If I want a facility and its free:
 
 If it’s busy, but no one’s waiting:
 
--   I place my number in the waiter field, 0 my link field, and relinquish control.
+-   I place my number in the waiter field, zero my link field, and relinquish control.
 
 If someone’s waiting:
 
--   I follow the chain of links starting at the waiter’s link field until I find a 0 link; I place my number there, 0 my link field, and relinquish control.
+-   I follow the chain of links starting at the waiter’s link field until I find a zero link; I place my number there, zero my link field, and relinquish control.
 
 When I’m through with a facility (UNQUEUE):
 
--   IF no one’s waiting, I 0 the owner field, and exit.
+-   IF no one’s waiting, I zero the owner field, and exit.
 -   If someone’s waiting, I move his number to the owner field, move his link field to the waiter field, mark him ready, and exit.
 
 The whole procedure is simple and efficient. It handles a lot of potential problems in a reasonable and effective way. Several comments: The queues will probably be very short. In fact, facilities will usually be free, unless the computer is over-loaded. A user can not be in more than one queue. However, a user can own more than one facility. Hence the need for a waiter field with each facility: a queue must descend from each facility, and not from each owner; the two concepts are independent. You must add to the error routine a loop to release any facilities held by the current user. Since a user needs to know his own number in order to queue, this number must be stored in a field in his dictionary, and be set by the re-initialize routine.
@@ -1547,7 +1547,7 @@ If you establish several user dictionaries, the first entry in each will link to
 
 It would appear that you want the system dictionary as large as possible to avoid redundancy. That is not necessarily the case. There are some entries that might go into the system dictionary—except that you specifically want to deny them to some users. Prime examples are the GET and DELETE entries that control disk allocation. Misuse of these words by ignorant users can badly damage data stored on disk. The best solution is to place the code in the system, without a dictionary entry. Define a table of entry points into code of this nature. Then if a user wants to use an entry point, he must first define it, perhaps:
 
--   17 ENTRY GET 18 ENTRY RELEASE
+    17 ENTRY GET 18 ENTRY RELEASE
 
 establishing the words GET and RELEASE with the code identified in the 17th and 18th table positions. Library subroutines (FORTRAN arithmetic subroutines) might be treated similarly.
 
@@ -1572,13 +1572,13 @@ The fact that you may have several users reading disk simultaneously has no effe
 
 ### 7.5 User swapping
 
-So far we’ve had all users resident in core. This is by far the best arrangement for handling a small number of users. The step to allowing more users than can be simultaneously resident is a small one philosophically, but can be very difficult to implement. Suppose we had room for 4 user’s dictionaries in core, but we wanted to permit 40 users. Clearly we can store all 40 user dictionaries on disk and load each one into core when he becomes active. Providing disk I/O is substantially faster than message I/O there is not even a performance penalty associated. When a user is awaiting message I/O we write him out to disk. When he completes his message I/O we read him back into core. Naturally, we do not move him from core when he is waiting for disk I/O, since it would take unreasonably long to write him out and read him back compared to the original delay.
+So far we’ve had all users resident in core. This is by far the best arrangement for handling a small number of users. The step to allowing more users than can be simultaneously resident is a small one philosophically, but can be very difficult to implement. Suppose we had room for four user’s dictionaries in core, but we wanted to permit 40 users. Clearly we can store all 40 user dictionaries on disk and load each one into core when he becomes active. Providing disk I/O is substantially faster than message I/O there is not even a performance penalty associated. When a user is awaiting message I/O we write him out to disk. When he completes his message I/O we read him back into core. Naturally, we do not move him from core when he is waiting for disk I/O, since it would take unreasonably long to write him out and read him back compared to the original delay.
 
-So far there are no problems. The problem arises as to where to read him back into. We have 4 buffers: if we load users always into the same buffer we have 4 classes of users, each of which can go into a single buffer. We are begging for delays at one buffer while another is empty.
+So far there are no problems. The problem arises as to where to read him back into. We have four buffers: if we load users always into the same buffer we have four classes of users, each of which can go into a single buffer. We are begging for delays at one buffer while another is empty.
 
 If we are going to the trouble anyway, we should make all buffers equivalent, and load a user into whichever one is free. However, now a user’s dictionary must be relocatable. That is, any references to his dictionary must be relative to its origin, which is presumably stored in an index register. This isn’t too bad if we’ve planned from the start—way back with a single-user program—to make all dictionary references relative; it requires almost a complete re-write of the program if we did not, for all dictionary references, and they’re scattered all through the program, must be indexed.
 
-Actually, since any references to a block must be relative to the (variable) origin of the block, we aren’t introducing a new problem; merely extending an old one. However, there’s another complication. We now have a real distinction between our 2 dictionaries: the system dictionary is absolute and the user dictionary is relative. Therefore the same kind of entry must be treated differently, depending on which dictionary it’s in.
+Actually, since any references to a block must be relative to the (variable) origin of the block, we aren’t introducing a new problem; merely extending an old one. However, there’s another complication. We now have a real distinction between our two dictionaries: the system dictionary is absolute and the user dictionary is relative. Therefore the same kind of entry must be treated differently, depending on which dictionary it’s in.
 
 For example, if we have compiled code in the parameter area, an absolute user dictionary can store the code address in the address field. However a relative user dictionary must store the address of a routine that will, in turn, jump into the parameter field. Or else relative addresses must be distinguished from absolute addresses, perhaps by size, and treated properly.
 
