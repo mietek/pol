@@ -75,7 +75,7 @@
     -   [7.1 Non-user activities](#71-non-user-activities)
         -   [7.1.1 Message handling](#711-message-handling)
         -   [7.1.2 User control](#712-user-control)
-    -   [7.2 Queing](#72-queing)
+    -   [7.2 Queuing](#72-queuing)
         -   [7.2.1 Exclusive use of blocks](#721-exclusive-use-of-blocks)
     -   [7.3 Private dictionaries](#73-private-dictionaries)
         -   [7.3.1 Controlled access](#731-controlled-access)
@@ -1440,7 +1440,7 @@ Apply the Basic Principle.
 
 ## 7. Programs that share
 
-It is not obvious, but a program orgainzed as we have discussed is ideally suited to handling several users simultaneously. All of the basic problems of interactive processing have been solved by interacting with one user. The organization is such that all data is, or can be, stored in the user's dictionary. To distinguish users merely requires the program recognise the proper dictionary.
+It is not obvious, but a program organized as we have discussed is ideally suited to handling several users simultaneously. All of the basic problems of interactive processing have been solved by interacting with one user. The organization is such that all data is, or can be, stored in the user's dictionary. To distinguish users merely requires the program recognize the proper dictionary.
 
 Of course the value of multiple users depends upon the application. There appears to be a correlation between the complexity of an application and the number of potential users. An application that deserves a problem-oriented-langage my well be of interest to many users on a continuous basis.
 
@@ -1457,9 +1457,9 @@ Given a successful single-user application, I will show how it can be expanded t
 
 Each user has a position in the ready table to identify his status. The computer examines this table to decide what to do next. You may want to add to the ready table entries not associated with users, but representing tasks that must be performed by the computer.
 
-For example, if you have to poll phone lines to acquire input, you want to perform these polls asynchronously with whatever other work you're doing. Since interrupt routines are best kept small, the task of translating character sets, checking parity, distributing messages, ets. should be performed at lower priority. This is easy to do with an entry in the ready table. The interrupt routine sets a message routine "ready" and the computer will process it when possible.
+For example, if you have to poll phone lines to acquire input, you want to perform these polls asynchronously with whatever other work you're doing. Since interrupt routines are best kept small, the task of translating character sets, checking parity, distributing messages, etc. should be performed at lower priority. This is easy to do with an entry in the ready table. The interrupt routine sets a message routine "ready" and the computer will process it when possible.
 
-Each such independent activity should have a ready table entry and a (perhaps) small dictionary in which to store its parameters; return address, register contents, etc. in the same format as a user activity. In fact these activities are competely equivalent to users, except that they don't process users. This is significant, for it means they never generate error messages, they must handle their own errors, somehow.
+Each such independent activity should have a ready table entry and a (perhaps) small dictionary in which to store its parameters; return address, register contents, etc. in the same format as a user activity. In fact these activities are completely equivalent to users, except that they don't process users. This is significant, for it means they never generate error messages, they must handle their own errors, somehow.
 
 If you haven't already noticed, we're now talking about operating systems. I don't have much more to say on the subject, but there are other asynchronous activities you might want:
 
@@ -1484,22 +1484,22 @@ The fact that you have several users creates a new problem. Of course the comput
 
 When is it finished with one user? Clearly, if a user is awaiting input the computer is finished. We are talking about keyboard input, which will take many seconds to arrive. Similarly if the user is sending output, the computer may as well stop. Output will take several seconds, especially if an acknowledgement from the device is anticipated. It needn't stop. While sending one message, it could be composing the next. But it's much simpler not to attempt such overlap. If the user is reading disk, the computer can stop.
 
-I want to define a single phrase to cover these situations. I shall say that a user relinquishes control of the processor whenever he does message or disk I/O. This is a voluntary action on his part, and those are the only times he relinquishes control. In particular, there is no time quantum that will take control from him. For this reason: With several users, code must clearly be re-entrant. However, if a user is promised that he will be allowed to finish what he starts, if he will not lose control to someone else except when he relinquishes it, the re-entrant requirements become much less onorous. The program need only be re-entrant across I/O, which can save a lot of bother.
+I want to define a single phrase to cover these situations. I shall say that a user relinquishes control of the processor whenever he does message or disk I/O. This is a voluntary action on his part, and those are the only times he relinquishes control. In particular, there is no time quantum that will take control from him. For this reason: With several users, code must clearly be re-entrant. However, if a user is promised that he will be allowed to finish what he starts, if he will not lose control to someone else except when he relinquishes it, the re-entrant requirements become much less onerous. The program need only be re-entrant across I/O, which can save a lot of bother.
 
 All right, what happens when a user relinquishes control? The computer simple scans a table of users to see if anyone else is ready. The table contains the address of the user's dictionary and a flag: ready or not? The I/O complete interrupt routines simply mark the proper user ready. And if no one is ready, the computer scans the table endlessly - it's got nothing better to do. Naturally, upon program start-up, no one is ready.
 
 
-### 7.2 Queing
+### 7.2 Queuing
 
-You can save yourself a lot of trouble by putting some code in the user controller. Two subroutines: QUE and UNQUE. When a user needs a facility that might be in use by someone else, he calls QUE. If it's available, he gets it. If it's not available, he joins the que of people waiting for it. When it is released, and his turn, he will get it.
+You can save yourself a lot of trouble by putting some code in the user controller. Two subroutines: QUEUE and UNQUEUE. When a user needs a facility that might be in use by someone else, he calls QUEUE. If it's available, he gets it. If it's not available, he joins the queue of people waiting for it. When it is released, and his turn, he will get it.
 
-For example, he can't read disk if someone else if reading disk. Or at least he can't use a particular channel or device. While he's waiting, of course he relinquishes control. When he's through with the facility, he calls UNQUE which passes it to someone else.
+For example, he can't read disk if someone else if reading disk. Or at least he can't use a particular channel or device. While he's waiting, of course he relinquishes control. When he's through with the facility, he calls UNQUEUE which passes it to someone else.
 
 These are extremely valuable routines, for there are many facilities that can be handled in the manner; each disk, each line (shared lines), the printer, block 1 (disk allocation), non-re-entrant routines (SQRT). An extension will even permit exclusive use of blocks.
 
-Naturally, I have in mind a specific way to implement QUE and UNQUE. And I caution you, more strongly than usual, that plausible modifications won't work. I'll try to mention all the reasons.
+Naturally, I have in mind a specific way to implement QUEUE and UNQUEUE. And I caution you, more strongly than usual, that plausible modifications won't work. I'll try to mention all the reasons.
 
-In addition to the user's dictionary address and ready flag, each user must have a link field - not in his dictionary, but in user control. Each facility that is to be protected must have associated with it 2 fields: the owner, and the first person waiting. The best arrangement is to have a table of such que-words, one for each facility. If a facility is free, its owner is 0; otherwise its owner is the number of the user owning it. A user's number is his position in the table of users, starting at 1. If no one is waiting, a facility's waiter field is 0; otherwise it is the number of the user waiting.
+In addition to the user's dictionary address and ready flag, each user must have a link field - not in his dictionary, but in user control. Each facility that is to be protected must have associated with it 2 fields: the owner, and the first person waiting. The best arrangement is to have a table of such queue-words, one for each facility. If a facility is free, its owner is 0; otherwise its owner is the number of the user owning it. A user's number is his position in the table of users, starting at 1. If no one is waiting, a facility's waiter field is 0; otherwise it is the number of the user waiting.
 
 If I want a facility and its free:
 
@@ -1513,19 +1513,19 @@ If someone's waiting:
 
 -   I follow the chain of links starting at the waiter's link field until I find a 0 link; I place my number there, 0 my link field, and relinquish control.
 
-When I'm through with a facility (UNQUE):
+When I'm through with a facility (UNQUEUE):
 
 -   IF no one's waiting, I 0 the owner field, and exit.
 -   If someone's waiting, I move his number to the owner field, move his link field to the waiter field, mark him ready, and exit.
 
-The whole procedure is simple and efficient. It handles a lot of potential problems in a reasonable and effective way. Several comments: The ques will probably be very short. In fact, facilities will usually be free, unless the computer is over-loaded. A user can not be in more than one que. However, a user can own more than one facility. Hence the need for a waiter field with each facility: a que must descend from each facility, and not from each owner; the two concepts are independent. You must add to the error routine a loop to release any facilities held by the current user. Since a user needs to know his own number in order to que, this number must be stored in a field in his dictionary, and be set by the re-initialize routine.
+The whole procedure is simple and efficient. It handles a lot of potential problems in a reasonable and effective way. Several comments: The queues will probably be very short. In fact, facilities will usually be free, unless the computer is over-loaded. A user can not be in more than one queue. However, a user can own more than one facility. Hence the need for a waiter field with each facility: a queue must descend from each facility, and not from each owner; the two concepts are independent. You must add to the error routine a loop to release any facilities held by the current user. Since a user needs to know his own number in order to queue, this number must be stored in a field in his dictionary, and be set by the re-initialize routine.
 
 It's complicated, it's troublesome, and it's the price you must pay for multiple users.
 
 
 #### 7.2.1 Exclusive use of blocks
 
-To gain exclusive use of a block, with the exception of block 1, best handled as an exception, set aside some facility que-words for this purpose. Find a free one and store the block number it represents somewhere, then treat that block like any other facility. When the last waiter releases the block, release the facility que-word for re-use. Notice that this technique has no effect upon the block itself. It may be resident in core, or not. Anyone may read or write it. However, no one else may have exclusive use of it. If all users cooperate to request exclusive use when the should, it works perfectly - with no extra cost to ordinary reads/writes. Actually, exclusive use of a block is necessary only under exceptional circumstances. Block 1 is an example of such: The block may not be used by anyone else until another block has been read, and the available space up-dated.
+To gain exclusive use of a block, with the exception of block 1, best handled as an exception, set aside some facility queue-words for this purpose. Find a free one and store the block number it represents somewhere, then treat that block like any other facility. When the last waiter releases the block, release the facility queue-word for re-use. Notice that this technique has no effect upon the block itself. It may be resident in core, or not. Anyone may read or write it. However, no one else may have exclusive use of it. If all users cooperate to request exclusive use when the should, it works perfectly - with no extra cost to ordinary reads/writes. Actually, exclusive use of a block is necessary only under exceptional circumstances. Block 1 is an example of such: The block may not be used by anyone else until another block has been read, and the available space up-dated.
 
 
 ### 7.3 Private dictionaries
@@ -1545,7 +1545,7 @@ It would appear that you want the system dictionary as large as possible to avoi
 
 establishing the words GET and RELEASE with the code identified in the 17th and 18th table positions. Library subroutines (FORTRAN arithmetic subroutines) might be treated similarly.
 
-Incidently, this illustrates a general method of protection: In addition to using a word, the user must define it correctly. Clearly you can cascade the process. The value of such protection against malicious mischief depends on secrecy, which is always the ultimate protection. However even in the absence of secrecy, it provides valuable protection against inadvertant damage.
+Incidentally, this illustrates a general method of protection: In addition to using a word, the user must define it correctly. Clearly you can cascade the process. The value of such protection against malicious mischief depends on secrecy, which is always the ultimate protection. However even in the absence of secrecy, it provides valuable protection against inadvertent damage.
 
 
 #### 7.3.2 Memory protection
@@ -1578,7 +1578,7 @@ For example, if we have compiled code in the parameter area, an absolute user di
 
 To avoid impossible difficulties, you should be careful to write your single-user program with the following constraints:
 
--   Reserve an index register for a user pointer, the origin of the user's dictionary, andd *use* this index. That is, treat the dictionary as relative, even though you needn't.
+-   Reserve an index register for a user pointer, the origin of the user's dictionary, and *use* this index. That is, treat the dictionary as relative, even though you needn't.
 -   Make all code re-entrant. At least all code within which a user might relinquish control - which turns out to be most code.
 
 Do this if you have the slightest intention of implementing a many-user version. This violates the Basic Principle, but we're dealing with such basic issues as to be worth it.
