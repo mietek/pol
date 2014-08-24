@@ -223,7 +223,7 @@ Finally, you must translate your program into a particular language. You encount
 
 I'll have a bit more to say about languages, but mostly we'll stay at the most abstract level - talking computerese. We won't be talking in meta-language exclusively. I may tell you to load an index-register or to jump on negative and you'll have to translate that into the equivalent for your computer and language.
 
-Now let's look at the major failing of higher-level languages. In attempting to achieve machine-independence and to be applicable to a wide range of applications, they only give you acess to a fraction of the capabilities of your computer. If you compare the number of loop control instructions on your computer to the number of loop constructs in your language, you'll see what I mean.
+Now let's look at the major failing of higher-level languages. In attempting to achieve machine-independence and to be applicable to a wide range of applications, they only give you access to a fraction of the capabilities of your computer. If you compare the number of loop control instructions on your computer to the number of loop constructs in your language, you'll see what I mean.
 
 Let me indulge in a 1-sentence characterization of 3 popular languages to illustrate their restricted capabilities:
 
@@ -239,7 +239,7 @@ Moreover, none of these languages are very good at moving things around. Most st
 
 You will have to code in assembler! Not the whole program, if you insist, but the important parts that we'll be concentrating on. You might be able to do some of these in FORTRAN, but it simply isn't worth the effort. I'll show you where higher-level subroutines can go, and I think you'll agree there is good reason to restrict them to that function.
 
-I recognise the drawbacks of assembler and chafe at them as much as anyone. I don't like to punch and debug 10 times as many cards either. But I will in order to get the performance I need. By the way, I will use the word "compiler" to include assembler; we will *compile* an assembly language program.
+I recognize the drawbacks of assembler and chafe at them as much as anyone. I don't like to punch and debug 10 times as many cards either. But I will in order to get the performance I need. By the way, I will use the word "compiler" to include assembler; we will *compile* an assembly language program.
 
 Later I'll show you how to write a program in a forgotten language: machine language. By that I mean sitting at the console and entering absolute, binary instructions with the switches. Depending on the hardware and software available, and the nature of your application, it may just be the best language of all.
 
@@ -255,7 +255,7 @@ Instead of running applications in serial on a small computer, you can run them 
 
 ### 2.3 Arrangement and formatting
 
-Now I'm goiong to tell you how to write a program. Independent of language or computer. Things you ought to be doing already, but probably aren't because on one ever told you to. Little things. But if you don't do them you won't have a good program; and we're going to write a good program.
+Now I'm going to tell you how to write a program. Independent of language or computer. Things you ought to be doing already, but probably aren't because on one ever told you to. Little things. But if you don't do them you won't have a good program; and we're going to write a good program.
 
 Remember the Basic Principle! If you didn't read the [Introduction](#1-introduction), do it now.
 
@@ -265,7 +265,7 @@ Define everything you can before you reference it. Even in FORTRAN when you don'
 
 Make variables as GLOBAL as possible. Why not? You can save some space and clarify your requirements. For instance, how many Is, Js and Ks do you need? In most cases a single copy in COMMON would suffice (you have to declare them, remember, and may as well put them in COMMON); you can redefine it locally if you must; and it is of interest that you must.
 
-Indent! High-level languages, even modern assemblers, fail to insist that you start in column x. But you do! The unbelievable appeal of a straight left margin! Paper is 2-dimensional. Use it! If you indent all statements inside a loop, it's obvious at a glance the extent of the loop. If you indent conditionally executed statements you'll find that nested conditions sort themselves out - automatically. If you indent little statements you wish you didn't have to include (I = I) you'll find they intrude less as you glance through the listing. Always indent the same amount, 3 spaces/level is good. Be consistant and be accurate. Sloppy indenting is obvious.
+Indent! High-level languages, even modern assemblers, fail to insist that you start in column x. But you do! The unbelievable appeal of a straight left margin! Paper is 2-dimensional. Use it! If you indent all statements inside a loop, it's obvious at a glance the extent of the loop. If you indent conditionally executed statements you'll find that nested conditions sort themselves out - automatically. If you indent little statements you wish you didn't have to include (I = I) you'll find they intrude less as you glance through the listing. Always indent the same amount, 3 spaces/level is good. Be consistent and be accurate. Sloppy indenting is obvious.
 
 
 ### 2.4 Mnemonics
@@ -274,9 +274,9 @@ You will find as you read, that I have strong opinions on some subjects and no o
 
 Use words with mnemonic value. Unfortunately what is mnemonic to you may not be mnemonic to me; and I'm the one who judges. Also unfortunately, mnemonic words tend to be long, which conflicts with:
 
-Use short words. You don't want to type long words, and I don't want to read them. In COBOL this means avoid dashes and avoid qualification, though both can be useful upon occassion.
+Use short words. You don't want to type long words, and I don't want to read them. In COBOL this means avoid dashes and avoid qualification, though both can be useful upon occasion.
 
-So let me suggest a compromise: abbreviate in some consistant fashion and stick to your own rules. I can probably figure out the rules you're using. You might even mention them in a comment.
+So let me suggest a compromise: abbreviate in some consistent fashion and stick to your own rules. I can probably figure out the rules you're using. You might even mention them in a comment.
 
 Use words with the correct grammatical connotations: nouns for variables, verbs for subroutines, adjectives for . . . Do *not* use clever words (GO TO HELL). Their cuteness wears off very fast and their mnemonic value is too subjective. Besides they offer an unwanted insight into your personality.
 
