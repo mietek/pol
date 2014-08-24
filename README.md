@@ -18,90 +18,82 @@
 
 *June 1970*
 
-*Contents*
-----------
 
-1.  Introduction
-    1.  Basic Principle
-    2.  Preview
+## Contents
 
-2.  Programs without input
-    1.  Choosing a language
-    2.  Choosing a computer
-    3.  Arrangement and formatting
-    4.  Mnemonics
-    5.  Routines and subroutines
+-   [1. Introduction](#1-introduction)
+    -   [1.1 The Basic Principle](#11-the-basic-principle)
+    -   [1.2 Preview](#12-preview)
+-   [2. Programs without input](#2-programs-without-input)
+    -   [2.1 Choosing a language](#21-choosing-a-language)
+    -   [2.2 Choosing a computer](#22-choosing-a-computer)
+    -   [2.3 Arrangement and formatting](#23-arrangement-and-formatting)
+    -   [2.4 Mnemonics](#24-mnemonics)
+    -   [2.5 Routines and subroutines](#25-routines-and-subroutines)
+-   [3. Programs with input](#3-programs-with-input)
+    -   [3.1 Nouns and verbs](#31-nouns-and-verbs)
+    -   [3.2 Control loop](#32-control-loop)
+    -   [3.3 Word subroutine](#33-word-subroutine)
+        -   [3.3.1 Message I/O](#331-message-io)
+        -   [3.3.2 Moving characters](#332-moving-characters)
+    -   [3.4 Decimal conversion](#34-decimal-conversion)
+        -   [3.4.1 Numbers](#341-numbers)
+        -   [3.4.2 Input conversion](#342-input-conversion)
+        -   [3.4.3 Output conversion](#343-output-conversion)
+    -   [3.5 Stacks](#35-stacks)
+        -   [3.5.1 Return stack](#351-return-stack)
+        -   [3.5.2 Parameter stack](#352-parameter-stack)
+    -   [3.6 Dictionary](#36-dictionary)
+        -   [3.6.1 Entry format](#361-entry-format)
+        -   [3.6.2 Search strategies](#362-search-strategies)
+        -   [3.6.3 Initialization](#363-initialization)
+    -   [3.7 Control language example](#37-control-language-example)
+-   [4. Programs that grow](#4-programs-that-grow)
+    -   [4.1 Adding dictionary entries](#41-adding-dictionary-entries)
+    -   [4.2 Deleting entries](#42-deleting-entries)
+    -   [4.3 Operations](#43-operations)
+    -   [4.4 Definition entries](#44-definition-entries)
+        -   [4.4.1 Defining a definition](#441-defining-a-definition)
+        -   [4.4.2 Executing a definition](#442-executing-a-definition)
+        -   [4.4.3 Conditions](#443-conditions)
+        -   [4.4.4 Loops](#444-loops)
+        -   [4.4.5 Implementation](#445-implementation)
+    -   [4.5 Code entries](#45-code-entries)
+-   [5. Programs with memory](#5-programs-with-memory)
+    -   [5.1 Organization of disk](#51-organization-of-disk)
+        -   [5.1.1 Getting blocks](#511-getting-blocks)
+        -   [5.1.2 Releasing blocks](#512-releasing-blocks)
+        -   [5.1.3 Reading and writing disk](#513-reading-and-writing-disk)
+    -   [5.2 Text on disk](#52-text-on-disk)
+        -   [5.2.1 Text editing](#521-text-editing)
+-   [6. Programs with output](#6-programs-with-output)
+    -   [6.1 Output routines](#61-output-routines)
+    -   [6.2 Acknowledgement](#62-acknowledgement)
+    -   [6.3 Character strings](#63-character-strings)
+    -   [6.4 Field entries](#64-field-entries)
+-   [7. Programs that share](#7-programs-that-share)
+    -   [7.1 Non-user activities](#71-non-user-activities)
+        -   [7.1.1 Message handling](#711-message-handling)
+        -   [7.1.2 User control](#712-user-control)
+    -   [7.2 Queing](#72-queing)
+        -   [7.2.1 Exclusive use of blocks](#721-exclusive-use-of-blocks)
+    -   [7.3 Private dictionaries](#73-private-dictionaries)
+        -   [7.3.1 Controlled access](#731-controlled-access)
+        -   [7.3.2 Memory protection](#732-memory-protection)
+    -   [7.4 Disk buffers](#74-disk-buffers)
+    -   [7.5 User swapping](#75-user-swapping)
+-   [8. Programs that think](#8-programs-that-think)
+    -   [8.1 Word dissection](#81-word-dissection)
+    -   [8.2 Level definitions](#82-level-definitions)
+    -   [8.3 Infinite dictionary](#83-infinite-dictionary)
+    -   [8.4 Infinite memory](#84-infinite-memory)
+-   [9. Programs that bootstrap](#9-programs-that-bootstrap)
+    -   [9.1 Getting started](#91-getting-started)
+    -   [9.2 Roots](#92-roots)
+    -   [9.3 Branches](#93-branches)
 
-3.  Programs with input
-    1.  Nouns and verbs
-    2.  Control loop
-    3.  Word subroutine
-        1.  Message I/O
-        2.  Moving characters
 
-    4.  Decimal conversion
-        1.  Numbers
-        2.  Input conversion
-        3.  Output conversion
-
-    5.  Stacks
-        1.  Return stack
-        2.  Parameter stack
-
-    6.  Dictionary
-        1.  Entry format
-        2.  Search strategy
-        3.  Initialization
-
-    7.  Control language - an example
-
-4.  Programs that grow
-    1.  Adding dictionary entries
-    2.  Deleting entries
-    3.  Operations
-    4.  Definition entries
-        1.  Conditions
-        2.  Loops
-
-    5.  Code entries
-
-5.  Programs with memory
-    1.  Organization of disk
-        1.  Getting blocks
-        2.  Releasing blocks
-        3.  Reading and writing
-
-    2.  Text on disk
-        1.  Text editing
-
-6.  Programs with output
-    1.  Output routines
-    2.  Character strings
-    3.  Field entries
-
-7.  Programs that share
-    1.  User control
-        1.  Non-user activities
-        2.  Message handling
-
-    2.  Queing
-    3.  Private dictionaries
-        1.  Memory protection
-        2.  Controlled access
-
-    4.  Disk buffers
-    5.  User swapping
-
-8.  Programs that think
-    1.  Word dissection
-    2.  Level definitions
-    3.  Infinite dictionary
-    4.  Infinite memory
-
-Dates
-
-1. *Introduction*
------------------
+## 1. Introduction
 
 I'm not sure why you're reading this book. It's taken me a while to discover why I'm writing it. Let's examine the title: *Programming a Problem-Oriented-Language*. The key word is programming. I've written many programs over the years. I've tried to write *good* programs, and I've observed the manner in which I write them rather critically. My goal has been to decrease the effort required and increase the quality produced.
 
@@ -115,8 +107,8 @@ Back to the title. What about Problem-Oriented-Language? I didn't start out to w
 
 A problem-oriented-language is a language tailored to a particular application. To avoid that uniquely clumsy term, I'll usually substitute *application language* as synonymous. Very often such a language isn't recognised for what it is. For instance, if your program reads a code in column 80 to identify an input card, you are implementing an application language. A very crude one, a very awkward one; mostly because you hadn't given the matter any thought. Recognising the problem, I'm sure you can design a better solution. This book will show you how.
 
-1.1 *The Basic Principle*
--------------------------
+
+### 1.1 The Basic Principle
 
 We have a large number of subjects to talk about. I'm going to throw before you a lot of techniques that you may be able to use. This is basically the result of the nature of a digital computer: a general purpose tool for processing information.
 
@@ -156,8 +148,8 @@ So if you want to read double-precision, complex integers; don't rely on the COB
 
 But suppose everyone wrote their own subroutines? Isn't that a step backward; away from the millenium when our programs are machine independent, when we all write in the same language, maybe even on the same computer? Let me take a stand: I can't solve the problems of the world. With luck, I can write a good program.
 
-1.2 *Preview*
--------------
+
+### 1.2 Preview
 
 I'm going to tell you how to write a program. It is a specific program; that is, a program with a specific structure and capabilities. In particular, it is a program that can be expanded from simple to complex along a well defined path, to handle a wide range of problems, likewise varying from simple to complex. One of the problems it considers is exactly the problem of complexity. How can you control your program so that it doesn't grow more complicated than your application warrants?
 
@@ -179,8 +171,8 @@ I've gone to some lengths to simplify. I hope that you don't find too many viola
 
 You will notice a lack of flow-charts. I've never liked them, for they seem to include a useless amount of information - either too little or too much. Besides they imply a greater rigidity in program structure than usually exists. I will be quite specific about what I think you should do and how you should do it. But I will use words, and not diagrams. I doubt that you would give a diagram the attention it deserved, anyway. Or that I would in preparing it.
 
-2. *Programs without input*
----------------------------
+
+## 2. Programs without input
 
 The simplest possible program is one that has no input. That is a somewhat foolish statement, but if you'll give me a chance to explain we can establish some useful definitions.
 
@@ -207,8 +199,8 @@ But I'll be viewing programs from the input side. I'll be ranking programs accor
 
 Since I'm going to be talking about input, a program without input leaves me nothing to talk about. But I want to make some points about programs in general, so I'll make them here. For one thing, we will be climbing a tree. When we reach the higher branches we'll have enough trouble keeping our balance without worrying about the roots.
 
-2.1 *Choosing a language*
--------------------------
+
+### 2.1 Choosing a language
 
 We shall be less interested in computer language than most programmers. For 3 reasons: First, we will eventually define our own application-oriented language. How we implement that language is of lesser concern. Second, you probably aren't in a position to pick a language. Your installation probably has reduced your choice to nil. Third, we won't be talking about problems at the language level.
 
@@ -242,8 +234,8 @@ I recognise the drawbacks of assembler and chafe at them as much as anyone. I do
 
 Later I'll show you how to write a program in a forgotten language: machine language. By that I mean sitting at the console and entering absolute, binary instructions with the switches. Depending on the hardware and software available, and the nature of your application, it may just be the best language of all.
 
-2.2 *Choosing a computer*
--------------------------
+
+### 2.2 Choosing a computer
 
 Of course I don't expect that you're in a position to choose a computer. Nor am I going to discuss hardware at all. But I do have a mental image of the kind of computer, and explaining it may help you understand some of my comments.
 
@@ -251,8 +243,8 @@ Most applications can be programmed very nicely on a small computer: say 4K of 1
 
 Instead of running applications in serial on a small computer, you can run them in parallel on a large one. I see no advantage, for the amount of core and disk you can afford to use for a single application is about that available on a small computer. You don't gain speed, you suffer from a complex operating system, and you have a enormous capital investment. But the configuration I have in mind remains the same: 4K of core, secondary memory and input/output device.
 
-2.3 *Arrangement and formatting*
---------------------------------
+
+### 2.3 Arrangement and formatting
 
 Now I'm goiong to tell you how to write a program. Independent of language or computer. Things you ought to be doing already, but probably aren't because on one ever told you to. Little things. But if you don't do them you won't have a good program; and we're going to write a good program.
 
@@ -266,8 +258,8 @@ Make variables as GLOBAL as possible. Why not? You can save some space and clari
 
 Indent! High-level languages, even modern assemblers, fail to insist that you start in column x. But you do! The unbelievable appeal of a straight left margin! Paper is 2-dimensional. Use it! If you indent all statements inside a loop, it's obvious at a glance the extent of the loop. If you indent conditionally executed statements you'll find that nested conditions sort themselves out - automatically. If you indent little statements you wish you didn't have to include (I = I) you'll find they intrude less as you glance through the listing. Always indent the same amount, 3 spaces/level is good. Be consistant and be accurate. Sloppy indenting is obvious.
 
-2.4 *Mnemonics*
----------------
+
+### 2.4 Mnemonics
 
 You will find as you read, that I have strong opinions on some subjects and no opinion of others. Actually I have strong opinions on all, but sometimes I can't make up my mind which to express. Fortunately it leaves you some decisions to make for yourself.
 
@@ -291,8 +283,8 @@ What comments should say is *what* the program is doing. I have to figure out *h
 
 Mnemonics apply to variables and labels (You can even get mnemonic value in FORTRAN statement numbers). Where possible you should apply them to registers also. You may do well to assign several names to the same entity, to indicate its current use. However, don't waste effort naming things that don't need names. If you need a counter, use I, J, K; to assign a big name (EXC-CNTR) to an insignificant variable is no help.
 
-2.5 *Routines and subroutines*
-------------------------------
+
+### 2.5 Routines and subroutines
 
 There are two words I need to establish precise definitions for: A *subroutine* is a set of instructions that return from whence they came. A *routine* is a set of instructions that return to some standard place.
 
@@ -316,8 +308,8 @@ Finally, it is important to use registers efficiently. Assign registers for spec
 
 When I say register, I'm obviously thinking assembler. However, you will have to simulate the function of registers with subscripts, etc. in other languages, and the same considerations apply.
 
-3. *Programs with input*
-------------------------
+
+## 3. Programs with input
 
 A program without input is a program with a single task. A program with input may have many tasks, which it will perform as directed by its input. Thus I consider input to be control information, and the control information to define a control language.
 
@@ -327,8 +319,8 @@ This chapter is full of details, more than I anticipated when I started it. Alth
 
 To set the stage, let me briefly outline how our program must operate. You are sitting at a keyboard typing input. You type a string of characters that the computer breaks into words. It finds each word in a dictionary, and executes the code indicated by the dictionary entry, perhaps using parameters also supplied by the entry. The process of reading words, identifying them and executing code for them is certainly not unusual. I am simply trying to systematize the process, to extract the inevitable functions and see that they are efficiently performed.
 
-3.1 *Nouns and verbs*
----------------------
+
+### 3.1 Nouns and verbs
 
 I've mentioned the dictionary and we'll soon examine the details required to implement it. But first I'd like to talk a bit about individual entries to try and give you a feel for what we're doing.
 
@@ -427,8 +419,8 @@ reads: store the address of X in Y; place the address of Y on the stack, fetch i
 
 I hope I've given you some idea of how you can put arguments onto the stack and act on them with verbs. Although I define constants and variables, unary and binary verbs, I hope it's clear that these are only examples. You must define the nouns and verbs and perhaps other kinds of words that are useful for your application. In fact, I think that is what programming is all about. If you have available a program such as I will now describe, once you decide what entries an application requires, you'll find it absolutely trivial to code those entries, and thus complete your problem.
 
-3.2 *Control loop*
-------------------
+
+### 3.2 Control loop
 
 Our program has a structure that is easy to miss: it is a single loop. However, it is a loop that is diffuse - scattered among all the code in the program. Very few instructions are gathered together to form an identifiable loop, so the loop warrants some explanation.
 
@@ -450,8 +442,8 @@ Of course you want to be careful not to pose the user problems he can't solve. F
 
 By the way. Since you don't check the stack until after you executed a routine, it will exceed stack limits before you know it. Thus stack overflow and underflow should be non-fatal. A good solution is to let the parameter stack overflow into the return stack, and underflow into the message buffer. The return stack should never underflow.
 
-3.3 *Word subroutine*
----------------------
+
+### 3.3 Word subroutine
 
 I've described the control loop that will run our program. The first thing it does is to read a word; so the first thing we shall discuss is how to read a word.
 
@@ -469,8 +461,8 @@ Words are bounded by spaces. You can probably find objections to such a simple d
 
 -   1,000 1.E-6 I.B.M. B&O 4'3" $4.95
 
-3.3.1 *Message I/O*
--------------------
+
+#### 3.3.1 Message I/O
 
 The WORD subroutine presumably examines input characters. Where does it get these characters?
 
@@ -492,8 +484,8 @@ However, we do need a switch (1 bit) that states whether the message buffer stil
 
 We need a receive subroutine that will exit when we have a complete input message. Likewise a transmit subroutine that will exit after sending an output message. It should await an acknowledgement if the hardware provides one. Don't try to overlap transmission of one message with preparation of the next. Transmission is so slow and preparation so fast that no noticable increase in speed is available. And it complicates the program considerably.
 
-3.3.2 *Moving characters*
--------------------------
+
+#### 3.3.2 Moving characters
 
 I will speak of fetching and depositing characters several times, mostly concerned with input and output. For example, the WORD subroutine moves characters from the message buffer to a word buffer. A simple task conceptually, but a difficult one to implement. We would have exactly the same problem moving arrays from place to place. But in fact we needn't move arrays and we must move characters.
 
@@ -503,15 +495,15 @@ Depending on your computer, FETCH and DEPOSIT can be veery simple, or extremely 
 
 The input and output pointers use index registers. However, those registers should only be used during a move. They should be loaded prior to a move and saved after it, for they will be used for a number of purposes, and it becomes impractical to store anything there permanently.
 
-3.4 *Decimal conversion*
-------------------------
+
+### 3.4 Decimal conversion
 
 After isolating and aligning a word from the input string, your control loop searches the dictionary for it. If it isn't in the dictionary, it might be a number. A number is a special kind of word that doesn't need a dictionary entry; by examining the word itself we can decide what to do with it. The code executed for a number will place the binary representation of the number onto the stack.
 
 We will discuss the stack in the next section. First let's define a number more precisely.
 
-3.4.1 *Numbers*
----------------
+
+#### 3.4.1 Numbers
 
 It is very hard to state exactly what is a number and what is not. You will have to write a NUMBER subroutine to convert numbers to binary, and this subroutine is the definition of a number. If it can convert a word to binary, that word is a number; otherwise not.
 
@@ -563,8 +555,8 @@ So providing your words are large enough to store the number of decimal places y
 
 Aligning decimal points is easy to visualize, and avoids truncation problems. However you may prefer to align binary points. That is, instead of 3 decimal places, keep 10 binary places to the right of the point. The multiplication and division by 1000 can then be replaced by binary shifts - the equivalent for binary - which are much faster. You must balance the gain in speed against the problem of alignment during conversion (input and output) and truncation during multiplication and division being more subtle. And possibly the difficulty of explaining your arithmetic.
 
-3.4.2 *Input conversion*
-------------------------
+
+#### 3.4.2 Input conversion
 
 Now let's discuss the NUMBER subroutine in detail. First, why is it a subroutine? If you examine the program I've outlined so far, and even the program as augmented by the end of the book, you'll fiind NUMBER is called only once - in the control loop. By my own rules NUMBER should thus be in-line code. However, I can't bring myself to put it in line; the logic in NuMBER is so complex that I want to isolate it away from the control loop, to emphasize its logical function - one purpose of a subroutine - and to reduce confusion in the control loop itself; also I'm never confident that I won't want to call NUMBER from some other routine, in fact I have. But I think that such violations of programming standards should be explicitly recognised.
 
@@ -599,8 +591,8 @@ In NATURAL the number-so-far is multipled by 10. Don't use a litereal 10, but ra
 
 NUMBER should be efficient, at least in recognising words that are not numbers. Not so much because you will use so many numbers, but because you will examine many words that aren't numbers. We will discuss this further in Chapter 8. It is also important that you examine the aligned copy of a word. There are several reasons: to avoid trouble with the input pointer, to guarantee a terminal space. However this creates a problem: the largest number you will use must fit in the aligned word; this may require a longer word than you would otherwise use. A number longer than word-size will have its right-most digits discarded. This will probably not destroy its numeric appearance so that no error will be detected; but the conversion will be incorrect. This problem is not serious, just be aware of it.
 
-3.4.3 *Output conversion*
--------------------------
+
+#### 3.4.3 Output conversion
 
 Numeric output is harder than numeric input because there is an extra step involved. During input, you multiply the number by 10 and add each digit. You can work from left to right. During output, you divide by 10, save the remainder for the digit, and repeat with the quotient until it becomes 0. You get the digits from right to left, but you want to type them from left to right.
 
@@ -623,20 +615,20 @@ Let me acknowledge that if you are going to right-justify numbers you can place 
 
 Depending on your formatting requirements, there are other dictionary entries you might want: A SPACE entry, to space the number of positions on the stack. It can even space backwards - by changing the output pointer - if the stack is negative. This is useful if you want to suppress that space provided by TYPE<sub>B</sub>. A tab entry might calculate the amount to space in order to reach a specific position on the stack.
 
-3.5 *Stacks*
-------------
+
+### 3.5 Stacks
 
 We will be using several push-down stacks and I want to make sure you can implement them. A push-down stack operates in a last-in first-out fashion. It is composed of an array and a pointer. The pointer identifies the last word placed in the array. To place a word onto the stack you must advance the pointer, and store the word (in that order). To take a word off the stack you must fetch the word and drop the pointer (in that order). There is no actual pushing-down involved, though the effect is the same.
 
 A stack pointer is an excellent use for an index register, if you have enough. Indirect addressing is also a possibility, especially if you have an add-to-memory instruction.
 
-3.5.1 *Return stack*
---------------------
+
+#### 3.5.1 Return stack
 
 This stack stores return information. One use is to store the return address for subroutines, when subroutine calls use an index register. The last-in first-out nature of a stack is exactly the behavior required for nested subroutine calls. We will later encounter several other kinds of return inforrmation that can be stored in the same stack. It is important not to attempt to combine the return stack and the parameter stack. They are not synchronized. 8 words is probably enough space for the return stack.
 
-3.5.2 *Parameter stack*
------------------------
+
+#### 3.5.2 Parameter stack
 
 This stack is the one I intend when I say simply stack. Numbers, constants, variables are all placed on this stack, as will be discussed later. This stack is used to pass parameters among routines. Each routine can find its arguments there, regardless of how many other parameters are present, or how long ago they were placed there. You should not implement a parameter stack less than 16 words long.
 
@@ -661,8 +653,8 @@ You may need to control the parameter stack from the input. These words (diction
 -   SWAP exchange the top and lower words.
 -   OVER place the lower word onto the stack; move it over the top word.
 
-3.6 *Dictionary*
-----------------
+
+### 3.6 Dictionary
 
 Every program with input must have a dictionary. Many programs without input have dictionaries. However these are often not recognised as such. A common 'casual' dictionary is a sereies of IF . . . ELSE IF . . . ELSE IF . . . statements, or their equivalent. Indeed this is a reasonable implementation if the dictionary is small (8 entries) and non-expandable.
 
@@ -672,8 +664,8 @@ The most important property of an entry is one that is usually overlooked. Each 
 
 Significantly, the IF . . . ELSE IF construction has the characteristic of associating a routine with each entry.
 
-3.6.1 *Entry format*
---------------------
+
+#### 3.6.1 Entry format
 
 There are 2 distinct ways to organize dictionary entries. The choice may depend upon hardware characteristics, but I recommend the second. A dominant feature of entries is that they have variable length. A part of the entry may be the code to be executed, or parameters or an area of storage, all of which may have arbitrary length.
 
@@ -696,8 +688,8 @@ The parameter field will typically contain 4 kinds of information:
 -   A definition: an array of dictionary entries representing virtual-computer instructions; see 3.9.
 -   Machine instructions: code compiled by your program which is itself executed for this entry. Such data must probably be aligned on word boundary, the other need not.
 
-3.6.2 *Search strategies*
--------------------------
+
+#### 3.6.2 Search strategies
 
 One basic principle applies to dictionary search: it must be backwards - from latest to oldest entries. You have perhaps noticed that the dictionary is *not* arranged in any order (ie. alphabetical) other than that in which entries are made. This permits the same word to be re-defined, and the latest meaning to be obtained. There is no trade-off valuable enough to compromise this property.
 
@@ -711,8 +703,8 @@ The number of chains should be a power of 2: 8 will provide a useful increase in
 
 However, search time is not a important consideration, and I advise against multiple chains unless the dictionary is very large (hundreds of entries).
 
-3.6.3 *Initialization*
-----------------------
+
+#### 3.6.3 Initialization
 
 The dictionary is built into your program and is presumably initialized by your compiler. This is centainly true if you have fixed-size entries. Variable-sized entries must be linked together, however, and this can be beyond the ability of your compiler, especially if you have multiple chains.
 
@@ -722,8 +714,8 @@ This is purely temporary code. Although it may call permanent subroutines to scr
 
 Other things may need initializing, particularly any registers that are assigned specific tasks. All such duties should be concentrated in this one place.
 
-3.7 *Control language, example*
--------------------------------
+
+### 3.7 Control language example
 
 Applications tend to be complicated before they become interesting. But here's a fairly common problem that shows off a control language to advantage. Implementation would be tricky, execution woud be inefficient; but the program would be simple, and its application flexible.
 
@@ -759,8 +751,8 @@ to start over with the original file, and to quit.
 
 Actually many other capabilities could be provided, including the ability to locate specific records and modify them. But rather than design a particular application, I just want to show how nouns and verbs combine to provide great flexibility with a simple program. Notice how even such a simple example uses all our facilities: the word subroutine, the number subroutine, the dictionary, the stack. We're not speculating, we are providing essential code.
 
-4. *Programs that grow*
------------------------
+
+## 4. Programs that grow
 
 So far our dictionary has been static. It contains all the entries you need - placed there when the program was compiled. This need not be. We can define entries that will cause additional entries to be made and deleted. Let me point out why this might be desirable.
 
@@ -778,8 +770,8 @@ Some examples: A simulator does not want a control language. It is important to 
 
 Let me now assume that you have a problem that qualifies for a descriptive language. What dictionary entries do you need?
 
-4.1 *Adding dictionary entries*
--------------------------------
+
+### 4.1 Adding dictionary entries
 
 Let us now assume that you want to expand your dictionary; that you have a sufficiently complex application to justify a specialized language. How do you make a dictionary entry?
 
@@ -818,8 +810,8 @@ and define arithmetic verbs to implement vector arithmetic:
 
 Anything you need for your application you can define. But you can never define everything. Basic Principle!
 
-4.2 *Deleting entries*
-----------------------
+
+### 4.2 Deleting entries
 
 So far we've only discussed defining nouns. Actually you'll be using more verbs than nouns, but they require much longer explanations. Here is one kind of verb.
 
@@ -841,8 +833,8 @@ A convenient way to specify the point you want to delete from is to place a spec
 
 is a defining entry. When you type HERE, it is forgotten; it both marks a place in the dictionary and executes the deleting code. HERE doesn't need a parameter field, unless you use fixed-length entries, whereupon it must save the current value of the parameter pointer. This is our first example of a verb-defining entry.
 
-4.3 *Operations*
-----------------
+
+### 4.3 Operations
 
 Recall that the stack is where arguments are found. There are some words you may want to define to provide arithmetic capabilities. They are of little value to a control language, but essential to add power to it. I'll use logical constructs TRUE (1) and FALSE (0). And remember the definition of top and lower from 3.6.
 
@@ -903,8 +895,8 @@ Do not bother with mixed-mode arithmetic. You never *need* it, and it's not conv
 
 In general, the number of things you *might* do with numbers increases indefinitely. Many of these are mutually incompatible. Basic Principle!
 
-4.4 *Definition entries*
-------------------------
+
+### 4.4 Definition entries
 
 I must now describe an entry more complicated than any so far, though not the most complicated that you'll see. It is also exceptional in that it's not optional. For this ability is required for any effective application language: to be able to define one word in terms of others. To abbreviate, if you will. You recall that I characterised words as being simple in themselves, but powerful in combination. Well here is a way to combine words.
 
@@ -936,8 +928,8 @@ Notice that if the code executed for words is long compared to the control loop,
 
 I suggest that you compromise. Code the computation-limited portions of your problem and use definitions for the rest. The use of definitions to control, rather than perform, calculations is inexpensive. And the ease of constructing them reduces the time and effort, and thus cost, of implementation.
 
-4.4.1 *Defining a definition*
------------------------------
+
+#### 4.4.1 Defining a definition
 
 The defining entry ":" acts just like any other. It passes the address EXECUTE to the ENTRY subroutine. I'll discuss that code in the next section.
 
@@ -969,8 +961,8 @@ Here I redefine the = verb to operate upon arguments in the opposite order. I co
 
 In any case, the capability is easy to provide. Let ":" bugger the search so the latest entry cannot be found. And let ";" unbugger the search and thereby activate the new definition. If you want recursive definitions, you could provide a defining entry ":R" that did not bugger, providing you make ";" work for both. I'll mention another technique later.
 
-4.4.2 *Executing a definition*
-------------------------------
+
+#### 4.4.2 Executing a definition
 
 I named the code executed for a definition EXECUTE. It must modify the instruction-fetch circuitry of the virtual computer.
 
@@ -988,8 +980,8 @@ One more routine is involved in this process. The code executed for ";" must ret
 
 That's all there is to it. The combination of EXECUTE, NEXT<sub>I</sub> and ";" provide a powerful and efficient subroutine facility. Notice that the code "executed" for a definition might actually be compiled, depending on the field STATE, as dicussed earlier. Notice also that the entries executed by a definition might compile other entries. That is, one entry might deposit numbers in the dictionary, using DP. Thus although the fields IC and DP are similar in use, DP deposits entries and IC fetches them, they may both be in use at the same time. If you're short of index registers, don't try to combine them.
 
-4.4.3 *Conditions*
-------------------
+
+#### 4.4.3 Conditions
 
 Let me review briefly the process of defining a definition: The word ":" sets a switch that modifies the control loop; it will now compile words instead of executing them. The word ";" is compiled, but also causes the switch to be reset, ending the process of compilation. Following words will now be executed as usual.
 
@@ -1052,8 +1044,8 @@ the statement works as follows: if a is true, -IF will jump; if b is true, -if w
 
 This is a slightly clumsy statement, but I've found no simpler solution. If you used them regularly, you'd doubtless acquire facility, and it would seem quite natural. Just watch that you match all IFs. Moreover the same technique could be applied to more complex logical expressions - with even greater clumsiness.
 
-4.4.2 *Loops*
--------------
+
+#### 4.4.4 Loops
 
 I'll continue with a couple more examples of words executed at definition time. This time examples of backward jumps, used to construct loops.
 
@@ -1085,8 +1077,8 @@ Naturally loops can be counted backwards, or indeed many other methods of modify
 
 A refinement of DO . . . CONTINUE is not difficult. If the arguments are equal to start with, DO can generate a conditional forward jump that CONTINUE will fix-up. Thus you may do a loop *no* times. However, such loops are the exception; but if you encounter one, you'll find the conditional statement required to protect it most awkward.
 
-4.4.3 *Implementation*
-----------------------
+
+#### 4.4.5 Implementation
 
 I hope you now appreciate the need for words that are executed at define time. I'm sure you're aware of the need for branches and loops. Perhaps you'll notice that I did not mention labels; the branch generating words I mentioned, and others you can invent, are perfectly capable of handling jumps without labels. You saw in the definition of HERE how the stack can be manipulated to permit overlapping jumps as well as nested ones. However in a sense we have many labels, for every dictionary entry effectively assigns a name to a piece of code.
 
@@ -1101,8 +1093,7 @@ For a given entry, 'or' the switch and flag together; if either is 1, execute th
 
 The above rule is correct, and even fairly efficient. Remember that we want the control loop efficient! And it's adequate providing all words that must be executed are built into your system dictionary. Unfortunately, it's not adequate for the examples I gave above, which probably means it's inadequate, since those were pretty simple examples. But complication is part of the fun of programming. So pay attention and I'll try to explain some problems I don't understand very well myself.
 
-Editor: I don't understand my concern about SWAP below. The word ! did not endure. Don't try to reconcile what I said. I can't.
--------------------------------------------------------------------------------------------------------------------------------
+> I don't understand my concern about SWAP below. The word ! did not endure. Don't try to reconcile what I said. I can't.
 
 Consider the definition of HERE I gave above:
 
@@ -1132,8 +1123,8 @@ and it will work. I'll review the rules:
 
 Now the restriction I mentioned should be apparant. A literal cannot be made imperative with a "!" because it's a double-length instruction - and the "!" code has no way of knowing that. Oh well, we could set a field to indicate the length of the last compiled instruction, but it's not that great a problem. Besides, in that case successive !s wouldn't work.
 
-4.5 *Code entries*
-------------------
+
+### 4.5 Code entries
 
 I've explained definitions and how they, in effect, compile instructions for the virtual-computer. What about compiling code for your real computer then? Of course you can. But you probably won't.
 
@@ -1181,8 +1172,8 @@ One more suggestion might prove helpful. You might define a new kind of constant
 
 I'm sorry, but I think it's infeasible to attempt an example. If you can't see how to construct your own code entries from what I've already said, forget it. The application is extremely machine dependent - and rightly so. Don't attempt to apply the same code to several computers; definitions already do that for you. The purpose of code is to exploit the properties of your particular computer.
 
-5. *Programs with memory*
--------------------------
+
+## 5. Programs with memory
 
 You may perhaps grant the value of a program that grows, without being willing to provide the volume of input required. Naturally it does little good to have a hundred dictionary entries if you must type every one. Obviously we need a place to save entries and obviously that place is disk (or drum, or other random secondary memory).
 
@@ -1190,8 +1181,8 @@ What is not obvious is how to store entries. It ought to be a Second Principle t
 
 Fortunately there is a solution. Store on disk the text from which dictionary entries are constructed. It is a simple matter to divert the input routine from reading your message buffer to reading disk. This chapter will show how.
 
-5.1 *Organization of disk*
---------------------------
+
+### 5.1 Organization of disk
 
 There is only one way to organize disk. In the same way that core is divided into a large number of words, disk must be divided into a large number of blocks. In the same way that words are the smallest field that can be fetched from core, blocks are the smallest field that can be fetched from disk. A block contains 256 words.
 
@@ -1199,8 +1190,8 @@ A block contains 256 words because that is the size of a 1-byte address, and bec
 
 However, here is another instance in which your application and hardware must play a dominant role. Disks usually have a hardware block-size that offers advantages. You must choose a multiple of that. Your application may involve storing data on disk, and you must choose a block size useful for data as well as text. I say no less than 512 characters nor more than 1024. 128 word blocks have recently been mentioned; fine if the words are 6 or 3 bytes (characters).
 
-5.1.1 *Getting blocks*
-----------------------
+
+#### 5.1.1 Getting blocks
 
 In trying to anticipate the organization of a random file, certain principles are obvious. Cross-references between blocks will probably be wanted. Such references are simple if they use absolute block addresses; extremely clumsy otherwise. We may use absolute addresses if we promise never to move a block. This means we can never pack disk. We agree cheerfully because we didn't want to pack disk anyway.
 
@@ -1216,8 +1207,8 @@ So when you need a block, you type a word (GET) which reads block 1, places the 
 
 Several comments: Notice that GET places its result on the stack - the logical place where it is available for further use. Notice that blocks are re-used in preference to expanding the disk used. This makes sense except for the problem of arm motion. Forget arm motion. You just have to live with it. This is, after all, a random memory. Don't neglect clearing the block to 0.
 
-5.1.2 *Releasing blocks*
-------------------------
+
+#### 5.1.2 Releasing blocks
 
 To release a block, put it on the stack and say RELEASE. It will read block 1, extract the next block for re-use, place the stack there and write block 1; then read the released block and place the old next-block in the first word. All we're doing, of course, in constructing the chain of available blocks used by GET. Possibly the block you release is linked to other blocks. You must release all those, too. A convenient way is to use the first word as a link field. Then the available block chain is the same as any other block chain. To concatenate chains you place the first block in block 1, run down the chain to the last block (0 in link) and place the old next-block in that link.
 
@@ -1227,8 +1218,8 @@ If you have enough different kinds of blocks, it may be useful to store a code i
 
 How many blocks you can have is probably limited by the disk, however it may be limited by the field you choose to store block addresses in. Be careful! You can circumvent the first limit by modifying your read subroutine to choose one of several disks. You must re-format all your block addresses (cross-references on disk, remember) to expand the second.
 
-5.1.3 *Reading and writing disk*
---------------------------------
+
+#### 5.1.3 Reading and writing disk
 
 I'm sure you know how to read disk. However, do not choose a block size that causes the slightest difficulty: like half a block between tracks. If you check the GET routine, you'll see that you'll need 2 blocks in core at once. This is a reasonable minimum, it makes it easy to move things from one block to another. However, you'll have lots of core left over and you might as well use it for buffering disk; especially if access time is noticable.
 
@@ -1242,8 +1233,9 @@ If you are going to scan data sequentially, you can save many accesses by readin
 
 You will inevitably spend a lot of effort reading-writing disk. But remember the Basic Principle!
 
-5.2 *Text on disk*
-------------------
+
+### 5.2 Text on disk
+
 You will store a lot of text on disk - hundreds of blocks - but this is probably a small fraction of your disk. The rest is presumably data for your application(s).
 
 A block that contains text (I mean text to be read and executed by your program) contains one long character string. If the first word contains control information, it starts in the second word and extends until a particular word marks the end (perhaps ;S). This end word is important because it is inconvenient to have the input routine test for end-of-block. You quickly learn not to leave that word out.
@@ -1256,8 +1248,8 @@ However . . . there's always a however, isn't there. You must modify your word r
 
 You will find that with text on disk, the original characterization of 'input' as low volume is strained. You will read many words and do many dictionary searches. However, on a microsecond computer, you won't notice it.
 
-5.2.1 *Text editing*
---------------------
+
+#### 5.2.1 Text editing
 
 Never put anything on disk you can't modify! And we haven't discussed how you get text on disk in the first place. Do not load it from cards! You're misdirecting your effort toward card reading, and you had to punch the cards anyway. Type it. The definitions required to edit the text stored in blocks (SCREENs) is simple.
 
@@ -1300,8 +1292,8 @@ If I type 12 D - I want to delete line 12. D must move lines 13-15 up one positi
 
 That's it. With 10 lines of code I can define a text-editor. It's not the most efficient possible, but it's fast enough and illustrates many points: In dealing with small amounts of text, you needn't be clever; let the machine do the work. The verb LINE is an extremely useful one; such useful verbs are invariably an empirical discovery. The verbs ,C and =C are the heart of the method; incidently, they only work on fields less than 64 characters. Notice how one definition wants to reference another (R used by I and D; LINE used by all). Notice how I and D are similar yet different. And notice how a few verbs eliminate a lot of bookkeeping and let you concentrate on the problem and not the details.
 
-6. *Programs with output*
--------------------------
+
+## 6. Programs with output
 
 By now I'm sure you're aware that the heart of your program is its control loop. It not only controls the operation, but also the philosophy and organization of the program. Let me review its operation: it reads a word, finds it in the dictionary and executes its code; failing that it converts it to a binary number and places it onto the stack; failing that it types an error message.
 
@@ -1313,8 +1305,8 @@ Most compilers, and therefore most programmers, regard output the inverse of inp
 
 I maintain that the two processes have nothing in common, that the computer does not prepare output in a manner analogous to you preparing input. In Chapter 8 I'll describe a way your program can compose complex output messages. Although such a technique might provide a 2-way dialog, it has even less similarity to interpreting input.
 
-6.1 *Output routines*
----------------------
+
+### 6.1 Output routines
 
 You will need 3 output subroutines; conceivably you could get by with 2. One to type a number of spaces. One to type a number of characters from a specified location (TYPE<sub>N</sub>). One to type characters until it encounters a space (TYPE<sub>B</sub>) and including the space. This last depends on your dictionary format, for it is used to type entry words. Of course, these should use the fetch and deposit subroutines you use for input.
 
@@ -1322,8 +1314,8 @@ Let us use the composition of an error message as an example. You have just type
 
 After finding an error, you of course quit doing whatever you were doing. There is no point in trying to continue when you're standing by ready to correct and start again. However it is convenient to reset things that you'd probably have to reset anyway. In particular, set the stacks empty. This is sometimes unfortunate since the parameter stack might help you locate an error. But it usually is most convenient. Don't try to reset the dictionary since you're not sure what you may want to reset it to.
 
-6.2 *Acknowledgement*
----------------------
+
+### 6.2 Acknowledgement
 
 I mentioned in Chapter 3 that you must write subroutines to send and receive messages. Now I must expand on exactly how you should use these subroutines.
 
@@ -1350,8 +1342,8 @@ However there are 2 places where source of input is changed. This is in the code
 
 The logic required is summarized in Fig 6.2 and is the price paid for duplexing the message buffer. One final complication concerns EMPTY. If true, it states that input has been destroyed; it does not indicate that output is currently in the message buffer. Output may have been placed there and already sent. If the message buffer is empty, type OK before jumping to QUERY.
 
-6.3 *Character strings*
------------------------
+
+### 6.3 Character strings
 
 Everything isn't easy, and this particular feature is my nemesis. Perhaps a measure of its value is the difficulty of its implementation. A character string is an awkward entity. Mostly because there is nowhere to put it. Numeric literals go on the stack in a most natural fashion. Character strings won't fit, and that isn't what we want to do with them anyway.
 
@@ -1383,8 +1375,8 @@ The problem is to reconcile all the above requirements. Not really to produce op
 
 We've slid into the subject of field descriptors. You might want to type a character field, and of course the same code should work as for string descriptors.
 
-6.4 *Field entries*
--------------------
+
+### 6.4 Field entries
 
 We've talked about the different kinds of numbers you might want, and the different entries these require. However, all these entries dealt with computation. Another kind of entry is useful for more sophisticated output purposes. I call it a field-entry because its most common use is to define a field in a data record.
 
@@ -1402,8 +1394,8 @@ Depending (as usual) you might be able to make @F compatible with @. Or make @ a
 
 Apply the Basic Principle.
 
-7. *Programs that share*
-------------------------
+
+## 7. Programs that share
 
 It is not obvious, but a program orgainzed as we have discussed is ideally suited to handling several users simultaneously. All of the basic problems of interactive processing have been solved by interacting with one user. The organization is such that all data is, or can be, stored in the user's dictionary. To distinguish users merely requires the program recognise the proper dictionary.
 
@@ -1417,8 +1409,8 @@ However there is a cost, primarily of assuring that re-entrant programming rules
 
 Given a successful single-user application, I will show how it can be expanded to many users. If you plan to take this step, there are certain precautions you should take with your original implementation. But mind the Basic Principle!
 
-7.1.1 *Non-user activities*
----------------------------
+
+### 7.1 Non-user activities
 
 Each user has a position in the ready table to identify his status. The computer examines this table to decide what to do next. You may want to add to the ready table entries not associated with users, but representing tasks that must be performed by the computer.
 
@@ -1433,8 +1425,8 @@ If you haven't already noticed, we're now talking about operating systems. I don
 
 Such activities cost little, and usually provide the simplest answer to any asynchronous problem. Mind the Basic Principle, though!
 
-7.1.2 *Message handling*
-------------------------
+
+#### 7.1.1 Message handling
 
 If you can read input from one user, you can read input from many. You must get an interrupt that tells you input is available and from whom it comes. You simple direct it to the proper message buffer. Likewise with output.
 
@@ -1442,8 +1434,8 @@ It needn't be simple, but it certainly depends on hardware exclusively. If you h
 
 If all your users are not core resident, it is better if none of them are. Then any input message can be written into the message buffer area on disk. And all output messages read from disk. The fact that some users might reside in core, causes an unreasonable complication, and the fact that disk access is fast compared to message transmission means that to attempt to save such disk accesses is not efficient.
 
-7.1 *User control*
-------------------
+
+#### 7.1.2 User control
 
 The fact that you have several users creates a new problem. Of course the computer can only process one user at a time (we assume a single processor). But when it's finished with one user, it must switch its attention to another.
 
@@ -1453,8 +1445,8 @@ I want to define a single phrase to cover these situations. I shall say that a u
 
 All right, what happens when a user relinquishes control? The computer simple scans a table of users to see if anyone else is ready. The table contains the address of the user's dictionary and a flag: ready or not? The I/O complete interrupt routines simply mark the proper user ready. And if no one is ready, the computer scans the table endlessly - it's got nothing better to do. Naturally, upon program start-up, no one is ready.
 
-7.2 *Queing*
-------------
+
+### 7.2 Queing
 
 You can save yourself a lot of trouble by putting some code in the user controller. Two subroutines: QUE and UNQUE. When a user needs a facility that might be in use by someone else, he calls QUE. If it's available, he gets it. If it's not available, he joins the que of people waiting for it. When it is released, and his turn, he will get it.
 
@@ -1487,13 +1479,13 @@ The whole procedure is simple and efficient. It handles a lot of potential probl
 
 It's complicated, it's troublesome, and it's the price you must pay for multiple users.
 
-7.4
----
+
+#### 7.2.1 Exclusive use of blocks
 
 To gain exclusive use of a block, with the exception of block 1, best handled as an exception, set aside some facility que-words for this purpose. Find a free one and store the block number it represents somewhere, then treat that block like any other facility. When the last waiter releases the block, release the facility que-word for re-use. Notice that this technique has no effect upon the block itself. It may be resident in core, or not. Anyone may read or write it. However, no one else may have exclusive use of it. If all users cooperate to request exclusive use when the should, it works perfectly - with no extra cost to ordinary reads/writes. Actually, exclusive use of a block is necessary only under exceptional circumstances. Block 1 is an example of such: The block may not be used by anyone else until another block has been read, and the available space up-dated.
 
-7.3 *Private dictionaries*
---------------------------
+
+### 7.3 Private dictionaries
 
 The key to the case of conversion to multiple users is that all required information about a user is stored in his dictionary - a single contiguous area of core. He makes extensive use of code that belongs to the system, and that does not reside in his dictionary. On the other hand, code unique to his application may reside there. Here is the first decision that you must make: What belongs in the user's private dictionary?
 
@@ -1501,8 +1493,8 @@ Let us look at the arrangement of core. If we choose, and we should, it follows 
 
 If you establish several user dictionaries, the first entry in each will link to the system dictionary (Fig 7.1) at the same point.Thus each user is unaware of any other user, and his dictionary search is unaffected.
 
-7.3.2 *Controlled access*
--------------------------
+
+#### 7.3.1 Controlled access
 
 It would appear that you want the system dictionary as large as possible to avoid redundancy. That is not necessarily the case. There are some entries that might go into the system dictionary - except that you specifically want to deny them to some users. Prime examples are the GET and DELETE entries that control disk allocation. Misuse of these words by ignorant users can badly damage data stored on disk. The best solution is to place the code in the system, without a dictionary entry. Define a table of entry points into code of this nature. Then if a user wants to use an entry point, he must first define it, perhaps:
 
@@ -1512,8 +1504,8 @@ establishing the words GET and RELEASE with the code identified in the 17th and 
 
 Incidently, this illustrates a general method of protection: In addition to using a word, the user must define it correctly. Clearly you can cascade the process. The value of such protection against malicious mischief depends on secrecy, which is always the ultimate protection. However even in the absence of secrecy, it provides valuable protection against inadvertant damage.
 
-7.3.1 *Memory protection*
--------------------------
+
+#### 7.3.2 Memory protection
 
 If all users will fit in core simultaneously, we are finished. You divide memory into the appropriate dictionaries. You should provide memory protection so that one user cannot damage another. The stack and dictionary size checking discussed earlier, should be augmented by checks on the = operator, so that a user cannot write outside his dictionary, or outside a block he has read. If you have hardware memory protect, you will find it difficult to take advantage of. The user must be able to read his dictionary, the system dictionary and the block buffers; he must be able to write his dictionary and the block buffers. Several users might want to write the same block buffer; if not simultaneously, at least consecutively. If your hardware can help, it's better than any I've seen. But software protection can be made adequate - except against malicious mischief.
 
@@ -1523,13 +1515,13 @@ If you have implemented fixed-size entries, you have no links to lead to the sys
 
 If you have multiple chains in your dictionary, each chain must jump from the user's to the system dictionary. This is only a problem when re-initializing the dictionary, and can be easily solved by keeping a copy of the chain heads for the system dictionary.
 
-7.4 *Disk buffers*
-------------------
+
+### 7.4 Disk buffers
 
 The fact that you may have several users reading disk simultaneously has no effect at all upon the disk-access subroutine. It can search the block buffers and find an available buffer without concern as to who asked for it. Of course you must have at least as many buffers as users. In fact, all of core not required for dictionaries might as well be devoted to block buffers, as left idle. However, if a block is being read, you should mark the buffer busy some way, so someone else will not assume it's there before it arrives. If you attempt to read a busy block, you should relinquish control and try again when you're re-started.
 
-7.5 *User swapping*
--------------------
+
+### 7.5 User swapping
 
 So far we've had all users resident in core. This is by far the best arrangement for handling a small number of users. The step to allowing more users than can be simultaneously resident is a small one philosophically, but can be very difficult to implement. Suppose we had room for 4 user's dictionaries in core, but we wanted to permit 40 users. Clearly we can store all 40 user dictionaries on disk and load each one into core when he becomes active. Providing disk I/O is substantially faster than message I/O there is not even a performance penalty associated. When a user is awaiting message I/O we write him out to disk. When he completes his message I/O we read him back into core. Naturally, we do not move him from core when he is waiting for disk I/O, since it would take unreasonably long to write him out and read him back compared to the original delay.
 
@@ -1548,8 +1540,8 @@ To avoid impossible difficulties, you should be careful to write your single-use
 
 Do this if you have the slightest intention of implementing a many-user version. This violates the Basic Principle, but we're dealing with such basic issues as to be worth it.
 
-8. *Programs that think*
-------------------------
+
+## 8. Programs that think
 
 The mystery of consciousness has intrigued philosophers for a long time. It now seems apparant that just as life is a result of complex organization, so is consciousness. It is somehow a byproduct of complex interactions among data. Interactions so complex they only occur in mammalian brains.
 
@@ -1559,8 +1551,8 @@ I will describe a number of entries of unusual capability. If you have an applic
 
 I have had all the entries I describe in a single program. This program had less than 1500 instructions so it is practical to include everything in a single program. But I was experimenting, and never found an application that needed a fraction of them.
 
-8.1 *Word dissection*
----------------------
+
+### 8.1 Word dissection
 
 One of the most awkward characteristics of our program is that words must be separated by spaces. Very often you'd like to suffix punctuation or operator without an intervening space. And we will soon add abilities that make prefixing desirable, too.
 
@@ -1596,8 +1588,8 @@ What does word dissection mean to a program? How does it help it 'think'? It mea
 
 I would like to be able to say that this ability will impress people. It will impress you - at least it should. But ordinary people, like your boss, expect this kind of ability from computers. They are only impressed, negatively, if they discover its absence.
 
-8.2 *Level definitions*
------------------------
+
+### 8.2 Level definitions
 
 I am embarrassed not to know the standard terminology for what I am going to discuss. I have never heard it discussed and I have never searched for it. But it must be a standard aspect of compiler writing - discussed in courses dealing with compilers. If you know the terminology, you also know most of what I'm going to say: although I hope I can get you to stretch its application.
 
@@ -1700,8 +1692,8 @@ Keep in mind, that level-entries do not enhance the power of the computer. They 
 
 How does this relate to a program 'thinking'? Solely by deferring to the human-oriented format of control languages. Not even this is impressive to anyone but us! And even how impressed are you by FORTRAN's expression evaluator any longer?
 
-8.3 *Infinite dictionary*
--------------------------
+
+### 8.3 Infinite dictionary
 
 I would guess that your dictionary will average several hundred entries. Even a small amount of data seems to generate a large number of fields - to mention one source. However some applications need much larger vocabularies. Perhaps you need to identify one of 10,000 customers; or maybe you want the symbols for 104 elements available; or the names of 1000 approved additives.
 
@@ -1739,8 +1731,8 @@ For example, stock numbers might look the same for different sales-lines. By set
 
 A problem arises if you plan to dissect words. All those extra dictionary searches are augmented by disk searches and their attendant disk accesses. Several solutions are possible: Scramble with only the first couple of characters, so at least the disk searches are in the same block - which will be in core. Or use only non-zero values of CONTEXT and let 0 inhibit the disk search. That is, make dissection and disk searching mutually exclusive. As is often the case, the problem is serious only if you aren't aware of it.
 
-8.4 *Infinite memory*
----------------------
+
+### 8.4 Infinite memory
 
 Of course you can't really have infinite memory. Not even unlimited memory. But you can access directly the entire random memory available to your computer. A small augmentation of the field entries introduced in Chapter 4 will do it. I postponed the discussion to here because it has no particular connection with output, and because it's impressive enough to relate to 'thinking'.
 
@@ -1776,8 +1768,8 @@ So, we can have automatic access to fields scattered all over disk and in variab
 
 One thing! If field entries can address other field entries, you need some way to distinguish a field from a disk address. I have no suggestion.
 
-9. *Programs that bootstrap*
-----------------------------
+
+## 9. Programs that bootstrap
 
 It's sometimes hard to appreciate how it all gets started. We have been tacitly assuming that your computer has a compiler and that you used it to compile your program. But how did your compiler get written? Today the answer is certainly that it was prepared by another compiler on another computer. We've achieved parity with the biological maxim: all life comes from previously existing life. For practical purposes, all programs are prepared by previously existing programs.
 
@@ -1787,8 +1779,8 @@ In Chapter 1, I discussed the sad state of software quality. Although we can pre
 
 Let us imagine a situation in which you have access to your computer. I mean sole user sitting at the board with all the lights, for some hours at a time. This is admittedly an a-typical situation, but one that can always be arranged if you are competent, press hard, and will work odd hours. Can you and the computer write a program? Can you write a program that didn't descend from a pre-existing program? You can learn a bit and have a lot of fun trying.
 
-9.1 *Getting started*
----------------------
+
+### 9.1 Getting started
 
 First you'll have to know some things: how to turn the computer on and off (odd hours), how to enter and display data from the console switches, and how to avoid damaging data stored on disk. You may have to corner operators or engineers to discover such information; it is so rarely of interest it doesn't get written down.
 
@@ -1800,8 +1792,8 @@ The third entry is DUMP; it will dump core onto the printer. It needn't be very 
 
 So, with a couple hours work - providing you read the manual first - you have an operating system (SAVE, LOAD) and debugging package (DUMP). And you know a lot about your computer.
 
-9.2 *The roots*
----------------
+
+### 9.2 Roots
 
 Lest you worry, I have gone through this process myself. I've done it twice, actually, and I'm not describing it as I did it, but as I now think I should have done it. So you've room for improvisation.
 
@@ -1819,8 +1811,8 @@ Write an entry for ENTRY, the subroutine that constructs dictionary entries. I h
 
 Now define the code-entry, the word that names code; and the deposit word, the word that places the stack in core. Now you can type octal numbers and store them in the dictionary. No more switches. You can also construct new dictionary entries, for code.
 
-9.3 *The branches*
-------------------
+
+### 9.3 Branches
 
 We've reached a milestone. The invisible work is done and we can have a written record of what remains. There are many things to do and the order not so obvious. We've reached the position of having a source language, and we need to be able to modify it and re-compile without re-doing everything. Here we're forced to generate temporary code that will become obsolete, but it will save a lot of effort.
 
