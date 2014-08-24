@@ -799,7 +799,7 @@ There are 2 problems with this situation. Firsts, to add an entry to your dictio
 
 If you can create dictionary entries you can accomplish 2 things: You can apply your program to different aspects of your application - without conflicts and reducing complexity. You can create a dictionary entry differently, and thus correct an error. In fact, the purpose of your program undergoes a gradual but important change. You started with a program that controlled an application. You now have a program that provides the capability to control an application. In effect, you have moved up a level from language to meta-language. This is an extremely important step. It may not be productive. It leads you from talking *to* your application to talking *about* your application.
 
-Another way of viewing the transition is the entries in your dictionary. At first they were words that executed pieces of code that constituted your application program. A purely control function. Now they tend to become words that let you construct your application program. They constsitute a problem-oriented-language. The distinction need not be abrupt but it is irreversible. You change from an application to a system programmer - your system being your application.
+Another way of viewing the transition is the entries in your dictionary. At first they were words that executed pieces of code that constituted your application program. A purely control function. Now they tend to become words that let you construct your application program. They constitute a problem-oriented-language. The distinction need not be abrupt but it is irreversible. You change from an application to a system programmer - your system being your application.
 
 I hesitate to say whether this is good or bad. By now you surely know - it depends on the application. I suspect any application of sufficient complexity, and surely any application of any generality, must develop a specialized language. Not a control language, but a descriptive language.
 
@@ -856,15 +856,15 @@ If you can add entries to your dictionary, eventually you're going to want to ge
 
 There is only one feasible way to delete entries. That is to delete all entries after a certain point. If you were to delete specific entries, you would leave holes in the dictionary, since it occupies contiguous core. If you attempt to pack the dictionary to recover the holes, you are faced with a wicked re-location problem, since we use absolute addresses. To avoid absolute addresses is inefficient and unnecessary.
 
-Deleting trailing entries is a completely satisfactory solution. I know of no argument to prove thie, except to say try it and see. You'll find that, in practice, you add a bunch of entries; find a problem; delete those entries; fix the problem; and reenter all the entries. Or you fill your dictionary for one application; clear it; and re-fill with another application. Or you might re-load the same application just to clear some fields. In each case, you want to get rid of all the latest entries.
+Deleting trailing entries is a completely satisfactory solution. I know of no argument to prove this, except to say try it and see. You'll find that, in practice, you add a bunch of entries; find a problem; delete those entries; fix the problem; and reenter all the entries. Or you fill your dictionary for one application; clear it; and re-fill with another application. Or you might re-load the same application just to clear some fields. In each case, you want to get rid of all the latest entries.
 
 One exception is when you use some entries to construct others. The constructing entries are then no longer needed, and there is no way to get rid of them. It happens; I may even give some examples later. But all you lose is dictionary space, and I can't see a practical solution.
 
-OK, how do you delete trailing entries? You want to mark a point in your dictionary and reset evereything to that position. One thing is the dictionary pointer that identifies the next available word in the dictionary. That's easy. However you must reset the chain heads that identify the previous entry for each of your search chains. It only takes a small loop: follow each chain back, as you do when searching, until you find a link that preceeds your indicated point.
+OK, how do you delete trailing entries? You want to mark a point in your dictionary and reset everything to that position. One thing is the dictionary pointer that identifies the next available word in the dictionary. That's easy. However you must reset the chain heads that identify the previous entry for each of your search chains. It only takes a small loop: follow each chain back, as you do when searching, until you find a link that precedes your indicated point.
 
 If you have fixed-size entries, you must reset the pointer to the parameter area, but you don't have to follow links.
 
-A convenient way to specify the point you want to delete from is to place a special entry there. A verb that will delete itself and evereything following it when you execute it. For example,
+A convenient way to specify the point you want to delete from is to place a special entry there. A verb that will delete itself and everything following it when you execute it. For example,
 
 -   REMEMBER HERE
 
@@ -935,7 +935,7 @@ In general, the number of things you *might* do with numbers increases indefinit
 
 ### 4.4 Definition entries
 
-I must now describe an entry more complicated than any so far, though not the most complicated that you'll see. It is also exceptional in that it's not optional. For this ability is required for any effective application language: to be able to define one word in terms of others. To abbreviate, if you will. You recall that I characterised words as being simple in themselves, but powerful in combination. Well here is a way to combine words.
+I must now describe an entry more complicated than any so far, though not the most complicated that you'll see. It is also exceptional in that it's not optional. For this ability is required for any effective application language: to be able to define one word in terms of others. To abbreviate, if you will. You recall that I characterized words as being simple in themselves, but powerful in combination. Well here is a way to combine words.
 
 A definition consists of a defining entry ":" followed by a series of words terminated by ";". The intention is that the word defined by ":" has the meaning expressed by the words that follow. For example:
 
@@ -943,7 +943,7 @@ A definition consists of a defining entry ":" followed by a series of words term
 
 This is a definition of the word ABS. Its purpose is to take the absolute value of the number on the stack. It does this by executing a series of words that have the proper effect.
 
-You may consider this a rather clumsy definition of ABS. Especially since there is an instruction on your computer that does exactly that. you're quite right, definitions tend to be clumsy. But they let us use words that we hadn't the foresight to provide entries for. Given certain basic words we can construct any entry we need. Definitions provide a succinct distinction betwen a control language and an application language: The control language must have all its capabilities built in; the application language can construct those capabilities it needs.
+You may consider this a rather clumsy definition of ABS. Especially since there is an instruction on your computer that does exactly that. you're quite right, definitions tend to be clumsy. But they let us use words that we hadn't the foresight to provide entries for. Given certain basic words we can construct any entry we need. Definitions provide a succinct distinction between a control language and an application language: The control language must have all its capabilities built in; the application language can construct those capabilities it needs.
 
 To implement definitions is simple, yet awkwardly subtle. The parameter field of a definition contains the addresses of the dictionary entries that define it. You must somehow deposit these entries in the parameter area, and later fetch them when you execute the definition. The complementary processes of definition and execution are more involved than for any other entry we've encountered.
 
@@ -976,13 +976,13 @@ To compile a word is simple. After finding it in the dictionary, you have the ad
 
 All right, so much for compiling words. What about numbers? A number presented to a compiler is called a literal. And literals are a problem to any compiler. Fortunately we can define our virtual computer so that it can handle literals in-line. You must again modify the control loop to test STATE when a number is successfully converted.
 
-Before showing how to compile a number, let me define pseudo-entries. A pseudo-entry is a dictionary entry that is not in the dictionary. That is, it has the format of an entry but it is not linked to other entries. Thus it would never be found during a dictionary search. You see, we occassionally need entries to permit the virtual computer to run smoothly, but we don't want to slow the dictionary search by including non-referencable entries.
+Before showing how to compile a number, let me define pseudo-entries. A pseudo-entry is a dictionary entry that is not in the dictionary. That is, it has the format of an entry but it is not linked to other entries. Thus it would never be found during a dictionary search. You see, we occasionally need entries to permit the virtual computer to run smoothly, but we don't want to slow the dictionary search by including non-referable entries.
 
 As you've probably guessed, in order to compile a literal you compile a pseudo-entry. You then follow it by the number itself; that is, you compile the number also. The result is a double-length virtual-computer instruction. The code executed for the pseudo-entry must fetch the number and place it onto the stack. Thus literals that are compiled have the same effect, when executed, as if they were executed immediately.
 
 Notice that if you have different-size literals, you'll need different pseudo-entries for them And having brought up the subject, let me discuss word length a moment. Word length for the virtual computer should be about 12 bits. This is because each instruction is composed of simply a dictionary address and 12 bits is enough to identify one of perhaps 1000 entries. If your real computer word length is longer than 18 bits you should pack several virtual-computer instructions into one word. This is possibly awkward, since you must modify DP to address other than a real computer word. But you'll save a lot of space.
 
-Incidently, since literals require extra space when compiled, you might define commonly used literals as words:
+Incidentally, since literals require extra space when compiled, you might define commonly used literals as words:
 
 -   1 CONSTANT 1
 
@@ -990,7 +990,7 @@ Recall that numbers may be words, since the dictionary is searched before numeri
 
 The code in the control loop that compiles words much watch for ";". It is compiled as usual, but it also resets STATE to prevent further compiling. It also performs another task, which requires a digression.
 
-Notice that when we're compiling a definition we're searching the dictionary for each word. If we reference the word we've just defined, we'll find it. Thus we'll have made a recursive reference. If you want recursive definitions, fine. However it's extrememly convenient to exchange recursion for re-definition. That is, to understand a reference to itself inside a definition to refer to an earlier definition. For example,
+Notice that when we're compiling a definition we're searching the dictionary for each word. If we reference the word we've just defined, we'll find it. Thus we'll have made a recursive reference. If you want recursive definitions, fine. However it's extremely convenient to exchange recursion for re-definition. That is, to understand a reference to itself inside a definition to refer to an earlier definition. For example,
 
 -   : = SWAP = ;
 
@@ -1009,13 +1009,13 @@ Thus you need a variable that identifies the routine to be entered for the next 
 
 Of course NEXT<sub>I</sub> must know where to find the next entry. Here the virtual computer analogy is extended by the addition of an instruction counter. If you define a field, preferably an index register, named IC it can act exactly like an instruction counter on a real computer. It identifies the next entry to be executed, and must be advanced during execution.
 
-You can now see the complete operation of NEXT<sub>I</sub>: fetch the entry identified by IC, advance IC to the next enty, and return to the same point NEXT<sub>W</sub> does to execute the entry (or compile it, as the case may be). If you use definitions at all, you'll use them extensively. So NEXT<sub>I</sub> should be optimized at the cost of NEXT<sub>W</sub>. In particular, the code that executes (compiles) entries should be fallen into from NEXT<sub>I</sub> and jumped to from NEXT<sub>W</sub>. This saves one instruction (a jump) in the control loop using NEXT<sub>I</sub>. This can be 20% of the loop, apart from actually executing the entry's code, for a substantial saving.
+You can now see the complete operation of NEXT<sub>I</sub>: fetch the entry identified by IC, advance IC to the next entry, and return to the same point NEXT<sub>W</sub> does to execute the entry (or compile it, as the case may be). If you use definitions at all, you'll use them extensively. So NEXT<sub>I</sub> should be optimized at the cost of NEXT<sub>W</sub>. In particular, the code that executes (compiles) entries should be fallen into from NEXT<sub>I</sub> and jumped to from NEXT<sub>W</sub>. This saves one instruction (a jump) in the control loop using NEXT<sub>I</sub>. This can be 20% of the loop, apart from actually executing the entry's code, for a substantial saving.
 
 Now let's return to EXECUTE. Clearly, in addition to establishing NEXT<sub>I</sub> it must initialize IC. But first it must save IC. The process is analogous to a virtual-computer subroutine call. The obvious place to save IC is the return stack. Although it is used for other purposes, none of these conflict with such use. If one definition is executed from within another, it is clear the current IC must be saved. Otherwise the current value of IC is undefined.
 
 One more routine is involved in this process. The code executed for ";" must return from the definition. This means simply that it must restore IC from the return stack. However it must also restore the value of NEXT, which was set to NEXT<sub>I</sub> by EXECUTE. You might store the old value of NEXT in the return stack and let ";" recover it. Simpler, perhaps, is to let the undefined value of IC be zero, and act as a flag to restore NEXT to NEXT<sub>W</sub>. For while executing definitions, NEXT will always contain NEXT<sub>I</sub>. Only when returning from a definition that originated within the source text must NEXT<sub>W</sub> be reestablished. Since while executing source text IC is irrelevant, it might as well by useful in this limited way.
 
-That's all there is to it. The combination of EXECUTE, NEXT<sub>I</sub> and ";" provide a powerful and efficient subroutine facility. Notice that the code "executed" for a definition might actually be compiled, depending on the field STATE, as dicussed earlier. Notice also that the entries executed by a definition might compile other entries. That is, one entry might deposit numbers in the dictionary, using DP. Thus although the fields IC and DP are similar in use, DP deposits entries and IC fetches them, they may both be in use at the same time. If you're short of index registers, don't try to combine them.
+That's all there is to it. The combination of EXECUTE, NEXT<sub>I</sub> and ";" provide a powerful and efficient subroutine facility. Notice that the code "executed" for a definition might actually be compiled, depending on the field STATE, as discussed earlier. Notice also that the entries executed by a definition might compile other entries. That is, one entry might deposit numbers in the dictionary, using DP. Thus although the fields IC and DP are similar in use, DP deposits entries and IC fetches them, they may both be in use at the same time. If you're short of index registers, don't try to combine them.
 
 
 #### 4.4.3 Conditions
@@ -1038,7 +1038,7 @@ At definition time, the word IF is executed. It compiles a forward jump. Now I m
 
 Actually we need 2 jump pseudo-entries: a conditional jump and an unconditional jump. The conditional jump jumps only if the stack is non-zero, and it is a destructive operation (its argument is dropped).
 
-All right, back to IF. At definition time it compiles the conditional jump pseudo-entry, followed by a 0. For it doesn't know how far to jump. And it places the location of the 0, the unknown address, onto the stack. Remember that the stack is currently not in use, because we're defining. Later it wil be used by those words we're defining, but at the moment we're free to use it to help in the process.
+All right, back to IF. At definition time it compiles the conditional jump pseudo-entry, followed by a 0. For it doesn't know how far to jump. And it places the location of the 0, the unknown address, onto the stack. Remember that the stack is currently not in use, because we're defining. Later it will be used by those words we're defining, but at the moment we're free to use it to help in the process.
 
 Now look at ELSE. At definition time it compiles an unconditional jump pseudo-entry followed by 0. But then it stores the current value of DP, the next available location, into the location on the stack. Thus it provides the distance for the conditional jump generated by IF. Actually it must subtract to get a relative address, but the principle is clear. In turn it leaves the location of its address on the stack.
 
@@ -1158,7 +1158,7 @@ and it will work. I'll review the rules:
 -   Any word can be made imperative by following it with an "!".
 -   A definition can be made imperative by using ":!" instead of ":" to define it.
 
-Now the restriction I mentioned should be apparant. A literal cannot be made imperative with a "!" because it's a double-length instruction - and the "!" code has no way of knowing that. Oh well, we could set a field to indicate the length of the last compiled instruction, but it's not that great a problem. Besides, in that case successive !s wouldn't work.
+Now the restriction I mentioned should be apparent. A literal cannot be made imperative with a "!" because it's a double-length instruction - and the "!" code has no way of knowing that. Oh well, we could set a field to indicate the length of the last compiled instruction, but it's not that great a problem. Besides, in that case successive !s wouldn't work.
 
 
 ### 4.5 Code entries
@@ -1173,13 +1173,13 @@ On the other hand, if you start with code entries, you can construct all the oth
 
 So how can you generate code? First you need a defining entry that defines a code entry. The characteristic of a code entry is that it executes code stored in its parameter field. Thus the address passed to ENTRY by its defining entry (say CODE) must be the location into which will be placed the first instruction. This is not DP, because the entry itself takes space; but is simply DP plus a constant.
 
-Second you need an entry to deposit a number at DP. We have used such a routine several times, constructing variables and definitions, but we've not had an entry for it. I suggest the word "," although that might conflict with your output entries. All it does is move a number from the stack to the parameter field. Instructions are numbers of course. You'll construct them on the stack and then deposit them. Incidently, this is a useful entry - apart from compiling code. You'll find it useful for initializing data arrays of all kinds.
+Second you need an entry to deposit a number at DP. We have used such a routine several times, constructing variables and definitions, but we've not had an entry for it. I suggest the word "," although that might conflict with your output entries. All it does is move a number from the stack to the parameter field. Instructions are numbers of course. You'll construct them on the stack and then deposit them. Incidentally, this is a useful entry - apart from compiling code. You'll find it useful for initializing data arrays of all kinds.
 
 Now you can appreciate the source of my earlier caution. You'll have to provide a flock of entries that access code compiled into your program that we've not needed to reference directly before. For example RETURN: when you routine is finished, it must jump to the control loop, just as you built-in entries do. However you don't know the location of the control loop in core; and it moves as you change your program. So you must have an entry to generate a RETURN instruction.
 
 Likewise, if you plan to compile defining entries you must provide entries that will generate subroutine calls to ENTRY. Other code might want to access WORD or NUMBER or indeed any facility already available in your program. Moreover you will have to define variable entries for those fields you will use: D and F for output; perhaps STATE and BASE; Basically, the problem is that you must make available outside your program, all the labels available inside it already. You must use them enough to justify the effort.
 
-All right, you've done that much. Now you've got to decide how to construct an instruction. They have several fields - instruction, index, adddress - that you'll want to put onto the stack separately and combine somehow. This is easy to do, but hard to design. You probably don't want to copy your assembler, and probably couldn't follow its format conveniently anyway. In fact you can do a good job of designing a readable compiler language; but it will take some effort. Definitions provide all the tools you need.
+All right, you've done that much. Now you've got to decide how to construct an instruction. They have several fields - instruction, index, address - that you'll want to put onto the stack separately and combine somehow. This is easy to do, but hard to design. You probably don't want to copy your assembler, and probably couldn't follow its format conveniently anyway. In fact you can do a good job of designing a readable compiler language; but it will take some effort. Definitions provide all the tools you need.
 
 For example, you might write a definition that will "or" together an instruction and address and deposit it. Or if your hardware's awkward, you can provide a definition that converts absolute addresses to relative, or supplies appropriate paging controls. Whatever you need, or want can be readily defined. Done properly, such a compiler is a substantial application in itself, and if you're going to do it at all, plan to spend the necessary time and effort.
 
@@ -1205,7 +1205,7 @@ The restriction on the position of ENTER is unimportant, it may as well be first
 
 You notice I gave an example of code following ;CODE. You see instruction mnemonics and addresses deposited by ",". I don't want to explain this compiler language, for it is not relevant for your computer.
 
-One more suggestion might prove helpful. You might define a new kind of constant: an instruction. When executed, an instruction expects an address on the stack, extracts a constant from its parameter field and constrcts and deposits a completed instruction. You'll probably have a large number of instructions, and use a large number. This will save you many deposit entries.
+One more suggestion might prove helpful. You might define a new kind of constant: an instruction. When executed, an instruction expects an address on the stack, extracts a constant from its parameter field and constructs and deposits a completed instruction. You'll probably have a large number of instructions, and use a large number. This will save you many deposit entries.
 
 I'm sorry, but I think it's infeasible to attempt an example. If you can't see how to construct your own code entries from what I've already said, forget it. The application is extremely machine dependent - and rightly so. Don't attempt to apply the same code to several computers; definitions already do that for you. The purpose of code is to exploit the properties of your particular computer.
 
