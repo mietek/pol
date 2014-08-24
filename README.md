@@ -1586,7 +1586,7 @@ Do this if you have the slightest intention of implementing a many-user version.
 
 ## 8. Programs that think
 
-The mystery of consciousness has intrigued philosophers for a long time. It now seems apparant that just as life is a result of complex organization, so is consciousness. It is somehow a byproduct of complex interactions among data. Interactions so complex they only occur in mammalian brains.
+The mystery of consciousness has intrigued philosophers for a long time. It now seems apparent that just as life is a result of complex organization, so is consciousness. It is somehow a byproduct of complex interactions among data. Interactions so complex they only occur in mammalian brains.
 
 Therefore, one way of investigating the mind is to experiment with manipulating data. The obvious way to do this is on a computer. We now have a program with capabilities previously unattainable. Why not use it in such a way as to probe the realm of 'thinking'? I don't propose that you become a psychobiologist. But you can have a lot of fun, and do some really impressive things with simple extensions to your program.
 
@@ -1599,7 +1599,7 @@ I have had all the entries I describe in a single program. This program had less
 
 One of the most awkward characteristics of our program is that words must be separated by spaces. Very often you'd like to suffix punctuation or operator without an intervening space. And we will soon add abilities that make prefixing desirable, too.
 
-It is not difficult to modify the word subroutine to recognise characters other than space as terminating characters. But it is impossible to provide satisfying generality. Inevitably, you complicate the word subroutine unduely by considering innumerable special cases. And you can waste much ingenuity trying to achieve generality. For example, there are no simple rules that permit all these to be words:
+It is not difficult to modify the word subroutine to recognize characters other than space as terminating characters. But it is impossible to provide satisfying generality. Inevitably, you complicate the word subroutine unduly by considering innumerable special cases. And you can waste much ingenuity trying to achieve generality. For example, there are no simple rules that permit all these to be words:
 
 -   HELLO GOOD-BY 3.14 I.B.M. -.5 1.E-3
 
@@ -1607,13 +1607,13 @@ Likewise, there are no simple rules that separate these strings into the words i
 
 -   -ALPHA 1+ ALPHA+BETA +X\*\*-3 X,Y,Z; X.OR.Y
 
-But don't dispair! There is a general solution that can handle all these cases. It is expensive in time, perhaps very expensive. But it solves the problem so thoroughly, while demonstrating that no lesser solution is possible, that I consider it well worth the price. Besides, the speed of processing text is not a critical factor. We maximize speed precisely so that we can afford extravagances such as this.
+But don't despair! There is a general solution that can handle all these cases. It is expensive in time, perhaps very expensive. But it solves the problem so thoroughly, while demonstrating that no lesser solution is possible, that I consider it well worth the price. Besides, the speed of processing text is not a critical factor. We maximize speed precisely so that we can afford extravagances such as this.
 
-If you haven't already guessed: We read a word terminated by a space, search the dictionary, convert it to a number. If it isn't a word by this defintion, we drop the last character and try again. Eventually we strip off enough characters so that the remainder is a word.
+If you haven't already guessed: We read a word terminated by a space, search the dictionary, convert it to a number. If it isn't a word by this definition, we drop the last character and try again. Eventually we strip off enough characters so that the remainder is a word.
 
-Let me review the cost. We do as many dictionary searches (plus numeric conversions) as there are letters to be dropped. This encourages fast searches and quick recognition of non-numbers. It also encourages minimizing the length of strings that must be dissected. But let's be practical: The number of occassions when dissection is convenient are few enough that you can afford the price. With the exception of compiler source code. But I'm not writing a compiler, and if you are you can probably make your word subroutine cope.
+Let me review the cost. We do as many dictionary searches (plus numeric conversions) as there are letters to be dropped. This encourages fast searches and quick recognition of non-numbers. It also encourages minimizing the length of strings that must be dissected. But let's be practical: The number of occasions when dissection is convenient are few enough that you can afford the price. With the exception of compiler source code. But I'm not writing a compiler, and if you are you can probably make your word subroutine cope.
 
-There are several things to be careful of: As you drop characters from the aligned word, you must keep track of your current position within this word. However, you must also back-up the input pointer so that you can start the next word correctly. Incidently this requires an initial back-up over the terminal space that is not repeated.
+There are several things to be careful of: As you drop characters from the aligned word, you must keep track of your current position within this word. However, you must also back-up the input pointer so that you can start the next word correctly. Incidentally this requires an initial back-up over the terminal space that is not repeated.
 
 Backing the input pointer is not possible with unbuffered input. This is why I suggested that you buffer un-buffered devices back in [Chapter 3](#3-programs-with-input). If you aren't going to dissect, apply the Basic Principle.
 
@@ -1621,13 +1621,13 @@ You must also have a way to detect that you have dropped the last character: a c
 
 There are 2 things we can do to refine this dissection. They are incompatible and the choice depends on your application: We don't need to drop characters one-at-a-time. If you have several letters in succession, or several digits, or perhaps a combination, you might drop the all and then perform a single search/conversion. This means that you must examine each character (which suggests the second termination above). It also means that you must be able to distinguish alphanumerics from special-characters. This requires a 64-character table of character type tailored to your particular character set and application. If your hardware permits, you may be able to use a 64-bit table - classic trade-off of time vs. space.
 
-However, this means you cannot dissect letter strings and you might want to. Plurals, for instance, can be easily accomodated by dropping the terminal 's'. On the other hand, you can easily mis-identify words by dissecting letter strings: I once dissected the word SWAP: S was defined, W was defined and my error message was AP ? Perhaps when dropping a single letter you should replace it with a dash to indicate a word stem. Or perhaps it doesn't matter if unidentifiable words are mis-identified.
+However, this means you cannot dissect letter strings and you might want to. Plurals, for instance, can be easily accommodated by dropping the terminal 's'. On the other hand, you can easily mis-identify words by dissecting letter strings: I once dissected the word SWAP: S was defined, W was defined and my error message was AP ? Perhaps when dropping a single letter you should replace it with a dash to indicate a word stem. Or perhaps it doesn't matter if unidentifiable words are mis-identified.
 
 One further caution: If you are going to dissect, you must not discard extra characters while initially aligning the word. Your input pointer must be positioned so that you can backspace it correctly. If you exceed maximum word size, stop immediately and supply a terminal space. This means that no single word can exceed maximum size, which has now become maximum string size.
 
 Another optimization has to do with the size of words in the dictionary. If you only match part of the word, you may as well start dropping characters at that point, if number format permits.
 
-What does word dissection mean to a program? How does it help it 'think'? It means that your program can read your mind. It means that no matter how you type something, the computer will extract the meaning you intended. It will use the meaning of the longest character string it can, consistant with a left-to-right scan. It's not infallible: if you define +1 and then type +1000 it will mis-understand. But if you use your language consistantly, it will follow.
+What does word dissection mean to a program? How does it help it 'think'? It means that your program can read your mind. It means that no matter how you type something, the computer will extract the meaning you intended. It will use the meaning of the longest character string it can, consistent with a left-to-right scan. It's not infallible: if you define +1 and then type +1000 it will mis-understand. But if you use your language consistently, it will follow.
 
 I would like to be able to say that this ability will impress people. It will impress you - at least it should. But ordinary people, like your boss, expect this kind of ability from computers. They are only impressed, negatively, if they discover its absence.
 
@@ -1642,13 +1642,13 @@ Moreover, we have a hierarchy of operations than control when that other operato
 
 -   A+B\*C
 
-the multiply must be done before the add. Moreover, parentheses are used to modify the standard heirarchy:
+the multiply must be done before the add. Moreover, parentheses are used to modify the standard hierarchy:
 
 -   A\*(B+C)
 
-Such a notation is competely equivalent to ours. It offers no advantages over the operands-preceeding-operator and has some limitations. But people are accustomed to it and negatively-impressed by its absence. So I will show you how to provide the capability.
+Such a notation is completely equivalent to ours. It offers no advantages over the operands-preceeding-operator and has some limitations. But people are accustomed to it and negatively-impressed by its absence. So I will show you how to provide the capability.
 
-However there is no reason to restrict our attention to the customary arithmetic and/or logical operators. I will show you some other similar heirarchies. The capability I describe will handle them all.
+However there is no reason to restrict our attention to the customary arithmetic and/or logical operators. I will show you some other similar hierarchies. The capability I describe will handle them all.
 
 Let us establish a new kind of dictionary entry. It is identical to a definition except that it has a number appended, a level number. So let's call it a level-definition. The rule is that a level-definition is not to be executed when it is encountered, but rather placed on a push-down stack. It will be executed when another definition with a equal or smaller level number is encountered.
 
@@ -1672,7 +1672,7 @@ What happened? 3 goes onto the parameter stack, + goes onto the level-stack, 4 o
 
 Clear? I would like to assume you're familiar with this technique, but I don't quite dare. All I'm really contributing is a way to implement with dictionary entries a technique usually built into compilers. Perhaps the cop-out of suggesting you define the arithmetic operators and work out some examples for yourself. Remember that *equal* level operators force each other out, and that a *lower* level operator forces out a higher. It is strangely easy to reason out the relative levels of operators incorrectly.
 
-What do we have so far? Why should you be interested in level-definitions? You've seen a couple, their definitions are simple. Level-definitions tend to be simple compared to ordinary definitions. But given level-definitions you can write a compiler, for any language! Level-definitions are necessary and sufficient to implement any context-free grammer, not only the LR-1 grammers at the base of contemporary languages. Frankly I don't know what to do with the power they provide, but I'll toss out some suggestions later.
+What do we have so far? Why should you be interested in level-definitions? You've seen a couple, their definitions are simple. Level-definitions tend to be simple compared to ordinary definitions. But given level-definitions you can write a compiler, for any language! Level-definitions are necessary and sufficient to implement any context-free grammar, not only the LR-1 grammars at the base of contemporary languages. Frankly I don't know what to do with the power they provide, but I'll toss out some suggestions later.
 
 Now back to work. You've seen some level definitions. I hope you've played with them some. How do we implement them? Well we don't. Rather we implement a generalization: level-entries. When I found an application for level-entries I also found out it was cheaper to implement level-definitions as such than the way I was doing.
 
@@ -1718,7 +1718,7 @@ But let me mention 2 particular uses:
 -   Consider a statement with the form
     -   IF relation THEN statement ELSE statement ;
 
-    Define IF so it will be forced out by THEN and generate a conditional branch. Define THEN so it will be forced out by ELSE and fix-up the adddress left dangling by IF. Define ELSE so it will first generate an unconditional branch, then force out THEN, and then await being forced out itself. Define ; to force out ELSE and fix-up the forward branch.
+    Define IF so it will be forced out by THEN and generate a conditional branch. Define THEN so it will be forced out by ELSE and fix-up the address left dangling by IF. Define ELSE so it will first generate an unconditional branch, then force out THEN, and then await being forced out itself. Define ; to force out ELSE and fix-up the forward branch.
 
 With a few statements you can implement any such compiler construct.
 
@@ -1731,7 +1731,7 @@ This expression and any others you construct will be evaluated correctly.
 
 I pass the ball to you. If you have an application that could profit from a natural language input format, you have the capability with level definitions to implement it. For example, it would not be hard to teach your program to solve the problems at the end of a high-school physics text.
 
-Keep in mind, that level-entries do not enhance the power of the computer. They merely let you specify instructons in what, to the computer, is an unnatural order. You are well advised to get your application working, and *then* to append a fancy control language.
+Keep in mind, that level-entries do not enhance the power of the computer. They merely let you specify instructions in what, to the computer, is an unnatural order. You are well advised to get your application working, and *then* to append a fancy control language.
 
 How does this relate to a program 'thinking'? Solely by deferring to the human-oriented format of control languages. Not even this is impressive to anyone but us! And even how impressed are you by FORTRAN's expression evaluator any longer?
 
@@ -1740,7 +1740,7 @@ How does this relate to a program 'thinking'? Solely by deferring to the human-o
 
 I would guess that your dictionary will average several hundred entries. Even a small amount of data seems to generate a large number of fields - to mention one source. However some applications need much larger vocabularies. Perhaps you need to identify one of 10,000 customers; or maybe you want the symbols for 104 elements available; or the names of 1000 approved additives.
 
-Clearly such volume must be stored on disk. Also clearly, you don't want to have to search disk explicitely. There is a gratifyingly effective solution: If you can't find the word in the core dictionary, and it's not a number, search a block on disk. Now the question reduces to: Which block?
+Clearly such volume must be stored on disk. Also clearly, you don't want to have to search disk explicitly. There is a gratifyingly effective solution: If you can't find the word in the core dictionary, and it's not a number, search a block on disk. Now the question reduces to: Which block?
 
 Establish a field called CONTEXT. Treat it like you did a block address: it both identifies a block and suggests where it might be in core. Search this block. By changing CONTEXT you can search different disk dictionaries. By linking several blocks together, you can search larger amounts of disk; or search several dictionaries in sequence.
 
@@ -1748,7 +1748,7 @@ You can afford to search a fair amount of disk, because if you can't find the wo
 
 For very large dictionaries, scramble the word into a block address and search that block. By that I mean compute a block address from the letters in a word, just as we did for multiple chains in the core dictionary, though you'll probably want a different algorithm. You can search one of a thousand blocks and be assured that if the word is anywhere, it's in that block. Because you used the same scramble technique to put it there as you use to find it. Since many words will scramble into the same block, you of course search for an exact match. Again, just as in core. With such a large disk dictionary, you want to be careful of several things. First, once you choose a scrambling algorithm you can never change it; so make a good choice before you define lots of entries. Second, try to keep the number of entries roughly the same in all blocks; and roughly equal to half the capacity of a block - to compensate for the first "roughly". Or else provide for overflow by linking blocks together.
 
-Such a disk dictionary can be really impressive - even to non-computer folk - because you have fast access to a prodigous vocabulary. Fast means you can search tens-of-thousands of entries in a single disk access.
+Such a disk dictionary can be really impressive - even to non-computer folk - because you have fast access to a prodigious vocabulary. Fast means you can search tens-of-thousands of entries in a single disk access.
 
 What do disk dictionary entries look like? I have found that 2 fields are sufficient: the word field, the same size as the core dictionary word field; and a parameter field, 1 word long. If you find a match on disk, you put the parameter on the stack. Remember that you can't afford to store absolute addresses on disk, so you can't have an address field as in core. You could provide a coded address field, but it seems adequate to treat disk entries as constants.
 
@@ -1760,7 +1760,7 @@ How do you put an entry on disk? A special defining entry:
 
 -   0 NAME ZERO
 
-analogous to CONSTANT. Alternatively you might set a flag and let the dictionary entry subroutine decide whether to use disk or core. This latter is preferable if you have several dfferent kinds of entries that might go either to disk or core.
+analogous to CONSTANT. Alternatively you might set a flag and let the dictionary entry subroutine decide whether to use disk or core. This latter is preferable if you have several different kinds of entries that might go either to disk or core.
 
 You will also need a way to forget disk entries:
 
@@ -1770,7 +1770,7 @@ FORGET must call WORD as defining entries do, since this is a non-typical use of
 
 Let's talk about a refinement. With a thousand names on disk it's easy to run out of mnemonics. Let's re-use the field CONTEXT: after you scramble the word into a block address, add the contents of CONTEXT and search that block. If CONTEXT is 0, no difference. But if CONTEXT is non-zero, you're searching a different block. If CONTEXT can vary from 0 to 15, you can have 16 different definitions of the same word. You'll find the one that had the same value of CONTEXT when you defined it. If there is no entry for a word under a given CONTEXT, you won't get a match. A block containing a definition for the same word under a different CONTEXT won't be searched.
 
-For example, stock numbers might look the same for different sales-lines. By setting CONTEXT you can distinguish them. You can use the same name for a report screen that you use for its instruction screen; distinguish them by CONTEXT. If you're scrambling anyway, you may as well add in CONTEXT (modulo a power of 2); it costs nothing, and vastly extends the universe of names. In fact, you can use CONTEXT in both the ways we've discussed, simultaneously. For as an aditive constant it tends to be small; and as a block number, large. So your search routine can decide whether to scramble or not based on its size.
+For example, stock numbers might look the same for different sales-lines. By setting CONTEXT you can distinguish them. You can use the same name for a report screen that you use for its instruction screen; distinguish them by CONTEXT. If you're scrambling anyway, you may as well add in CONTEXT (modulo a power of 2); it costs nothing, and vastly extends the universe of names. In fact, you can use CONTEXT in both the ways we've discussed, simultaneously. For as an additive constant it tends to be small; and as a block number, large. So your search routine can decide whether to scramble or not based on its size.
 
 A problem arises if you plan to dissect words. All those extra dictionary searches are augmented by disk searches and their attendant disk accesses. Several solutions are possible: Scramble with only the first couple of characters, so at least the disk searches are in the same block - which will be in core. Or use only non-zero values of CONTEXT and let 0 inhibit the disk search. That is, make dissection and disk searching mutually exclusive. As is often the case, the problem is serious only if you aren't aware of it.
 
@@ -1783,7 +1783,7 @@ The problem of what to do with infinite memory, I leave up to you. You will have
 
 Let's include in our field a parameter that points to a disk address. The field is assumed to be relative to that address; that is, contained in the disk block. The program will automatically read the block to obtain the field. Of course a number of fields will point to the same block address.
 
-Before you start objecting, let me rush on. Stored with the block address is the location of the core buffer that block last occuppied. So the program needn't actually read disk, or even search core buffers for the block, unless the block has been overlaid. Hence repeated accesses to the same block cost little.
+Before you start objecting, let me rush on. Stored with the block address is the location of the core buffer that block last occupied. So the program needn't actually read disk, or even search core buffers for the block, unless the block has been overlaid. Hence repeated accesses to the same block cost little.
 
 Several trade-offs are involved: You should have a generous number of core buffers to minimize overlays. You should choose you block size with this use in mind. Accessing such disk-resident fields is slower than if you deliberately read the block into a fixed location and access it there; but the ease with which you can address data scattered on disk, and the beauty of being able to forget that some data is on disk and other data in core, to me make up for the loss in speed. Besides, it's your problem to implement the feature in a way that is efficient.
 
@@ -1795,7 +1795,7 @@ You can make these field entries identical with those accessing core, by making 
 
 Notice that this addition of a base to a field entry defines a data structure very much like the levels in COBOL's data division: 01 level corresponding to the disk address; 02 levels to the fields themselves. For a few extra instructions you can add higher levels: If the pointer does not reference a disk address, but another field description, you have the equivalent of 03 level, etc.
 
-Consider how the field reference actually works. In the field entry you have a word parameter that tells which word the field is in (or starts in). If this field references another, you add the word parameters together. When you find the core address of the disk block, you add the word offset and voila': you have the word you want. Going through intermediate fields has little advangage unless the intermediate fields change. Why not? By incrementing a base field address, you can access different rows of a matrix or different records in a block. Or you can access different sub-records of a record. Very useful! It's enough to make me think COBOL is a pretty good language. Of course you can do the same thing with core fields, you just never point to a disk address at the very end.
+Consider how the field reference actually works. In the field entry you have a word parameter that tells which word the field is in (or starts in). If this field references another, you add the word parameters together. When you find the core address of the disk block, you add the word offset and voila': you have the word you want. Going through intermediate fields has little advantage unless the intermediate fields change. Why not? By incrementing a base field address, you can access different rows of a matrix or different records in a block. Or you can access different sub-records of a record. Very useful! It's enough to make me think COBOL is a pretty good language. Of course you can do the same thing with core fields, you just never point to a disk address at the very end.
 
 A word of warning! Don't try to gain efficiency by putting the core address of a block in an index register. It's too hard to keep track of which block, if any, the index is currently identifying. You simply have to go through a fair bit of code to provide useful generality. Of course, you hardware might have some special features: maybe microprogramming? Even indirect addressing might be helpful.
 
