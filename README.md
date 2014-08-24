@@ -370,7 +370,7 @@ We can extend the characterization of entries a little further. Verbs have diffe
 -   Unary verbs modify the number on the stack.
 -   Binary verbs combine 2 arguments to leave a single result.
 
-Arithmetic operations are binary, arithmetic functions are usually unary. However, there are more verbs than we can usefully catagorize. For example, the verb "," that types the stack is not unary, since it removes the number from the stack. Although it does have a single argument.
+Arithmetic operations are binary, arithmetic functions are usually unary. However, there are more verbs than we can usefully categorize. For example, the verb "," that types the stack is not unary, since it removes the number from the stack. Although it does have a single argument.
 
 Another way of distinguishing verbs is:
 
@@ -418,9 +418,9 @@ will: fetch the address of X, then its value, fetch the address of Y, and store 
 
 I'm saying: fetch the address of X, the address of Y, and store the address of X into Y. Maybe this is that I mean to do, it's not unreasonable.
 
-I don't want to belabor the point, for we're getting ahead of ourselves. But variables require special verbs, one of which (@) is not ordinarily explicit. Incidently, I originally used the word VALUE for @. But the verb is used so often it deserves a single character name, and I thought @ (at) had some mnemonic value, besides being otherwise useless.
+I don't want to belabor the point, for we're getting ahead of ourselves. But variables require special verbs, one of which (@) is not ordinarily explicit. Incidentally, I originally used the word VALUE for @. But the verb is used so often it deserves a single character name, and I thought @ (at) had some mnemonic value, besides being otherwise useless.
 
-I urge you to adopt the vereb @. Although you can conceal it in various ways - we'll discuss one later - it adds needless complication. Such a useful verb oughtn't be invisible. Besides it lets you store addresses in variables - indirect addressing
+I urge you to adopt the verb @. Although you can conceal it in various ways - we'll discuss one later - it adds needless complication. Such a useful verb oughtn't be invisible. Besides it lets you store addresses in variables - indirect addressing
 
 -   X Y = Y @ @ ,
 
@@ -435,7 +435,7 @@ Our program has a structure that is easy to miss: it is a single loop. However, 
 
 We are going to read a word from the input string, look up that word in the dictionary, and jump to the routine it specifies. Each routine will return to the top of the loop to read another word. We will be discussing many routines and it will be helpful to have a term to identify "return to the top of the loop to read another word". I will use the word RETURN; you should provide a standard macro or label in your program for the same purpose.
 
-Actually, you accomplish 2 purposes: you mark the end of a routine. And you identify the preceeding code as being a routine, as distinct from a subroutine. Thus, I use the word RETURN with a totally different meaning from the FORTRAN RETURN statement. I shall speak of EXITing from a subroutine.
+Actually, you accomplish 2 purposes: you mark the end of a routine. And you identify the preceding code as being a routine, as distinct from a subroutine. Thus, I use the word RETURN with a totally different meaning from the FORTRAN RETURN statement. I shall speak of EXITing from a subroutine.
 
 Included in your control loop should be a check that the parameter stack has not exceeded its limits. This is best done after RETURNing from a routine, and only needs to be done for routines that use the stack. Thus there are 2 possible RETURN points (actually 3).
 
@@ -461,13 +461,13 @@ By the way. Since you don't check the stack until after you executed a routine, 
 
 I've described the control loop that will run our program. The first thing it does is to read a word; so the first thing we shall discuss is how to read a word.
 
-What is a word? Not a computer word, as I'm sure you realise, although we shall have to use the word "word" in that sense. A word is a string of characters bounded by spaces. It is extracted from a larger string of characters by the routine we are discussing.
+What is a word? Not a computer word, as I'm sure you realize, although we shall have to use the word "word" in that sense. A word is a string of characters bounded by spaces. It is extracted from a larger string of characters by the routine we are discussing.
 
-Let me contrast this definition with more conventional input routines. FORTRAN formatted input, for example, doesn't speak of words but of fields. The meaning of a number is determined by the field it resides in; that is, by its position on a card. Since we are not using cards, the notion of position becomes clumsy and we replace it with order: The order of the words we read is significant, though their position is not. We lose, however, the ability to leave a field empty, since we cannot recognise an empty word. All our data must be explicit, which is probably a good idea but a slow one to learn. Decide now that you will not specify input conventions that have optional parameters.
+Let me contrast this definition with more conventional input routines. FORTRAN formatted input, for example, doesn't speak of words but of fields. The meaning of a number is determined by the field it resides in; that is, by its position on a card. Since we are not using cards, the notion of position becomes clumsy and we replace it with order: The order of the words we read is significant, though their position is not. We lose, however, the ability to leave a field empty, since we cannot recognize an empty word. All our data must be explicit, which is probably a good idea but a slow one to learn. Decide now that you will not specify input conventions that have optional parameters.
 
 Very well, let's write the WORD subroutine. It uses the input pointer to point at the current position in the source text, the output pointer to point at the current position in memory where we will move the word. We must move it; partly to align it on a computer-word boundary and partly because we may want to modify it.
 
-Fetch input characters and discard them so long as they're spaces. Thereafter deposit them until you find another space. Deposit this space and as many others as needed to fill out the last computer-word. If you have a character-oriented machine you may be amused at my insistance on word-alignment. Mainly I'm anticipating the search subroutine when we'll want to compare as large a piece of the word as possible. If a word holds 6 characters (or even 2) it's much more efficient to compare them in parallel than serially, even if you have the hardware.
+Fetch input characters and discard them so long as they're spaces. Thereafter deposit them until you find another space. Deposit this space and as many others as needed to fill out the last computer-word. If you have a character-oriented machine you may be amused at my insistence on word-alignment. Mainly I'm anticipating the search subroutine when we'll want to compare as large a piece of the word as possible. If a word holds 6 characters (or even 2) it's much more efficient to compare them in parallel than serially, even if you have the hardware.
 
 You may want to set an upper limit on word length. Such a limit should include the largest number you will be using. Then the question arises as to what to do with a longer word. You might simply discard the excess characters, providing you don't plan to dissect the word ([Chapter 8](#8-programs-that-think)). Better, perhaps, that you force a space into the word at the limit. That is, break the word into 2 words. Presumably something's wrong and you will eventually discover it in attempting to process the fragments. However this limit should be large enough - 10 to 20 characters - so that it does not constitute a real restriction on your input. It should also be 1 character less than a multiple of your computer-word length, so that you can always include the terminal space in the aligned word.
 
@@ -486,7 +486,7 @@ In any case we may want to examine each character more than once, so we want buf
 
 Set aside a 1-line message buffer. Its size is the maximum size of a message, either input or output, so if you plan to use a 132 position printer make it large enough.
 
-If you simulate buffering, you should implement a backspace character and a cancel message character. For you will make a lot of typing errors. If your hardware buffers, but does not provide these capabilities, you should do so. This probably means a prescan of the input; any other technique gets too complicated, and probably costs more in the end.
+If you simulate buffering, you should implement a backspace character and a cancel message character. For you will make a lot of typing errors. If your hardware buffers, but does not provide these capabilities, you should do so. This probably means a pre-scan of the input; any other technique gets too complicated, and probably costs more in the end.
 
 Mark the end of an input message with an end-of-message word. This is a word bounded by spaces like any other. It may or may not coincide with the end-of-message character that you typed, depending on your hardware and character set as to whether the required spaces can be provided. This word permits ready detection of the last word in a message. It will have a specific definition and perform a valuable task.
 
@@ -494,9 +494,9 @@ In addition to a keyboard, you must have some sort of output device: a printer o
 
 We will use the same message buffer for both input and output. My motivation is to save space, or rather to increase the utilization of space. My reasoning is that input and output are mutually exclusive. There are exceptions, but we don't usually read input and prepare output simultaneously. At least we never have to.
 
-However, we do need a switch (1 bit) that states whether the message buffer still contains input. The first time (or perhaps everytime) we type output, we must reset this switch. We'll use it later.
+However, we do need a switch (1 bit) that states whether the message buffer still contains input. The first time (or perhaps every time) we type output, we must reset this switch. We'll use it later.
 
-We need a receive subroutine that will exit when we have a complete input message. Likewise a transmit subroutine that will exit after sending an output message. It should await an acknowledgement if the hardware provides one. Don't try to overlap transmission of one message with preparation of the next. Transmission is so slow and preparation so fast that no noticable increase in speed is available. And it complicates the program considerably.
+We need a receive subroutine that will exit when we have a complete input message. Likewise a transmit subroutine that will exit after sending an output message. It should await an acknowledgement if the hardware provides one. Don't try to overlap transmission of one message with preparation of the next. Transmission is so slow and preparation so fast that no noticeable increase in speed is available. And it complicates the program considerably.
 
 
 #### 3.3.2 Moving characters
@@ -572,7 +572,7 @@ Aligning decimal points is easy to visualize, and avoids truncation problems. Ho
 
 #### 3.4.2 Input conversion
 
-Now let's discuss the NUMBER subroutine in detail. First, why is it a subroutine? If you examine the program I've outlined so far, and even the program as augmented by the end of the book, you'll fiind NUMBER is called only once - in the control loop. By my own rules NUMBER should thus be in-line code. However, I can't bring myself to put it in line; the logic in NuMBER is so complex that I want to isolate it away from the control loop, to emphasize its logical function - one purpose of a subroutine - and to reduce confusion in the control loop itself; also I'm never confident that I won't want to call NUMBER from some other routine, in fact I have. But I think that such violations of programming standards should be explicitly recognised.
+Now let's discuss the NUMBER subroutine in detail. First, why is it a subroutine? If you examine the program I've outlined so far, and even the program as augmented by the end of the book, you'll find NUMBER is called only once - in the control loop. By my own rules NUMBER should thus be in-line code. However, I can't bring myself to put it in line; the logic in NuMBER is so complex that I want to isolate it away from the control loop, to emphasize its logical function - one purpose of a subroutine - and to reduce confusion in the control loop itself; also I'm never confident that I won't want to call NUMBER from some other routine, in fact I have. But I think that such violations of programming standards should be explicitly recognized.
 
 The key to a good NUMBER subroutine is another subroutine that it calls. This subroutine has 2 entry points: SIGNED tests the next character for minus, sets a switch, zeros number-so-far and falls into NATURAL. NATURAL fetches characters, tests that they're digits, multiplies the number-so-far by 10 and adds the digit. It repeats until it finds a non-digit.
 
@@ -599,11 +599,11 @@ SIGNED/NATURAL is a valid subroutine since it is called twice. Moreover, if you 
 
 If you want to verify that "in" are less than 12, you'll want to modify this slightly.
 
-In NATURAL the number-so-far is multipled by 10. Don't use a litereal 10, but rathere define a field (BASE) and store a 10 there as multiplier. Then you can change BASE to 8 (or 16) and handle octal numbers. You can even change it to 2 to use binary numberes. NATURAL should test for digits by comparing them with BASE, thus prohibiting 9 in an octal number. Hexadecimal input numbers cause an additional problem because the digits A-Z do not follow 9 in standard character sets. It is thus harder to recognise digits; but this problem is isolated in a single place (NATURAL) and is easy to code:
+In NATURAL the number-so-far is multiplied by 10. Don't use a literal 10, but rather define a field (BASE) and store a 10 there as multiplier. Then you can change BASE to 8 (or 16) and handle octal numbers. You can even change it to 2 to use binary numbers. NATURAL should test for digits by comparing them with BASE, thus prohibiting 9 in an octal number. Hexadecimal input numbers cause an additional problem because the digits A-Z do not follow 9 in standard character sets. It is thus harder to recognize digits; but this problem is isolated in a single place (NATURAL) and is easy to code:
 
 -   An origin must usually be subtracted from a digit to get its binary value. If BASE is 16, a different origin is subtracted from A-F.
 
-NUMBER should be efficient, at least in recognising words that are not numbers. Not so much because you will use so many numbers, but because you will examine many words that aren't numbers. We will discuss this further in [Chapter 8](#8-programs-that-think). It is also important that you examine the aligned copy of a word. There are several reasons: to avoid trouble with the input pointer, to guarantee a terminal space. However this creates a problem: the largest number you will use must fit in the aligned word; this may require a longer word than you would otherwise use. A number longer than word-size will have its right-most digits discarded. This will probably not destroy its numeric appearance so that no error will be detected; but the conversion will be incorrect. This problem is not serious, just be aware of it.
+NUMBER should be efficient, at least in recognizing words that are not numbers. Not so much because you will use so many numbers, but because you will examine many words that aren't numbers. We will discuss this further in [Chapter 8](#8-programs-that-think). It is also important that you examine the aligned copy of a word. There are several reasons: to avoid trouble with the input pointer, to guarantee a terminal space. However this creates a problem: the largest number you will use must fit in the aligned word; this may require a longer word than you would otherwise use. A number longer than word-size will have its right-most digits discarded. This will probably not destroy its numeric appearance so that no error will be detected; but the conversion will be incorrect. This problem is not serious, just be aware of it.
 
 
 #### 3.4.3 Output conversion
@@ -625,7 +625,7 @@ If you use decimal fixed-point fractions, you already have a field D that specif
 
 If you want to produce reports - carefully formatted columns of numbers - you will need to right-justify numbers. That is, to line up decimal points. For this you need another parameter F, the width of the field in which the number is to be right-justified. It's easy to use: after converting the number right-left, compute the number of spaces you need and call SPACE. Then call TYPE<sub>B</sub>. In determining spaces, remember that TYPE<sub>B</sub> always types a space *after* the number. Thus you will always have at least a single space between numbers. If the number won't fit in the field you specify, you'll still have that one space, and the full number will be typed - fouling up the report format - but showing you the bad number.
 
-Let me acknowledge that if you are going to right-justify numbers you can place the digits directly into position from right to left, for you know where the rightmost digit must go. But then you must space-fill the message buffeer before starting output, and you can't type unbuffered output immediately. However, my main objection is that you can't compose free-format output. For example, place a number in a sentence without extra leading spaces. And very often unformatted output is adequate, saving you having to specify field sizes you don't care about.
+Let me acknowledge that if you are going to right-justify numbers you can place the digits directly into position from right to left, for you know where the rightmost digit must go. But then you must space-fill the message buffer before starting output, and you can't type unbuffered output immediately. However, my main objection is that you can't compose free-format output. For example, place a number in a sentence without extra leading spaces. And very often unformatted output is adequate, saving you having to specify field sizes you don't care about.
 
 Depending on your formatting requirements, there are other dictionary entries you might want: A SPACE entry, to space the number of positions on the stack. It can even space backwards - by changing the output pointer - if the stack is negative. This is useful if you want to suppress that space provided by TYPE<sub>B</sub>. A tab entry might calculate the amount to space in order to reach a specific position on the stack.
 
@@ -639,14 +639,14 @@ A stack pointer is an excellent use for an index register, if you have enough. I
 
 #### 3.5.1 Return stack
 
-This stack stores return information. One use is to store the return address for subroutines, when subroutine calls use an index register. The last-in first-out nature of a stack is exactly the behavior required for nested subroutine calls. We will later encounter several other kinds of return inforrmation that can be stored in the same stack. It is important not to attempt to combine the return stack and the parameter stack. They are not synchronized. 8 words is probably enough space for the return stack.
+This stack stores return information. One use is to store the return address for subroutines, when subroutine calls use an index register. The last-in first-out nature of a stack is exactly the behavior required for nested subroutine calls. We will later encounter several other kinds of return information that can be stored in the same stack. It is important not to attempt to combine the return stack and the parameter stack. They are not synchronized. 8 words is probably enough space for the return stack.
 
 
 #### 3.5.2 Parameter stack
 
 This stack is the one I intend when I say simply stack. Numbers, constants, variables are all placed on this stack, as will be discussed later. This stack is used to pass parameters among routines. Each routine can find its arguments there, regardless of how many other parameters are present, or how long ago they were placed there. You should not implement a parameter stack less than 16 words long.
 
-A valuable refinement to the parameter stack is to set aside a register to hold the word on top of the stack. Several rules must be religously observed if this is not to cause trouble:
+A valuable refinement to the parameter stack is to set aside a register to hold the word on top of the stack. Several rules must be religiously observed if this is not to cause trouble:
 
 -   You must never use this register for any other purpose.
 -   You must keep this register full; no flag to indicate that it's empty.
@@ -670,9 +670,9 @@ You may need to control the parameter stack from the input. These words (diction
 
 ### 3.6 Dictionary
 
-Every program with input must have a dictionary. Many programs without input have dictionaries. However these are often not recognised as such. A common 'casual' dictionary is a sereies of IF . . . ELSE IF . . . ELSE IF . . . statements, or their equivalent. Indeed this is a reasonable implementation if the dictionary is small (8 entries) and non-expandable.
+Every program with input must have a dictionary. Many programs without input have dictionaries. However these are often not recognized as such. A common 'casual' dictionary is a series of IF . . . ELSE IF . . . ELSE IF . . . statements, or their equivalent. Indeed this is a reasonable implementation if the dictionary is small (8 entries) and non-expandable.
 
-It is important to acknowledge the function and existence of a dictionary, to concentrate it in a single place and to standardize the format of entries. A common characteristic of bad programs is that the equivalent of a dictionary is scattered all over the program at great cost in space, time and apparant complexity.
+It is important to acknowledge the function and existence of a dictionary, to concentrate it in a single place and to standardize the format of entries. A common characteristic of bad programs is that the equivalent of a dictionary is scattered all over the program at great cost in space, time and apparent complexity.
 
 The most important property of an entry is one that is usually overlooked. Each entry should identify a routine that is to be executed. Very often many entries execute the same routine. Perhaps there are few routines to choose among. This tends to conceal the importance of specifying what is to be done for each entry. By placing the address of a routine in each entry, an optimal and standard procedure for getting to that code can be designed.
 
@@ -719,9 +719,9 @@ The parameter field will typically contain 4 kinds of information:
 
 #### 3.6.2 Search strategies
 
-One basic principle applies to dictionary search: it must be backwards - from latest to oldest entries. You have perhaps noticed that the dictionary is *not* arranged in any order (ie. alphabetical) other than that in which entries are made. This permits the same word to be re-defined, and the latest meaning to be obtained. There is no trade-off valuable enough to compromise this property.
+One basic principle applies to dictionary search: it must be backwards - from latest to oldest entries. You have perhaps noticed that the dictionary is *not* arranged in any order (i.e. alphabetical) other than that in which entries are made. This permits the same word to be re-defined, and the latest meaning to be obtained. There is no trade-off valuable enough to compromise this property.
 
-To identify a word, place it (or its first portion) in a register and compare for equality with each entry (or its first portion). An algebraic comparison is adequate. Concern is sometimes expressed that treating words as floating-point numbers may permit a false equality. This has 0 probablity and you can always change the word - ignore it.
+To identify a word, place it (or its first portion) in a register and compare for equality with each entry (or its first portion). An algebraic comparison is adequate. Concern is sometimes expressed that treating words as floating-point numbers may permit a false equality. This has 0 probability and you can always change the word - ignore it.
 
 A full-word compare (rather than a character-by-character) should be used for speed. A match is usually found on the first portion, and extensions may be treated with less efficiency (though still full-word compares).
 
@@ -743,9 +743,9 @@ However, search time is not a important consideration, and I advise against mult
 
 #### 3.6.3 Initialization
 
-The dictionary is built into your program and is presumably initialized by your compiler. This is centainly true if you have fixed-size entries. Variable-sized entries must be linked together, however, and this can be beyond the ability of your compiler, especially if you have multiple chains.
+The dictionary is built into your program and is presumably initialized by your compiler. This is certainly true if you have fixed-size entries. Variable-sized entries must be linked together, however, and this can be beyond the ability of your compiler, especially if you have multiple chains.
 
-In such a case, it is a simple matter to write a loop that scans the dictionary and establishes the links. It should scan the core occupied by the dictionary and recognise an entry by some unique flag (7's in the link field). It can the pick up the word, scramble it and add it to the appropriate chain.
+In such a case, it is a simple matter to write a loop that scans the dictionary and establishes the links. It should scan the core occupied by the dictionary and recognized an entry by some unique flag (7's in the link field). It can the pick up the word, scramble it and add it to the appropriate chain.
 
 This is purely temporary code. Although it may call permanent subroutines to scramble and link, the initialization code will have no further use. Thus it should be placed where it can be overlaid as the program proceeds. The message buffer, if large enough, or the disk buffer are possibilities.
 
@@ -754,7 +754,7 @@ Other things may need initializing, particularly any registers that are assigned
 
 ### 3.7 Control language example
 
-Applications tend to be complicated before they become interesting. But here's a fairly common problem that shows off a control language to advantage. Implementation would be tricky, execution woud be inefficient; but the program would be simple, and its application flexible.
+Applications tend to be complicated before they become interesting. But here's a fairly common problem that shows off a control language to advantage. Implementation would be tricky, execution would be inefficient; but the program would be simple, and its application flexible.
 
 The problem is to examine a sequential file, select certain records, sort them, and list them - in many different ways. Suppose these variables define the fields in the record:
 
@@ -766,13 +766,13 @@ Let's define these verbs:
 
 Each acts upon the temporary file produced by the previous, in accordance with the following examples:
 
-List in alphabetical order all employees in dept 6:
+List in alphabetical order all employees in dept. 6:
 
 -   6 DEPT EQUAL NAME SORT LIST
 
-First we choose records with dept = 6 and copy them into a temporary file. Then we sort that file by name. Then we list it.
+First we choose records with dept. = 6 and copy them into a temporary file. Then we sort that file by name. Then we list it.
 
-List twice, by seniority, all employees holding job 17 in dept 3:
+List twice, by seniority, all employees holding job 17 in dept. 3:
 
 -   17 JOB EQUAL 3 DEPT EQUAL SENIORITY SORT LIST LIST
 
