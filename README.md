@@ -1234,13 +1234,13 @@ In trying to anticipate the organization of a random file, certain principles ar
 
 This means that as the data in blocks becomes useless, space will become available in block-sized holes. We must somehow re-use these holes. Which means that we must allocate, and re-allocate, disk in block-sized pieces.
 
-All addresses start at 0, block addresses included (otherwise you find youself forever adding and subtracting 1). However we cannot use block 0 - for anything. You will find that most addressing errors involve block 0. If you look at block 0 from time to time you will find the most amazing things there. You will find block 1 a useful place to store things you need to remember from run to run. Like the address of the first block available for re-use - none: 0. And the address of the last block used - initially: 1.
+All addresses start at 0, block addresses included (otherwise you find yourself forever adding and subtracting 1). However we cannot use block 0 - for anything. You will find that most addressing errors involve block 0. If you look at block 0 from time to time you will find the most amazing things there. You will find block 1 a useful place to store things you need to remember from run to run. Like the address of the first block available for re-use - none: 0. And the address of the last block used - initially: 1.
 
-You will want to copy disk (onto another disk, or tape) for protection. You need only copy the nuber of blocks used, which is usually less than half the disk capacity, or else you're pretty worried about space. If you destroy block 1 (you will) you will have to re-load the entire disk from your back-up. Never try to recover just block 1, you'll end up horribly confused.
+You will want to copy disk (onto another disk, or tape) for protection. You need only copy the number of blocks used, which is usually less than half the disk capacity, or else you're pretty worried about space. If you destroy block 1 (you will) you will have to re-load the entire disk from your back-up. Never try to recover just block 1, you'll end up horribly confused.
 
-You may want to put your object proram on this disk. Fine! It won't even take many blocks. You may need to start it in block 0 in order to do an initial load (bootstrap). OK, but be able to re-load the program (only) from back-up because you will destroy block 0. Only if you destroy the block (we'll call it block 1) containing available space information must you re-load data (all data). Unless you destroy many blocks. Choose the path of least confusion, not least effort. Re-loading disk will confuse you, you'll forget what you've changed and be days discovering it. Much better you spend hours re-typing text and re-entering data.
+You may want to put your object program on this disk. Fine! It won't even take many blocks. You may need to start it in block 0 in order to do an initial load (bootstrap). OK, but be able to re-load the program (only) from back-up because you will destroy block 0. Only if you destroy the block (we'll call it block 1) containing available space information must you re-load data (all data). Unless you destroy many blocks. Choose the path of least confusion, not least effort. Re-loading disk will confuse you, you'll forget what you've changed and be days discovering it. Much better you spend hours re-typing text and re-entering data.
 
-So when you need a block, you type a word (GET) which reads block 1, places the block up for re-use on the stack, reads that block, places the contents of its first word into block 1, and re-writes block 1. The first word, of course, contains the address of the next block up for re-use. If no block was availabe for re-use (initially the case), GET increments the last block used, puts it on the stack and re-writes block 1. GET then clears your new block to 0 and re-writes it.
+So when you need a block, you type a word (GET) which reads block 1, places the block up for re-use on the stack, reads that block, places the contents of its first word into block 1, and re-writes block 1. The first word, of course, contains the address of the next block up for re-use. If no block was available for re-use (initially the case), GET increments the last block used, puts it on the stack and re-writes block 1. GET then clears your new block to 0 and re-writes it.
 
 Several comments: Notice that GET places its result on the stack - the logical place where it is available for further use. Notice that blocks are re-used in preference to expanding the disk used. This makes sense except for the problem of arm motion. Forget arm motion. You just have to live with it. This is, after all, a random memory. Don't neglect clearing the block to 0.
 
@@ -1258,7 +1258,7 @@ How many blocks you can have is probably limited by the disk, however it may be 
 
 #### 5.1.3 Reading and writing disk
 
-I'm sure you know how to read disk. However, do not choose a block size that causes the slightest difficulty: like half a block between tracks. If you check the GET routine, you'll see that you'll need 2 blocks in core at once. This is a reasonable minimum, it makes it easy to move things from one block to another. However, you'll have lots of core left over and you might as well use it for buffering disk; especially if access time is noticable.
+I'm sure you know how to read disk. However, do not choose a block size that causes the slightest difficulty: like half a block between tracks. If you check the GET routine, you'll see that you'll need 2 blocks in core at once. This is a reasonable minimum, it makes it easy to move things from one block to another. However, you'll have lots of core left over and you might as well use it for buffering disk; especially if access time is noticeable.
 
 You'll want a table specifying which blocks are in core: your read routine can check this table before reading.
 
@@ -1266,7 +1266,7 @@ But you should not write a block when you change it. Rather mark it 'to be writt
 
 Of course, multiple core buffers imply an allocation problem. A simple round-robin is as effective a scheme as any.
 
-If you are going to scan data sequentially, you can save many accesses by reading consecutive blocks at the same time. However it is likely that random reads may be interspersed with these sequential ones. An effective solution is to store the *last* block in the sequential area and the number of blocks somewhere for your read subroutine. If the block isn't in core, and is within the sequential range, it can read as many consecutive blocks as there are consecutive buffers available. Don't attempt more than this - ie, making more buffers available. The net effect is that you will do the best you can with sequential blocks, subject to interfering constraints.
+If you are going to scan data sequentially, you can save many accesses by reading consecutive blocks at the same time. However it is likely that random reads may be interspersed with these sequential ones. An effective solution is to store the *last* block in the sequential area and the number of blocks somewhere for your read subroutine. If the block isn't in core, and is within the sequential range, it can read as many consecutive blocks as there are consecutive buffers available. Don't attempt more than this - i.e., making more buffers available. The net effect is that you will do the best you can with sequential blocks, subject to interfering constraints.
 
 You will inevitably spend a lot of effort reading-writing disk. But remember the Basic Principle!
 
@@ -1290,7 +1290,7 @@ You will find that with text on disk, the original characterization of 'input' a
 
 Never put anything on disk you can't modify! And we haven't discussed how you get text on disk in the first place. Do not load it from cards! You're misdirecting your effort toward card reading, and you had to punch the cards anyway. Type it. The definitions required to edit the text stored in blocks (SCREENs) is simple.
 
-You must be able to handle character strings surrounded with quotes ([6.3](#63-character-strings)). Given that, I shall exhibit a text editing screen. This is a simple example of the value of definitions. You may notice it is the first non-trivial exmple I've given. You should be motivated by now to give it proper attention.
+You must be able to handle character strings surrounded with quotes ([6.3](#63-character-strings)). Given that, I shall exhibit a text editing screen. This is a simple example of the value of definitions. You may notice it is the first non-trivial example I've given. You should be motivated by now to give it proper attention.
 
 Naturally, you're going to have to type these definitions twice. Once to put them into your dictionary; again, to use them to put them in a screen (bootstrapping). In fact you'll probably type them many times, but 2 is minimum.
 
@@ -1327,7 +1327,7 @@ If I type " NEW TEXT" 6 I - I want the text inserted after line 6. "I" must firs
 
 If I type 12 D - I want to delete line 12. D must move lines 13-15 up one position and clear line 15: It sets up a DO-CONTINUE loop from stack+1 to 15. Each iteration it: constructs fields LINE and LINE-7 and shifts them (=C). Then it replaces line 15 with spaces.
 
-That's it. With 10 lines of code I can define a text-editor. It's not the most efficient possible, but it's fast enough and illustrates many points: In dealing with small amounts of text, you needn't be clever; let the machine do the work. The verb LINE is an extremely useful one; such useful verbs are invariably an empirical discovery. The verbs ,C and =C are the heart of the method; incidently, they only work on fields less than 64 characters. Notice how one definition wants to reference another (R used by I and D; LINE used by all). Notice how I and D are similar yet different. And notice how a few verbs eliminate a lot of bookkeeping and let you concentrate on the problem and not the details.
+That's it. With 10 lines of code I can define a text-editor. It's not the most efficient possible, but it's fast enough and illustrates many points: In dealing with small amounts of text, you needn't be clever; let the machine do the work. The verb LINE is an extremely useful one; such useful verbs are invariably an empirical discovery. The verbs ,C and =C are the heart of the method; incidentally, they only work on fields less than 64 characters. Notice how one definition wants to reference another (R used by I and D; LINE used by all). Notice how I and D are similar yet different. And notice how a few verbs eliminate a lot of bookkeeping and let you concentrate on the problem and not the details.
 
 
 ## 6. Programs with output
