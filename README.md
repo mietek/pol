@@ -1871,12 +1871,12 @@ Now define the code-entry, the word that names code; and the deposit word, the w
 
 We’ve reached a milestone. The invisible work is done and we can have a written record of what remains. There are many things to do and the order not so obvious. We’ve reached the position of having a source language, and we need to be able to modify it and re-compile without re-doing everything. Here we’re forced to generate temporary code that will become obsolete, but it will save a lot of effort.
 
-First a READ and WRITE entry to provide disk-access to a single core buffer. Then a simple T and R to type and replace lines of text in that block. These entries will later become obsolete, so keep them simple.
+First a `READ` and `WRITE` entry to provide disk-access to a single core buffer. Then a simple `T` and `R` to type and replace lines of text in that block. These entries will later become obsolete, so keep them simple.
 
-We now need the READ and ;S verbs for screens. Specify a block number and we can read the text in that block.
+We now need the `READ` and `;S` verbs for screens. Specify a block number and we can read the text in that block.
 
-Now we write screens that provide definitions, an improved compiler, improved block handler, improved text-editor and we can proceed with our application. We want a REMEMBER entry. We haven’t needed it so far because we could always reach in and reset the dictionary manually.
+Now we write screens that provide definitions, an improved compiler, improved block handler, improved text-editor and we can proceed with our application. We want a `REMEMBER` entry. We haven’t needed it so far because we could always reach in and reset the dictionary manually.
 
-I’m sure you’ve noticed the difficulty with modifying code in the root. A powerful tool is to be able to shift the dictionary in core. If the root doesn’t use absolute addresses, define a SHIFT entry and use it. Otherwise minimize the number of absolute addresses and define a more elaborate SHIFT verb that adjusts them.
+I’m sure you’ve noticed the difficulty with modifying code in the root. A powerful tool is to be able to shift the dictionary in core. If the root doesn’t use absolute addresses, define a `SHIFT` entry and use it. Otherwise minimize the number of absolute addresses and define a more elaborate `SHIFT` verb that adjusts them.
 
 Be careful SAVEing your program. Keep a back-up of your old version before SAVEing a new one, just in case.
