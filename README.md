@@ -93,6 +93,15 @@
     -   [9.3 Branches](#93-branches)
 
 
+## Figures
+
+-   [Figure 1. Control program](#figure-1-control-program)
+-   [Figure 2. Dictionary entry](#figure-2-dictionary-entry)
+-   [Figure 3. Portion of dictionary](#figure-3-portion-of-dictionary)
+-   [Figure 4. Fixed entry-size dictionary](#figure-4-fixed-entry-size-dictionary)
+-   [Figure 5. Augmenting control loop](#figure-5-augmenting-control-loop)
+
+
 ## 1. Introduction
 
 I'm not sure why you're reading this book. It's taken me a while to discover why I'm writing it. Let's examine the title: *Programming a Problem-Oriented-Language*. The key word is programming. I've written many programs over the years. I've tried to write *good* programs, and I've observed the manner in which I write them rather critically. My goal has been to decrease the effort required and increase the quality produced.
@@ -443,6 +452,11 @@ Of course you want to be careful not to pose the user problems he can't solve. F
 By the way. Since you don't check the stack until after you executed a routine, it will exceed stack limits before you know it. Thus stack overflow and underflow should be non-fatal. A good solution is to let the parameter stack overflow into the return stack, and underflow into the message buffer. The return stack should never underflow.
 
 
+#### Figure 1. Control program
+
+![Figure 1](figure-1.png)
+
+
 ### 3.3 Word subroutine
 
 I've described the control loop that will run our program. The first thing it does is to read a word; so the first thing we shall discuss is how to read a word.
@@ -665,6 +679,11 @@ The most important property of an entry is one that is usually overlooked. Each 
 Significantly, the IF . . . ELSE IF construction has the characteristic of associating a routine with each entry.
 
 
+#### Figure 2. Dictionary entry
+
+![Figure 2](figure-2.png)
+
+
 #### 3.6.1 Entry format
 
 There are 2 distinct ways to organize dictionary entries. The choice may depend upon hardware characteristics, but I recommend the second. A dominant feature of entries is that they have variable length. A part of the entry may be the code to be executed, or parameters or an area of storage, all of which may have arbitrary length.
@@ -689,6 +708,15 @@ The parameter field will typically contain 4 kinds of information:
 -   Machine instructions: code compiled by your program which is itself executed for this entry. Such data must probably be aligned on word boundary, the other need not.
 
 
+#### Figure 3. Portion of dictionary
+
+-   *Several names for the same code*
+-   *Different parameters to the same code*
+-   *Code stored as parameter*
+
+![Figure 3](figure-3.png)
+
+
 #### 3.6.2 Search strategies
 
 One basic principle applies to dictionary search: it must be backwards - from latest to oldest entries. You have perhaps noticed that the dictionary is *not* arranged in any order (ie. alphabetical) other than that in which entries are made. This permits the same word to be re-defined, and the latest meaning to be obtained. There is no trade-off valuable enough to compromise this property.
@@ -702,6 +730,15 @@ Fixed-length entries may be scanned with a simple loop. Linked entries require a
 The number of chains should be a power of 2: 8 will provide a useful increase in speed. The scramble technique may be very simple: add the first few characters together and use the low-order bits. In order to maintain a linked dictionary, the next available location and the location of the last entry must be kept. A multiply-chained dictionary requires the location of the last entry for each chain: a small price in space for a large gain in time.
 
 However, search time is not a important consideration, and I advise against multiple chains unless the dictionary is very large (hundreds of entries).
+
+
+#### Figure 4. Fixed entry-size dictionary
+
+-   *Entries A and B illustrate applying the same code to different parameters.*
+-   *Entries D and E illustrate applying different code to the same parameter.*
+-   *Entries F and G execute the same code, compiled in the parameter area. Presumably they use different parameters, which are stored in the unused link field.*
+
+![Figure 4](figure-4.png)
 
 
 #### 3.6.3 Initialization
@@ -1340,7 +1377,13 @@ Notice that if entries are coming from a definition or from a screen, no conflic
 
 However there are 2 places where source of input is changed. This is in the code for ";" and ";S". If ";" restores NEXT<sub>W</sub> to NEXT, it must guarantee that input is available. That is, jump to QUERY if EMPTY is true and SCREEN is 0. Likewise, if ";S" restores SCREEN to 0, it should jump to QUERY if EMPTY is true (NEXT is guaranted to be NEXT<sub>W</sub>.
 
-The logic required is summarized in Fig 6.2 and is the price paid for duplexing the message buffer. One final complication concerns EMPTY. If true, it states that input has been destroyed; it does not indicate that output is currently in the message buffer. Output may have been placed there and already sent. If the message buffer is empty, type OK before jumping to QUERY.
+The logic required is summarized in [Figure 5](#figure-5-augmenting-control-loop) and is the price paid for duplexing the message buffer. One final complication concerns EMPTY. If true, it states that input has been destroyed; it does not indicate that output is currently in the message buffer. Output may have been placed there and already sent. If the message buffer is empty, type OK before jumping to QUERY.
+
+#### Figure 5. Augmenting control loop
+
+*Termination of entries concerned with message buffer*
+
+![Figure 5](figure-5.png)
 
 
 ### 6.3 Character strings
@@ -1491,7 +1534,7 @@ The key to the case of conversion to multiple users is that all required informa
 
 Let us look at the arrangement of core. If we choose, and we should, it follows dictionary format: each entry followed by the code it executes. Each entry is linked to the previous so that the dictionary may be searched backwards. Some entries are obviously of interest to all applications: those that control the stack, that define dictionary entries, that specify fields such as BASE, CONTEXT, etc. Other entries are probably of local concern: the names of fields in records, definitions used to edit text, special purpose code (random number generator, square root, etc.). At some point you must separate the system and user dictionaries.
 
-If you establish several user dictionaries, the first entry in each will link to the system dictionary (Fig 7.1) at the same point.Thus each user is unaware of any other user, and his dictionary search is unaffected.
+If you establish several user dictionaries, the first entry in each will link to the system dictionary at the same point. Thus each user is unaware of any other user, and his dictionary search is unaffected.
 
 
 #### 7.3.1 Controlled access
@@ -1824,4 +1867,4 @@ Now we write screens that provide definitions, an improved compiler, improved bl
 
 I'm sure you've noticed the difficulty with modifying code in the root. A powerful tool is to be able to shift the dictionary in core. If the root doesn't use absolute addresses, define a SHIFT entry and use it. Otherwise minimize the number of absolute addresses and define a more elaborate SHIFT verb that adjusts them.
 
-Be careful SAVEing your program. Keep a back-up of your old version before SAVEing a new one, just in case. ![](figure-1.jpg) ![](figure-2.jpg) ![](figure-3.jpg)
+Be careful SAVEing your program. Keep a back-up of your old version before SAVEing a new one, just in case.
