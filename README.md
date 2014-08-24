@@ -1229,9 +1229,9 @@ Fortunately there is a solution. Store on disk the text from which dictionary en
 
 There is only one way to organize disk. In the same way that core is divided into a large number of words, disk must be divided into a large number of blocks. In the same way that words are the smallest field that can be fetched from core, blocks are the smallest field that can be fetched from disk. A block contains 256 words.
 
-A block contains 256 words because that is the size of a 1-byte address, and because 256 4-byte words hold 1024 bytes which is the amount of text that can be displayed on a typical scope.
+A block contains 256 words because that is the size of a one-byte address, and because 256 four-byte words hold 1024 bytes which is the amount of text that can be displayed on a typical scope.
 
-However, here is another instance in which your application and hardware must play a dominant role. Disks usually have a hardware block-size that offers advantages. You must choose a multiple of that. Your application may involve storing data on disk, and you must choose a block size useful for data as well as text. I say no less than 512 characters nor more than 1024. 128 word blocks have recently been mentioned; fine if the words are 6 or 3 bytes (characters).
+However, here is another instance in which your application and hardware must play a dominant role. Disks usually have a hardware block-size that offers advantages. You must choose a multiple of that. Your application may involve storing data on disk, and you must choose a block size useful for data as well as text. I say no less than 512 characters nor more than 1024. 128 word blocks have recently been mentioned; fine if the words are six or three bytes (characters).
 
 
 #### 5.1.1 Getting blocks
@@ -1240,7 +1240,7 @@ In trying to anticipate the organization of a random file, certain principles ar
 
 This means that as the data in blocks becomes useless, space will become available in block-sized holes. We must somehow re-use these holes. Which means that we must allocate, and re-allocate, disk in block-sized pieces.
 
-All addresses start at 0, block addresses included (otherwise you find yourself forever adding and subtracting 1). However we cannot use block 0—for anything. You will find that most addressing errors involve block 0. If you look at block 0 from time to time you will find the most amazing things there. You will find block 1 a useful place to store things you need to remember from run to run. Like the address of the first block available for re-use—none: 0. And the address of the last block used—initially: 1.
+All addresses start at 0, block addresses included (otherwise you find yourself forever adding and subtracting 1). However we cannot use block 0— for anything. You will find that most addressing errors involve block 0. If you look at block 0 from time to time you will find the most amazing things there. You will find block 1 a useful place to store things you need to remember from run to run. Like the address of the first block available for re-use—none: 0. And the address of the last block used—initially: 1.
 
 You will want to copy disk (onto another disk, or tape) for protection. You need only copy the number of blocks used, which is usually less than half the disk capacity, or else you’re pretty worried about space. If you destroy block 1 (you will) you will have to re-load the entire disk from your back-up. Never try to recover just block 1, you’ll end up horribly confused.
 
@@ -1264,7 +1264,7 @@ How many blocks you can have is probably limited by the disk, however it may be 
 
 #### 5.1.3 Reading and writing disk
 
-I’m sure you know how to read disk. However, do not choose a block size that causes the slightest difficulty: like half a block between tracks. If you check the GET routine, you’ll see that you’ll need 2 blocks in core at once. This is a reasonable minimum, it makes it easy to move things from one block to another. However, you’ll have lots of core left over and you might as well use it for buffering disk; especially if access time is noticeable.
+I’m sure you know how to read disk. However, do not choose a block size that causes the slightest difficulty: like half a block between tracks. If you check the GET routine, you’ll see that you’ll need two blocks in core at once. This is a reasonable minimum, it makes it easy to move things from one block to another. However, you’ll have lots of core left over and you might as well use it for buffering disk; especially if access time is noticeable.
 
 You’ll want a table specifying which blocks are in core: your read routine can check this table before reading.
 
@@ -1285,7 +1285,7 @@ A block that contains text (I mean text to be read and executed by your program)
 
 A block that contains text should have a special name, for you will be using it often in conversation. I have called such blocks SHEETs—since the text filled a sheet of paper—and SCREENs—since the text filled the screen of a scope. Define the word READ to save the input address, the block and character position of the next character to be scanned, on the return stack; and reset the input pointer to the block on the stack and the first character position. Define the word ;S to restore the original input pointer. Very simply you can have your program read block 123:
 
--   123 READ
+    123 READ
 
 However… there’s always a however, isn’t there. You must modify your word routine to read the current block before scanning. This is expensive but essential (of course no actual read is performed if the block is in core), for the last word executed may have caused a block to be read that overlaid the block the word was read from. This can especially occur if one screen directs the reading of others (as they will). No other solution to this problem has been satisfactory, so swallow the code—which need not be great.
 
@@ -1298,42 +1298,42 @@ Never put anything on disk you can’t modify! And we haven’t discussed how yo
 
 You must be able to handle character strings surrounded with quotes ([6.3](#63-character-strings)). Given that, I shall exhibit a text editing screen. This is a simple example of the value of definitions. You may notice it is the first non-trivial example I’ve given. You should be motivated by now to give it proper attention.
 
-Naturally, you’re going to have to type these definitions twice. Once to put them into your dictionary; again, to use them to put them in a screen (bootstrapping). In fact you’ll probably type them many times, but 2 is minimum.
+Naturally, you’re going to have to type these definitions twice. Once to put them into your dictionary; again, to use them to put them in a screen (bootstrapping). In fact you’ll probably type them many times, but two is minimum.
 
 I’m going to exhibit an annotated copy of the EDIT screen I used in a particular program. It uses system entries whose value may not be clear. They are borrowed from other aspects of the application.
 
--   0 C1 42 \# :R RECORD
+    0 C1 42 # :R RECORD
 
-Here I am constructing a field description: RECORD is a 42 character field starting in character 1 of word 0 of the current block (understood). I’m using blocks that can hold 15 42-character lines; a word has 6 characters, so that’s 15 7-word lines.
+Here I am constructing a field description: RECORD is a 42 character field starting in character 1 of word 0 of the current block (understood). I’m using blocks that can hold 15 42-character lines; a word has six characters, so that’s 15 7-word lines.
 
--   : LINE 1 - 7 \* RECORD + ;
+    : LINE 1 - 7 * RECORD + ;
 
-Here I’m defining a verb that will convert a line number (1-15) to a field address. It modifies the RECORD descriptor by changing the word specification (low order bits). Thus line 1 starts in word 0; line 2 in word 7; etc.
+Here I’m defining a verb that will convert a line number (1–15) to a field address. It modifies the RECORD descriptor by changing the word specification (low order bits). Thus line 1 starts in word 0; line 2 in word 7; etc.
 
--   : T CR LINE ,C ;
+    : T CR LINE ,C ;
 
 If I type `3 T`—I want line 3 typed. T does a carriage return (CR), executes LINE to compute the field address, and copies the (character) field into the message buffer (,C).
 
--   : R LINE =C ;
+    : R LINE =C ;
 
 If I type `" NEW TEXT" 6 R`—I want line 6 to be replaced by the text in quotes. The leading quote puts a string descriptor on the stack. R then executes LINE, followed by =C to store the quote string in the field. The block will automatically be re-written, since it was changed.
 
--   : LIST 15 0 DO 1 +
--   CR DUP LINE ,C DUP ,I CONTINUE ;
+    : LIST 15 0 DO 1 +
+    CR DUP LINE ,C DUP ,I CONTINUE ;
 
 LIST will list the entire block: 15 42-character lines followed by line numbers. It sets up a DO-CONTINUE loop with the stack varying from 1–15. Each time through the loop it: does a CR; copies the stack and executes LINE; types the field (,C); copies the stack again and types it as an integer (,I).
 
--   : I 1 + DUP 15 DO 1 -
--   DUP LINE DUP 7 + =C CONTINUE R ;
+    : I 1 + DUP 15 DO 1 -
+    DUP LINE DUP 7 + =C CONTINUE R ;
 
 If I type `" NEW TEXT" 6 I`—I want the text inserted after line 6. `I` must first shift lines 7–14 down one position (losing line 15) and then replace line 7. It adds 1 to the line number, sets up a backwards DO-CONTINUE loop starting at 14, constructs two field descriptors, LINE and LINE+7, and shifts them (,C). When the loop if finished, it does an R.
 
--   : D 15 SWAP DO 1 +
--   DUP LINE DUP 7 - =C CONTINUE " " 15 R ;
+    : D 15 SWAP DO 1 +
+    DUP LINE DUP 7 - =C CONTINUE " " 15 R ;
 
-If I type `12 D`—I want to delete line 12. D must move lines 13–15 up one position and clear line 15: It sets up a DO-CONTINUE loop from stack+1 to 15. Each iteration it: constructs fields LINE and LINE-7 and shifts them (=C). Then it replaces line 15 with spaces.
+If I type `12 D`—I want to delete line 12. `D` must move lines 13–15 up one position and clear line 15: It sets up a `DO-CONTINUE` loop from stack`+1` to `15`. Each iteration it: constructs fields `LINE` and `LINE-7` and shifts them (`=C`). Then it replaces line 15 with spaces.
 
-That’s it. With 10 lines of code I can define a text-editor. It’s not the most efficient possible, but it’s fast enough and illustrates many points: In dealing with small amounts of text, you needn’t be clever; let the machine do the work. The verb LINE is an extremely useful one; such useful verbs are invariably an empirical discovery. The verbs ,C and =C are the heart of the method; incidentally, they only work on fields less than 64 characters. Notice how one definition wants to reference another (R used by I and D; LINE used by all). Notice how I and D are similar yet different. And notice how a few verbs eliminate a lot of bookkeeping and let you concentrate on the problem and not the details.
+That’s it. With ten lines of code I can define a text-editor. It’s not the most efficient possible, but it’s fast enough and illustrates many points: In dealing with small amounts of text, you needn’t be clever; let the machine do the work. The verb `LINE` is an extremely useful one; such useful verbs are invariably an empirical discovery. The verbs `,C` and `=C` are the heart of the method; incidentally, they only work on fields less than 64 characters. Notice how one definition wants to reference another (`R` used by `I` and `D`; `LINE` used by all). Notice how `I` and `D` are similar yet different. And notice how a few verbs eliminate a lot of bookkeeping and let you concentrate on the problem and not the details.
 
 
 ## 6. Programs with output
