@@ -960,7 +960,7 @@ Definitions are extremely powerful. Why, is hard to explain, hard even to compre
 
 But there are several properties that emphasize the value of definitions over their equivalent, a series of subroutine calls. First, you needn’t be concerned about call sequence, about what registers are available and what must be saved; simply type a word. Second, one definition can execute another. That is, you can nest definitions, again without any concern about saving return addresses or other register conflicts. You can even use definitions recursively without concern. Third, you can pass arguments among definitions effortlessly, in fact invisibly, since they are on the stack. Again you have no concern for calling sequence or storage conflicts. Plenty of temporary storage is available, too; again on the stack.
 
-Of course you have to pay for this convenience, though probably less than you would with FORTRAN subroutine calls. The price is the control loop. It’s pure overhead. Executing the code for each entry of course proceeds at computer speed; however obtaining the address of the next code to execute takes some instructions, about eight. This is why I urge you to optimize your control loop.
+Of course you have to pay for this convenience, though probably less than you would with <span class="small-caps">FORTRAN</span> subroutine calls. The price is the control loop. It’s pure overhead. Executing the code for each entry of course proceeds at computer speed; however obtaining the address of the next code to execute takes some instructions, about eight. This is why I urge you to optimize your control loop.
 
 Notice that if the code executed for words is long compared to the control loop, the cost is negligible. This is the principle of control languages. As the code shrinks to control loop size, and smaller, overhead rises to 50% and higher. This is the price of an application language. Note, however, that 50% overhead is easily reached with operating systems and compilers that support an application program.
 
@@ -1028,7 +1028,7 @@ That’s all there is to it. The combination of `EXECUTE`, <code>NEXT<sub>I</sub
 
 Let me review briefly the process of defining a definition: The word `:` sets a switch that modifies the control loop; it will now compile words instead of executing them. The word `;` is compiled, but also causes the switch to be reset, ending the process of compilation. Following words will now be executed as usual.
 
-We can thus view `;` as being an exceptional word, for it is—in a sense—executed during compilation, at which time it resets that switch. Of course it is also executed during execution of the definition, with a different effect: it resets IC.
+We can thus view `;` as being an exceptional word, for it is—in a sense—executed during compilation, at which time it resets that switch. Of course it is also executed during execution of the definition, with a different effect: it resets `IC`.
 
 There are other words like `;` that must be executed during compilation. These words control the compilation. They perform code more complicated that simply depositing an entry address. In particular, they are required to provide forward and backward branching.
 
@@ -1038,7 +1038,7 @@ Define the words `IF`, `ELSE` and `THEN` to permit the following conditional sta
 
 <pre><code><em>boolean value</em> IF <em>true statement</em> ELSE <em>false statement</em> THEN <em>continue</em></code></pre>
 
-The words have a certain mnemonic value, though they are permuted from the familiar ALGOL format. Such a statement can only appear in a definition, for `IF`, `ELSE` and `THEN` are instruction-generating words.
+The words have a certain mnemonic value, though they are permuted from the familiar <span class="small-caps">ALGOL</span> format. Such a statement can only appear in a definition, for `IF`, `ELSE` and `THEN` are instruction-generating words.
 
 At definition time, the word `IF` is executed. It compiles a forward jump. Now I must sidetrack the discussion and define jumps. A jump instruction for the virtual computer is similar to a literal. An in-line literal is a double-length instruction. The code executed for the pseudo-entry comprising the first half, uses the second half as a parameter. Likewise for jumps: a pseudo-entry uses an in-line parameter to change the virtual-computer instruction-counter (`IC`). This parameter is the amount, positive or negative, to be added to `IC`: positive for a forward jump, negative for a backward jump. It is a relative jump address, and the whole construction is used by some real computers.
 
@@ -1046,17 +1046,17 @@ Actually we need two jump pseudo-entries: a conditional jump and an unconditiona
 
 All right, back to `IF`. At definition time it compiles the conditional jump pseudo-entry, followed by a 0. For it doesn’t know how far to jump. And it places the location of the 0, the unknown address, onto the stack. Remember that the stack is currently not in use, because we’re defining. Later it will be used by those words we’re defining, but at the moment we’re free to use it to help in the process.
 
-Now look at ELSE. At definition time it compiles an unconditional jump pseudo-entry followed by 0. But then it stores the current value of DP, the next available location, into the location on the stack. Thus it provides the distance for the conditional jump generated by IF. Actually it must subtract to get a relative address, but the principle is clear. In turn it leaves the location of its address on the stack.
+Now look at `ELSE`. At definition time it compiles an unconditional jump pseudo-entry followed by 0. But then it stores the current value of `DP`, the next available location, into the location on the stack. Thus it provides the distance for the conditional jump generated by `IF`. Actually it must subtract to get a relative address, but the principle is clear. In turn it leaves the location of its address on the stack.
 
-Finally we come to THEN. It fixes-up the address that ELSE left dangling. That is, it subtracts the stack from DP and stores the result indirectly in the stack; and destructively. Thus the combination of IF, ELSE and THEN use the stack to construct forward jump virtual-computer instructions. Since ELSE and THEN act identically in fixing-up the missing address, ELSE can be omitted without any modification. Also since the stack is used to store unfulfilled jumps, IF … THEN statements may be nested. The only restriction is that all addresses are determined; that is, that all locations are removed from the stack. This will be the case if every IF has a matching THEN; ELSE is always optional.
+Finally we come to `THEN`. It fixes-up the address that `ELSE` left dangling. That is, it subtracts the stack from `DP` and stores the result indirectly in the stack; and destructively. Thus the combination of `IF`, `ELSE` and `THEN` use the stack to construct forward jump virtual-computer instructions. Since `ELSE` and `THEN` act identically in fixing-up the missing address, `ELSE` can be omitted without any modification. Also since the stack is used to store unfulfilled jumps, `IF … THEN` statements may be nested. The only restriction is that all addresses are determined; that is, that all locations are removed from the stack. This will be the case if every `IF` has a matching `THEN`; `ELSE` is always optional.
 
 Of course there’s nothing unusual about this technique. All compilers generate forward jumps in this manner. What is somewhat unusual is applying it to the compilation of instructions for a virtual-computer. But it seems to be the best way.
 
-Let’s consider a related construction. Very often we are faced with logical expressions that consist of a string of ANDs or a string of ORs. The truth value of such expressions may be determined before the entire expression is evaluated. You can save time by quitting once you know the final result. For example, consider the statement:
+Let’s consider a related construction. Very often we are faced with logical expressions that consist of a string of `AND`s or a string of `OR`s. The truth value of such expressions may be determined before the entire expression is evaluated. You can save time by quitting once you know the final result. For example, consider the statement:
 
     a b AND c AND IF … THEN
 
-where `a`, `b`, `c` are boolean expressions; and the statement would read in ALGOL:
+where `a`, `b`, `c` are boolean expressions; and the statement would read in <span class="small-caps">ALGOL</span>:
 
 <pre><code><b>if</b> a <b>and</b> b <b>and</b> c <b>then</b> …</code></pre>
 
@@ -1070,7 +1070,7 @@ Now consider the corresponding statement with `OR`s:
 
     a b OR c OR IF … THEN
 
-or in ALGOL
+or in <span class="small-caps">ALGOL</span>
 
 <pre><code><b>if</b> a <b>or</b> b <b>or</b> c <b>then</b> …</code></pre>
 
@@ -1085,30 +1085,30 @@ and if you define
 
 the statement works as follows: if `a` is true, `-IF` will jump; if `b` is true, `-IF` will jump; if `c` is false, `IF` will jump. The first `HERE` will catch `b`’s jump (the `SWAP` gets `c`’s address out of the way); the second `HERE` catches `a`’s jump; `THEN` catches `c`’s jump. Thus `a` and `b` jump into the condition, while `c` jumps over it.
 
-This is a slightly clumsy statement, but I’ve found no simpler solution. If you used them regularly, you’d doubtless acquire facility, and it would seem quite natural. Just watch that you match all IFs. Moreover the same technique could be applied to more complex logical expressions—with even greater clumsiness.
+This is a slightly clumsy statement, but I’ve found no simpler solution. If you used them regularly, you’d doubtless acquire facility, and it would seem quite natural. Just watch that you match all `IF`s. Moreover the same technique could be applied to more complex logical expressions—with even greater clumsiness.
 
 
 #### 4.4.4 Loops
 
 I’ll continue with a couple more examples of words executed at definition time. This time examples of backward jumps, used to construct loops.
 
-Consider the pair of words BEGIN and END, as used in a statement like:
+Consider the pair of words `BEGIN` and `END`, as used in a statement like:
 
 <pre><code>BEGIN … <em>boolean value</em> END</code></pre>
 
-BEGIN stores DP onto the stack, thus marking the beginning of a loop. END generates a conditional backward jump to the location left by BEGIN. That is, it deposits a conditional jump pseudo-entry, subtracts DP+1 from the stack, and deposits that relative address. If the boolean value is false during execution, you stay in the loop. When it becomes true, you exit.
+`BEGIN` stores `DP` onto the stack, thus marking the beginning of a loop. `END` generates a conditional backward jump to the location left by `BEGIN`. That is, it deposits a conditional jump pseudo-entry, subtracts `DP+1` from the stack, and deposits that relative address. If the boolean value is false during execution, you stay in the loop. When it becomes true, you exit.
 
-BEGIN and END provide a loop terminated by a logical condition. Let’s define another loop. This one counts an index through a range to control the looping:
+`BEGIN` and `END` provide a loop terminated by a logical condition. Let’s define another loop. This one counts an index through a range to control the looping:
 
     a b DO … CONTINUE
 
-a and b represent arguments on the stack. DO acts just like BEGIN. CONTINUE requires a new pseudo-entry that tests the top two words on the stack for equality, and jumps if they are unequal. During compilation CONTINUE deposits this pseudo-entry and then computes the jump distance as did END. Thus CONTINUE uses another conditional jump: one that tests the stack for equal, instead of for false. It is also a non-destructive operation, so long as its arguments are unequal. When they become equal and terminate the loop, it drops them.
+a and b represent arguments on the stack. `DO` acts just like `BEGIN`. `CONTINUE` requires a new pseudo-entry that tests the top two words on the stack for equality, and jumps if they are unequal. During compilation `CONTINUE` deposits this pseudo-entry and then computes the jump distance as did `END`. Thus `CONTINUE` uses another conditional jump: one that tests the stack for equal, instead of for false. It is also a non-destructive operation, so long as its arguments are unequal. When they become equal and terminate the loop, it drops them.
 
-Presumably, inside the DO … CONTINUE loop the arguments are modified so as to terminate the loop. This can be done many ways. For example, to run the loop from 1 to 10:
+Presumably, inside the `DO … CONTINUE` loop the arguments are modified so as to terminate the loop. This can be done many ways. For example, to run the loop from 1 to 10:
 
     10 0 DO 1 + … CONTINUE
 
-The first argument is 10, the stopping value; the second is 0, which is immediately incremented to 1, the index value. Within the loop this index is available for use. the DUP operation will obtain a copy. Each time through the loop the index will be incremented by 1. After the loop is executed for index value 10, the CONTINUE operation will stop the loop and drop the two arguments—now both 10.
+The first argument is 10, the stopping value; the second is 0, which is immediately incremented to 1, the index value. Within the loop this index is available for use. the `DUP` operation will obtain a copy. Each time through the loop the index will be incremented by 1. After the loop is executed for index value 10, the `CONTINUE` operation will stop the loop and drop the two arguments—now both 10.
 
 Alternatively, the same loop could be written:
 
@@ -1118,14 +1118,14 @@ Here the index is incremented at the end of the loop, instead of the beginning. 
 
 Naturally loops can be counted backwards, or indeed many other methods of modifying the index used. It will always terminate on equality. Of course, such a flexible loop control runs the risk of never stopping at all. If you increment the index incorrectly, it will happily run forever. But used carefully, it’s a convenient tool.
 
-A refinement of DO … CONTINUE is not difficult. If the arguments are equal to start with, DO can generate a conditional forward jump that CONTINUE will fix-up. Thus you may do a loop *no* times. However, such loops are the exception; but if you encounter one, you’ll find the conditional statement required to protect it most awkward.
+A refinement of `DO … CONTINUE` is not difficult. If the arguments are equal to start with, `DO` can generate a conditional forward jump that `CONTINUE` will fix-up. Thus you may do a loop *no* times. However, such loops are the exception; but if you encounter one, you’ll find the conditional statement required to protect it most awkward.
 
 
 #### 4.4.5 Implementation
 
-I hope you now appreciate the need for words that are executed at define time. I’m sure you’re aware of the need for branches and loops. Perhaps you’ll notice that I did not mention labels; the branch generating words I mentioned, and others you can invent, are perfectly capable of handling jumps without labels. You saw in the definition of HERE how the stack can be manipulated to permit overlapping jumps as well as nested ones. However in a sense we have many labels, for every dictionary entry effectively assigns a name to a piece of code.
+I hope you now appreciate the need for words that are executed at define time. I’m sure you’re aware of the need for branches and loops. Perhaps you’ll notice that I did not mention labels; the branch generating words I mentioned, and others you can invent, are perfectly capable of handling jumps without labels. You saw in the definition of `HERE` how the stack can be manipulated to permit overlapping jumps as well as nested ones. However in a sense we have many labels, for every dictionary entry effectively assigns a name to a piece of code.
 
-Now to consider some problems I glossed over. Clearly you must be able to recognize those words that are to be executed during definitions. That is, IF, THEN, BEGIN, END, etc. must somehow override the normal mechanism whereby the control loop would compile them. I mentioned a switch that distinguished execution from compilation. Let’s establish a similar flag (one bit) in each dictionary entry, with the values
+Now to consider some problems I glossed over. Clearly you must be able to recognize those words that are to be executed during definitions. That is, `IF`, `THEN`, `BEGIN`, `END`, etc. must somehow override the normal mechanism whereby the control loop would compile them. I mentioned a switch that distinguished execution from compilation. Let’s establish a similar flag (one bit) in each dictionary entry, with the values
 
 -   1—execute
 -   0—compile
@@ -1136,24 +1136,24 @@ For a given entry, “or” the switch and flag together; if either is 1, execut
 
 The above rule is correct, and even fairly efficient. Remember that we want the control loop efficient! And it’s adequate providing all words that must be executed are built into your system dictionary. Unfortunately, it’s not adequate for the examples I gave above, which probably means it’s inadequate, since those were pretty simple examples. But complication is part of the fun of programming. So pay attention and I’ll try to explain some problems I don’t understand very well myself.
 
-> I don’t understand my concern about SWAP below. The word ! did not endure. Don’t try to reconcile what I said. I can’t.
+> I don’t understand my concern about `SWAP` below. The word ! did not endure. Don’t try to reconcile what I said. I can’t.
 
-Consider the definition of HERE I gave above:
+Consider the definition of `HERE` I gave above:
 
     : HERE SWAP THEN ;
 
-Here is one of those imperative words; it must be executed at definition time. But it is defined as an ordinary definition—and would be compiled. Even if we managed to execute HERE, the first word in its definition is SWAP: a most ordinary word, and one that would certainly be compiled, except that we intend it, too, to be executed. The next word, THEN, offers no problem—or does it? If we can execute HERE we’ll also execute THEN, since it’s imperative. However we have a problem at the time we *define* HERE; we’ll try to *execute* THEN, when we want to *compile* it. That is, sometimes we want to compile imperative words; and sometimes we want to execute ordinary words—even in a definition.
+Here is one of those imperative words; it must be executed at definition time. But it is defined as an ordinary definition—and would be compiled. Even if we managed to execute `HERE`, the first word in its definition is `SWAP`: a most ordinary word, and one that would certainly be compiled, except that we intend it, too, to be executed. The next word, `THEN`, offers no problem—or does it? If we can execute `HERE` we’ll also execute `THEN`, since it’s imperative. However we have a problem at the time we *define* `HERE`; we’ll try to *execute* `THEN`, when we want to *compile* it. That is, sometimes we want to compile imperative words; and sometimes we want to execute ordinary words—even in a definition.
 
 So, what to do? I bet you think I have a solution. Your faith is touching, but I don’t have a very good one. It suffers a small restriction, but a nagging one: you may not execute a literal in a definition. To phrase it positively: literals must be compiled inside definitions. Let’s see how it works.
 
-Consider the switch STATE. It’s normally 0; `:` makes it 1 to indicate compilation. Let’s define a new defining entry `:!` that acts exactly like `:` with two exceptions:
+Consider the switch `STATE`. It’s normally 0; `:` makes it 1 to indicate compilation. Let’s define a new defining entry `:!` that acts exactly like `:` with two exceptions:
 
 -   It sets the entry flag to 1; to mark an imperative word.
 -   It sets `STATE` to 2; to force all words to be compiled. Since the test in the control loop is to execute if `STATE` and flag are equal, nothing will execute.
 
-`;` is unchanged; its sets STATE to 0 for both sorts of definitions. This solves all our problems except SWAP. How do we execute words that ordinarily would be compiled?
+`;` is unchanged; its sets `STATE` to 0 for both sorts of definitions. This solves all our problems except `SWAP`. How do we execute words that ordinarily would be compiled?
 
-Define a new entry `!`. Let it execute the last entry compiled and remove it from the compilation. Now we can re-write the definition of HERE as
+Define a new entry `!`. Let it execute the last entry compiled and remove it from the compilation. Now we can re-write the definition of `HERE` as
 
     :! HERE SWAP ! THEN ;
 
@@ -1177,13 +1177,13 @@ I don’t want to down-grade the possibility or value of such efforts, but you w
 
 On the other hand, if you start with code entries, you can construct all the other entries I’ve been talking about: arithmetic operators, noun entries, definitions. In [Chapter 9](#9-programs-that-bootstrap) I’ll show how you can use code entries in a really essential role; and achieve a significantly more efficient and powerful program than by any other means. But except for that I’m afraid they are marginal.
 
-So how can you generate code? First you need a defining entry that defines a code entry. The characteristic of a code entry is that it executes code stored in its parameter field. Thus the address passed to ENTRY by its defining entry (say CODE) must be the location into which will be placed the first instruction. This is not DP, because the entry itself takes space; but is simply DP plus a constant.
+So how can you generate code? First you need a defining entry that defines a code entry. The characteristic of a code entry is that it executes code stored in its parameter field. Thus the address passed to `ENTRY` by its defining entry (say `CODE`) must be the location into which will be placed the first instruction. This is not `DP`, because the entry itself takes space; but is simply `DP` plus a constant.
 
-Second you need an entry to deposit a number at DP. We have used such a routine several times, constructing variables and definitions, but we’ve not had an entry for it. I suggest the word `,` although that might conflict with your output entries. All it does is move a number from the stack to the parameter field. Instructions are numbers of course. You’ll construct them on the stack and then deposit them. Incidentally, this is a useful entry—apart from compiling code. You’ll find it useful for initializing data arrays of all kinds.
+Second you need an entry to deposit a number at `DP`. We have used such a routine several times, constructing variables and definitions, but we’ve not had an entry for it. I suggest the word `,` although that might conflict with your output entries. All it does is move a number from the stack to the parameter field. Instructions are numbers of course. You’ll construct them on the stack and then deposit them. Incidentally, this is a useful entry—apart from compiling code. You’ll find it useful for initializing data arrays of all kinds.
 
-Now you can appreciate the source of my earlier caution. You’ll have to provide a flock of entries that access code compiled into your program that we’ve not needed to reference directly before. For example RETURN: when you routine is finished, it must jump to the control loop, just as you built-in entries do. However you don’t know the location of the control loop in core; and it moves as you change your program. So you must have an entry to generate a RETURN instruction.
+Now you can appreciate the source of my earlier caution. You’ll have to provide a flock of entries that access code compiled into your program that we’ve not needed to reference directly before. For example `RETURN`: when you routine is finished, it must jump to the control loop, just as you built-in entries do. However you don’t know the location of the control loop in core; and it moves as you change your program. So you must have an entry to generate a `RETURN` instruction.
 
-Likewise, if you plan to compile defining entries you must provide entries that will generate subroutine calls to ENTRY. Other code might want to access WORD or NUMBER or indeed any facility already available in your program. Moreover you will have to define variable entries for those fields you will use: D and F for output; perhaps STATE and BASE; Basically, the problem is that you must make available outside your program, all the labels available inside it already. You must use them enough to justify the effort.
+Likewise, if you plan to compile defining entries you must provide entries that will generate subroutine calls to `ENTRY`. Other code might want to access `WORD` or `NUMBER` or indeed any facility already available in your program. Moreover you will have to define variable entries for those fields you will use: D and F for output; perhaps `STATE` and `BASE`; Basically, the problem is that you must make available outside your program, all the labels available inside it already. You must use them enough to justify the effort.
 
 All right, you’ve done that much. Now you’ve got to decide how to construct an instruction. They have several fields—instruction, index, address—that you’ll want to put onto the stack separately and combine somehow. This is easy to do, but hard to design. You probably don’t want to copy your assembler, and probably couldn’t follow its format conveniently anyway. In fact you can do a good job of designing a readable compiler language; but it will take some effort. Definitions provide all the tools you need.
 
@@ -1193,23 +1193,23 @@ We discussed conditional statements and loops for the virtual computer. Precisel
 
 One valuable use of a compiler is the permit the definition of new kinds of nouns. That is, to construct new defining entries. As an example consider using the primitive compiler to define instruction entries as described just above. Or you might want to define entries that multiply the top of the stack by a constant.
 
-As usual when adding an ability, several distinct entries must cooperate to provide it. In this case ENTER and ;CODE. Let me illustrate:
+As usual when adding an ability, several distinct entries must cooperate to provide it. In this case `ENTER` and `;CODE`. Let me illustrate:
 
     : UNIT ENTER , ;CODE 1 V LDA , SP MPY , SP STA , NEXT ,
     2.54 UNIT IN
     4. IN
 
-The first line defines the word UNIT. The next line uses this defining entry to define the word IN (inches). The last line uses IN in a way that puts four inches onto the stack, as centimeters. The three lines are equivalent to
+The first line defines the word `UNIT`. The next line uses this defining entry to define the word `IN` (inches). The last line uses `IN` in a way that puts four inches onto the stack, as centimeters. The three lines are equivalent to
 
     : IN 2.54 * ;
 
-which is certainly simpler. But if you want to define many UNITs, a special defining entry is much more convenient and efficient.
+which is certainly simpler. But if you want to define many `UNIT`s, a special defining entry is much more convenient and efficient.
 
-The first special word is ENTER. It calls the ENTRY subroutine used by all your defining entries, but passes a 0 address as the location of the code to be executed. Look at the definition of UNIT. The word ENTER is imperative. It generates a double-length pseudo-instruction; a pseudo-entry for the first half and a 0 constant for the second. At execution time, the pseudo-entry will call ENTRY to construct a new dictionary entry, passing the following constant as the address of code to be executed. The word ;CODE is a combination of the words `;` and CODE. It terminates the definition of UNIT and stores DP into the address field established by ENTER. Thus the code that follows ;CODE is the code that will be executed for all entries created by UNIT. ;CODE knows where to store DP because ENTER is restricted to being the first word in any definition that uses it; and ;CODE knows which definition it is terminating.
+The first special word is `ENTER`. It calls the `ENTRY` subroutine used by all your defining entries, but passes a 0 address as the location of the code to be executed. Look at the definition of `UNIT`. The word `ENTER` is imperative. It generates a double-length pseudo-instruction; a pseudo-entry for the first half and a 0 constant for the second. At execution time, the pseudo-entry will call `ENTRY` to construct a new dictionary entry, passing the following constant as the address of code to be executed. The word `;CODE` is a combination of the words `;` and `CODE`. It terminates the definition of `UNIT` and stores `DP` into the address field established by `ENTER`. Thus the code that follows `;CODE` is the code that will be executed for all entries created by `UNIT`. `;CODE` knows where to store `DP` because `ENTER` is restricted to being the first word in any definition that uses it; and `;CODE` knows which definition it is terminating.
 
-The restriction on the position of ENTER is unimportant, it may as well be first as anywhere else. In the case of UNIT, only a `,` to deposit the constant was needed. Other nouns might need more elaborate processing to establish their parameter field.
+The restriction on the position of `ENTER` is unimportant, it may as well be first as anywhere else. In the case of `UNIT`, only a `,` to deposit the constant was needed. Other nouns might need more elaborate processing to establish their parameter field.
 
-You notice I gave an example of code following ;CODE. You see instruction mnemonics and addresses deposited by `,`. I don’t want to explain this compiler language, for it is not relevant for your computer.
+You notice I gave an example of code following `;CODE`. You see instruction mnemonics and addresses deposited by `,`. I don’t want to explain this compiler language, for it is not relevant for your computer.
 
 One more suggestion might prove helpful. You might define a new kind of constant: an instruction. When executed, an instruction expects an address on the stack, extracts a constant from its parameter field and constructs and deposits a completed instruction. You’ll probably have a large number of instructions, and use a large number. This will save you many deposit entries.
 
@@ -1240,7 +1240,7 @@ In trying to anticipate the organization of a random file, certain principles ar
 
 This means that as the data in blocks becomes useless, space will become available in block-sized holes. We must somehow re-use these holes. Which means that we must allocate, and re-allocate, disk in block-sized pieces.
 
-All addresses start at 0, block addresses included (otherwise you find yourself forever adding and subtracting 1). However we cannot use block 0— for anything. You will find that most addressing errors involve block 0. If you look at block 0 from time to time you will find the most amazing things there. You will find block 1 a useful place to store things you need to remember from run to run. Like the address of the first block available for re-use—none: 0. And the address of the last block used—initially: 1.
+All addresses start at 0, block addresses included (otherwise you find yourself forever adding and subtracting 1). However we cannot use block 0—for anything. You will find that most addressing errors involve block 0. If you look at block 0 from time to time you will find the most amazing things there. You will find block 1 a useful place to store things you need to remember from run to run. Like the address of the first block available for re-use—none: 0. And the address of the last block used—initially: 1.
 
 You will want to copy disk (onto another disk, or tape) for protection. You need only copy the number of blocks used, which is usually less than half the disk capacity, or else you’re pretty worried about space. If you destroy block 1 (you will) you will have to re-load the entire disk from your back-up. Never try to recover just block 1, you’ll end up horribly confused.
 
