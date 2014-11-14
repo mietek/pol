@@ -153,7 +153,7 @@ As I will detail later, the input routine is the most important code in your pro
 
 Moreover, the task is not that great as to deter you. Although it takes hundreds of instructions to write a general purpose subroutine, you can do what you need with tens of instructions. In fact, I would advise against writing a subroutine longer that a hundred instructions.
 
-So if you want to read double-precision, complex integers; don’t rely on the COBOL input subroutine, or wait till the manufacturer revises it. It’s a lot easier to write your own.
+So if you want to read double-precision, complex integers; don’t rely on the <span class="small-caps">COBOL</span> input subroutine, or wait till the manufacturer revises it. It’s a lot easier to write your own.
 
 But suppose everyone wrote their own subroutines? Isn’t that a step backward; away from the millennium when our programs are machine independent, when we all write in the same language, maybe even on the same computer? Let me take a stand: I can’t solve the problems of the world. With luck, I can write a good program.
 
