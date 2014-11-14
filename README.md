@@ -1497,13 +1497,13 @@ All right, what happens when a user relinquishes control? The computer simple sc
 
 ### 7.2 Queuing
 
-You can save yourself a lot of trouble by putting some code in the user controller. Two subroutines: QUEUE and UNQUEUE. When a user needs a facility that might be in use by someone else, he calls QUEUE. If it’s available, he gets it. If it’s not available, he joins the queue of people waiting for it. When it is released, and his turn, he will get it.
+You can save yourself a lot of trouble by putting some code in the user controller. Two subroutines: `QUEUE` and `UNQUEUE`. When a user needs a facility that might be in use by someone else, he calls `QUEUE`. If it’s available, he gets it. If it’s not available, he joins the queue of people waiting for it. When it is released, and his turn, he will get it.
 
-For example, he can’t read disk if someone else if reading disk. Or at least he can’t use a particular channel or device. While he’s waiting, of course he relinquishes control. When he’s through with the facility, he calls UNQUEUE which passes it to someone else.
+For example, he can’t read disk if someone else if reading disk. Or at least he can’t use a particular channel or device. While he’s waiting, of course he relinquishes control. When he’s through with the facility, he calls `UNQUEUE` which passes it to someone else.
 
-These are extremely valuable routines, for there are many facilities that can be handled in the manner; each disk, each line (shared lines), the printer, block 1 (disk allocation), non-re-entrant routines (SQRT). An extension will even permit exclusive use of blocks.
+These are extremely valuable routines, for there are many facilities that can be handled in the manner; each disk, each line (shared lines), the printer, block 1 (disk allocation), non-re-entrant routines (`SQRT`). An extension will even permit exclusive use of blocks.
 
-Naturally, I have in mind a specific way to implement QUEUE and UNQUEUE. And I caution you, more strongly than usual, that plausible modifications won’t work. I’ll try to mention all the reasons.
+Naturally, I have in mind a specific way to implement `QUEUE` and `UNQUEUE`. And I caution you, more strongly than usual, that plausible modifications won’t work. I’ll try to mention all the reasons.
 
 In addition to the user’s dictionary address and ready flag, each user must have a link field—not in his dictionary, but in user control. Each facility that is to be protected must have associated with it two fields: the owner, and the first person waiting. The best arrangement is to have a table of such queue-words, one for each facility. If a facility is free, its owner is 0; otherwise its owner is the number of the user owning it. A user’s number is his position in the table of users, starting at 1. If no one is waiting, a facility’s waiter field is 0; otherwise it is the number of the user waiting.
 
@@ -1519,9 +1519,9 @@ If someone’s waiting:
 
 -   I follow the chain of links starting at the waiter’s link field until I find a zero link; I place my number there, zero my link field, and relinquish control.
 
-When I’m through with a facility (UNQUEUE):
+When I’m through with a facility (`UNQUEUE`):
 
--   IF no one’s waiting, I zero the owner field, and exit.
+-   If no one’s waiting, I zero the owner field, and exit.
 -   If someone’s waiting, I move his number to the owner field, move his link field to the waiter field, mark him ready, and exit.
 
 The whole procedure is simple and efficient. It handles a lot of potential problems in a reasonable and effective way. Several comments: The queues will probably be very short. In fact, facilities will usually be free, unless the computer is over-loaded. A user can not be in more than one queue. However, a user can own more than one facility. Hence the need for a waiter field with each facility: a queue must descend from each facility, and not from each owner; the two concepts are independent. You must add to the error routine a loop to release any facilities held by the current user. Since a user needs to know his own number in order to queue, this number must be stored in a field in his dictionary, and be set by the re-initialize routine.
@@ -1538,18 +1538,18 @@ To gain exclusive use of a block, with the exception of block 1, best handled as
 
 The key to the case of conversion to multiple users is that all required information about a user is stored in his dictionary—a single contiguous area of core. He makes extensive use of code that belongs to the system, and that does not reside in his dictionary. On the other hand, code unique to his application may reside there. Here is the first decision that you must make: What belongs in the user’s private dictionary?
 
-Let us look at the arrangement of core. If we choose, and we should, it follows dictionary format: each entry followed by the code it executes. Each entry is linked to the previous so that the dictionary may be searched backwards. Some entries are obviously of interest to all applications: those that control the stack, that define dictionary entries, that specify fields such as BASE, CONTEXT, etc. Other entries are probably of local concern: the names of fields in records, definitions used to edit text, special purpose code (random number generator, square root, etc.). At some point you must separate the system and user dictionaries.
+Let us look at the arrangement of core. If we choose, and we should, it follows dictionary format: each entry followed by the code it executes. Each entry is linked to the previous so that the dictionary may be searched backwards. Some entries are obviously of interest to all applications: those that control the stack, that define dictionary entries, that specify fields such as `BASE`, `CONTEXT`, etc. Other entries are probably of local concern: the names of fields in records, definitions used to edit text, special purpose code (random number generator, square root, etc.). At some point you must separate the system and user dictionaries.
 
 If you establish several user dictionaries, the first entry in each will link to the system dictionary at the same point. Thus each user is unaware of any other user, and his dictionary search is unaffected.
 
 
 #### 7.3.1 Controlled access
 
-It would appear that you want the system dictionary as large as possible to avoid redundancy. That is not necessarily the case. There are some entries that might go into the system dictionary—except that you specifically want to deny them to some users. Prime examples are the GET and DELETE entries that control disk allocation. Misuse of these words by ignorant users can badly damage data stored on disk. The best solution is to place the code in the system, without a dictionary entry. Define a table of entry points into code of this nature. Then if a user wants to use an entry point, he must first define it, perhaps:
+It would appear that you want the system dictionary as large as possible to avoid redundancy. That is not necessarily the case. There are some entries that might go into the system dictionary—except that you specifically want to deny them to some users. Prime examples are the `GET` and `DELETE` entries that control disk allocation. Misuse of these words by ignorant users can badly damage data stored on disk. The best solution is to place the code in the system, without a dictionary entry. Define a table of entry points into code of this nature. Then if a user wants to use an entry point, he must first define it, perhaps:
 
     17 ENTRY GET 18 ENTRY RELEASE
 
-establishing the words GET and RELEASE with the code identified in the 17th and 18th table positions. Library subroutines (FORTRAN arithmetic subroutines) might be treated similarly.
+establishing the words `GET` and `RELEASE` with the code identified in the 17th and 18th table positions. Library subroutines (<span class="small-caps">FORTRAN</span> arithmetic subroutines) might be treated similarly.
 
 Incidentally, this illustrates a general method of protection: In addition to using a word, the user must define it correctly. Clearly you can cascade the process. The value of such protection against malicious mischief depends on secrecy, which is always the ultimate protection. However even in the absence of secrecy, it provides valuable protection against inadvertent damage.
 
