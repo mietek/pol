@@ -431,7 +431,7 @@ Our program has a structure that is easy to miss: it is a single loop. However, 
 
 We are going to read a word from the input string, look up that word in the dictionary, and jump to the routine it specifies. Each routine will return to the top of the loop to read another word. We will be discussing many routines and it will be helpful to have a term to identify “return to the top of the loop to read another word”. I will use the word `RETURN`; you should provide a standard macro or label in your program for the same purpose.
 
-Actually, you accomplish two purposes: you mark the end of a routine. And you identify the preceding code as being a routine, as distinct from a subroutine. Thus, I use the word `RETURN` with a totally different meaning from the FORTRAN `RETURN` statement. I shall speak of `EXIT`ing from a subroutine.
+Actually, you accomplish two purposes: you mark the end of a routine. And you identify the preceding code as being a routine, as distinct from a subroutine. Thus, I use the word `RETURN` with a totally different meaning from the <span class="small-caps">FORTRAN</span> `RETURN` statement. I shall speak of `EXIT`ing from a subroutine.
 
 Included in your control loop should be a check that the parameter stack has not exceeded its limits. This is best done after `RETURN`ing from a routine, and only needs to be done for routines that use the stack. Thus there are two possible `RETURN` points (actually three).
 
@@ -459,7 +459,7 @@ I’ve described the control loop that will run our program. The first thing it 
 
 What is a word? Not a computer word, as I’m sure you realize, although we shall have to use the word “word” in that sense. A word is a string of characters bounded by spaces. It is extracted from a larger string of characters by the routine we are discussing.
 
-Let me contrast this definition with more conventional input routines. FORTRAN formatted input, for example, doesn’t speak of words but of fields. The meaning of a number is determined by the field it resides in; that is, by its position on a card. Since we are not using cards, the notion of position becomes clumsy and we replace it with order: The order of the words we read is significant, though their position is not. We lose, however, the ability to leave a field empty, since we cannot recognize an empty word. All our data must be explicit, which is probably a good idea but a slow one to learn. Decide now that you will not specify input conventions that have optional parameters.
+Let me contrast this definition with more conventional input routines. <span class="small-caps">FORTRAN</span> formatted input, for example, doesn’t speak of words but of fields. The meaning of a number is determined by the field it resides in; that is, by its position on a card. Since we are not using cards, the notion of position becomes clumsy and we replace it with order: The order of the words we read is significant, though their position is not. We lose, however, the ability to leave a field empty, since we cannot recognize an empty word. All our data must be explicit, which is probably a good idea but a slow one to learn. Decide now that you will not specify input conventions that have optional parameters.
 
 Very well, let’s write the `WORD` subroutine. It uses the input pointer to point at the current position in the source text, the output pointer to point at the current position in memory where we will move the word. We must move it; partly to align it on a computer-word boundary and partly because we may want to modify it.
 
