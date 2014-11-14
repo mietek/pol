@@ -1246,14 +1246,14 @@ You will want to copy disk (onto another disk, or tape) for protection. You need
 
 You may want to put your object program on this disk. Fine! It won’t even take many blocks. You may need to start it in block 0 in order to do an initial load (bootstrap). OK, but be able to re-load the program (only) from back-up because you will destroy block 0. Only if you destroy the block (we’ll call it block 1) containing available space information must you re-load data (all data). Unless you destroy many blocks. Choose the path of least confusion, not least effort. Re-loading disk will confuse you, you’ll forget what you’ve changed and be days discovering it. Much better you spend hours re-typing text and re-entering data.
 
-So when you need a block, you type a word (GET) which reads block 1, places the block up for re-use on the stack, reads that block, places the contents of its first word into block 1, and re-writes block 1. The first word, of course, contains the address of the next block up for re-use. If no block was available for re-use (initially the case), GET increments the last block used, puts it on the stack and re-writes block 1. GET then clears your new block to 0 and re-writes it.
+So when you need a block, you type a word (`GET`) which reads block 1, places the block up for re-use on the stack, reads that block, places the contents of its first word into block 1, and re-writes block 1. The first word, of course, contains the address of the next block up for re-use. If no block was available for re-use (initially the case), `GET` increments the last block used, puts it on the stack and re-writes block 1. `GET` then clears your new block to 0 and re-writes it.
 
-Several comments: Notice that GET places its result on the stack—the logical place where it is available for further use. Notice that blocks are re-used in preference to expanding the disk used. This makes sense except for the problem of arm motion. Forget arm motion. You just have to live with it. This is, after all, a random memory. Don’t neglect clearing the block to 0.
+Several comments: Notice that `GET` places its result on the stack—the logical place where it is available for further use. Notice that blocks are re-used in preference to expanding the disk used. This makes sense except for the problem of arm motion. Forget arm motion. You just have to live with it. This is, after all, a random memory. Don’t neglect clearing the block to 0.
 
 
 #### 5.1.2 Releasing blocks
 
-To release a block, put it on the stack and say RELEASE. It will read block 1, extract the next block for re-use, place the stack there and write block 1; then read the released block and place the old next-block in the first word. All we’re doing, of course, in constructing the chain of available blocks used by GET. Possibly the block you release is linked to other blocks. You must release all those, too. A convenient way is to use the first word as a link field. Then the available block chain is the same as any other block chain. To concatenate chains you place the first block in block 1, run down the chain to the last block (0 in link) and place the old next-block in that link.
+To release a block, put it on the stack and say `RELEASE`. It will read block 1, extract the next block for re-use, place the stack there and write block 1; then read the released block and place the old next-block in the first word. All we’re doing, of course, in constructing the chain of available blocks used by `GET`. Possibly the block you release is linked to other blocks. You must release all those, too. A convenient way is to use the first word as a link field. Then the available block chain is the same as any other block chain. To concatenate chains you place the first block in block 1, run down the chain to the last block (0 in link) and place the old next-block in that link.
 
 Don’t be tempted to maintain a count of the available blocks. Its not worth the trouble. If you must know, you can count the length of the available chain.
 
@@ -1264,7 +1264,7 @@ How many blocks you can have is probably limited by the disk, however it may be 
 
 #### 5.1.3 Reading and writing disk
 
-I’m sure you know how to read disk. However, do not choose a block size that causes the slightest difficulty: like half a block between tracks. If you check the GET routine, you’ll see that you’ll need two blocks in core at once. This is a reasonable minimum, it makes it easy to move things from one block to another. However, you’ll have lots of core left over and you might as well use it for buffering disk; especially if access time is noticeable.
+I’m sure you know how to read disk. However, do not choose a block size that causes the slightest difficulty: like half a block between tracks. If you check the `GET` routine, you’ll see that you’ll need two blocks in core at once. This is a reasonable minimum, it makes it easy to move things from one block to another. However, you’ll have lots of core left over and you might as well use it for buffering disk; especially if access time is noticeable.
 
 You’ll want a table specifying which blocks are in core: your read routine can check this table before reading.
 
@@ -1283,7 +1283,7 @@ You will store a lot of text on disk—hundreds of blocks—but this is probably
 
 A block that contains text (I mean text to be read and executed by your program) contains one long character string. If the first word contains control information, it starts in the second word and extends until a particular word marks the end (perhaps ;S). This end word is important because it is inconvenient to have the input routine test for end-of-block. You quickly learn not to leave that word out.
 
-A block that contains text should have a special name, for you will be using it often in conversation. I have called such blocks SHEETs—since the text filled a sheet of paper—and SCREENs—since the text filled the screen of a scope. Define the word READ to save the input address, the block and character position of the next character to be scanned, on the return stack; and reset the input pointer to the block on the stack and the first character position. Define the word ;S to restore the original input pointer. Very simply you can have your program read block 123:
+A block that contains text should have a special name, for you will be using it often in conversation. I have called such blocks `SHEET`s—since the text filled a sheet of paper—and `SCREEN`s—since the text filled the screen of a scope. Define the word `READ` to save the input address, the block and character position of the next character to be scanned, on the return stack; and reset the input pointer to the block on the stack and the first character position. Define the word ;S to restore the original input pointer. Very simply you can have your program read block 123:
 
     123 READ
 
@@ -1294,39 +1294,39 @@ You will find that with text on disk, the original characterization of “input�
 
 #### 5.2.1 Text editing
 
-Never put anything on disk you can’t modify! And we haven’t discussed how you get text on disk in the first place. Do not load it from cards! You’re misdirecting your effort toward card reading, and you had to punch the cards anyway. Type it. The definitions required to edit the text stored in blocks (SCREENs) is simple.
+Never put anything on disk you can’t modify! And we haven’t discussed how you get text on disk in the first place. Do not load it from cards! You’re misdirecting your effort toward card reading, and you had to punch the cards anyway. Type it. The definitions required to edit the text stored in blocks (`SCREEN`s) is simple.
 
 You must be able to handle character strings surrounded with quotes ([6.3](#63-character-strings)). Given that, I shall exhibit a text editing screen. This is a simple example of the value of definitions. You may notice it is the first non-trivial example I’ve given. You should be motivated by now to give it proper attention.
 
 Naturally, you’re going to have to type these definitions twice. Once to put them into your dictionary; again, to use them to put them in a screen (bootstrapping). In fact you’ll probably type them many times, but two is minimum.
 
-I’m going to exhibit an annotated copy of the EDIT screen I used in a particular program. It uses system entries whose value may not be clear. They are borrowed from other aspects of the application.
+I’m going to exhibit an annotated copy of the `EDIT` screen I used in a particular program. It uses system entries whose value may not be clear. They are borrowed from other aspects of the application.
 
     0 C1 42 # :R RECORD
 
-Here I am constructing a field description: RECORD is a 42 character field starting in character 1 of word 0 of the current block (understood). I’m using blocks that can hold 15 42-character lines; a word has six characters, so that’s 15 7-word lines.
+Here I am constructing a field description: `RECORD` is a 42 character field starting in character 1 of word 0 of the current block (understood). I’m using blocks that can hold 15 42-character lines; a word has six characters, so that’s 15 7-word lines.
 
     : LINE 1 - 7 * RECORD + ;
 
-Here I’m defining a verb that will convert a line number (1–15) to a field address. It modifies the RECORD descriptor by changing the word specification (low order bits). Thus line 1 starts in word 0; line 2 in word 7; etc.
+Here I’m defining a verb that will convert a line number (1–15) to a field address. It modifies the `RECORD` descriptor by changing the word specification (low order bits). Thus line 1 starts in word 0; line 2 in word 7; etc.
 
     : T CR LINE ,C ;
 
-If I type `3 T`—I want line 3 typed. T does a carriage return (CR), executes LINE to compute the field address, and copies the (character) field into the message buffer (,C).
+If I type `3 T`—I want line 3 typed. T does a carriage return (`CR`), executes `LINE` to compute the field address, and copies the (character) field into the message buffer (,C).
 
     : R LINE =C ;
 
-If I type `" NEW TEXT" 6 R`—I want line 6 to be replaced by the text in quotes. The leading quote puts a string descriptor on the stack. R then executes LINE, followed by =C to store the quote string in the field. The block will automatically be re-written, since it was changed.
+If I type `" NEW TEXT" 6 R`—I want line 6 to be replaced by the text in quotes. The leading quote puts a string descriptor on the stack. `R` then executes `LINE`, followed by `=C` to store the quote string in the field. The block will automatically be re-written, since it was changed.
 
     : LIST 15 0 DO 1 +
     CR DUP LINE ,C DUP ,I CONTINUE ;
 
-LIST will list the entire block: 15 42-character lines followed by line numbers. It sets up a DO-CONTINUE loop with the stack varying from 1–15. Each time through the loop it: does a CR; copies the stack and executes LINE; types the field (,C); copies the stack again and types it as an integer (,I).
+`LIST` will list the entire block: fifteen 42-character lines followed by line numbers. It sets up a `DO-CONTINUE` loop with the stack varying from 1–15. Each time through the loop it: does a `CR`; copies the stack and executes `LINE`; types the field (`,C`); copies the stack again and types it as an integer (`,I`).
 
     : I 1 + DUP 15 DO 1 -
     DUP LINE DUP 7 + =C CONTINUE R ;
 
-If I type `" NEW TEXT" 6 I`—I want the text inserted after line 6. `I` must first shift lines 7–14 down one position (losing line 15) and then replace line 7. It adds 1 to the line number, sets up a backwards DO-CONTINUE loop starting at 14, constructs two field descriptors, LINE and LINE+7, and shifts them (,C). When the loop if finished, it does an R.
+If I type `" NEW TEXT" 6 I`—I want the text inserted after line 6. `I` must first shift lines 7–14 down one position (losing line 15) and then replace line 7. It adds 1 to the line number, sets up a backwards `DO-CONTINUE` loop starting at 14, constructs two field descriptors, `LINE` and `LINE+7`, and shifts them (`,C`). When the loop if finished, it does an `R`.
 
     : D 15 SWAP DO 1 +
     DUP LINE DUP 7 - =C CONTINUE " " 15 R ;
